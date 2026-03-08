@@ -1,0 +1,96 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Adobe Photoshop Basics - SkillSwap</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="../index.html" class="logo">SkillSwap</a>
+            <ul class="nav-links">
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="../login.html">Login</a></li>
+                <li><a href="../signup.html" class="btn btn-primary">Sign Up</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container skill-detail-page">
+            <div class="skill-detail-layout">
+
+                <!-- Main Skill Info -->
+                <div class="skill-detail-main">
+                    <span class="skill-category">Design</span>
+                    <h1>Adobe Photoshop Basics</h1>
+                    <div class="skill-description">
+                        <p>Learn the fundamentals of Photoshop — layers, masks, and photo editing techniques. This skill
+                            is perfect for beginners who want to get started with digital design.</p>
+                        <p>We will cover the following topics:</p>
+                        <p>• Understanding layers and masks<br>
+                            • Photo retouching and color correction<br>
+                            • Working with text and shapes<br>
+                            • Exporting and saving files<br>
+                            • Basic design principles</p>
+                        <p>Sessions are flexible and can be scheduled at a time that works for both of us. I am happy to
+                            swap for skills in music, languages or any other area you are good at!</p>
+                    </div>
+
+                    <!-- Logged out state: show login link -->
+                    <p><a href="../login.html">Log in</a> to request a swap.</p>
+
+                    <!-- Logged in state: show button (uncomment when backend is ready) -->
+                    <!-- <a href="swap-request.html" class="btn btn-primary btn-lg">Request Swap</a> -->
+                </div>
+
+                <!-- Teacher Sidebar -->
+                <aside class="skill-teacher-card">
+                    <h3>Teacher</h3>
+                    <a href="profile.html" class="teacher-link">
+                        <div class="teacher-avatar">S</div>
+                        <h4>Sarah Johnson</h4>
+                        <p class="teacher-bio">Passionate designer with 5 years of experience in Photoshop, Illustrator
+                            and Figma. Love teaching beginners and helping them discover their creative side...</p>
+                    </a>
+                    <a href="profile.html" class="btn btn-outline btn-block">View Profile</a>
+                </aside>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
+<!-- ```
+
+---
+
+**How it connects:**
+```
+pages/skill-detail.html
+├── styles → ../css/main.css
+├── styles → ../css/components.css
+├── links → ../index.html
+├── links → ../login.html
+├── links → ../signup.html
+├── links → explore.html
+├── links → profile.html
+├── links → swap-request.html (coming later)
+└── script → ../js/main.js -->

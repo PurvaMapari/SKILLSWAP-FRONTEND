@@ -1,0 +1,222 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Sarah Johnson's Profile - SkillSwap</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="../index.html" class="logo">SkillSwap</a>
+            <ul class="nav-links">
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../index.html">Logout</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container profile-page">
+
+            <!-- Success/Error Alerts -->
+            <div class="alert alert-success" id="formSuccess" style="display:none;"></div>
+            <div class="alert alert-error" id="formError" style="display:none;"></div>
+
+            <!-- Profile Header -->
+            <div class="profile-header">
+                <div class="profile-avatar">S</div>
+                <div class="profile-info">
+                    <h1>Sarah Johnson</h1>
+                    <p class="profile-location">Mumbai, India</p>
+                </div>
+            </div>
+
+            <!-- Edit Bio Form (own profile) -->
+            <form class="profile-edit-form">
+                <input type="hidden" name="action" value="update_bio">
+                <div class="form-group">
+                    <label for="bio">Bio</label>
+                    <textarea id="bio" name="bio" rows="4"
+                        placeholder="Tell others about yourself...">Passionate designer with 5 years of experience in Photoshop, Illustrator and Figma. Love teaching beginners and helping them discover their creative side.</textarea>
+                </div>
+                <div class="form-group">
+                    <label for="location">Location</label>
+                    <input type="text" id="location" name="location" value="Mumbai, India" placeholder="City, Country">
+                </div>
+                <button type="submit" class="btn btn-primary">Save Profile</button>
+            </form>
+
+            <!-- Skills Offered Section -->
+            <section class="profile-section">
+                <h2>Skills Offered</h2>
+                <ul class="skill-list">
+                    <li>
+                        <a href="skill-detail.html">Adobe Photoshop Basics</a>
+                        <span class="skill-meta">Design</span>
+                        <form class="inline-form">
+                            <input type="hidden" name="action" value="delete_skill">
+                            <input type="hidden" name="skill_id" value="1">
+                            <button type="submit" class="btn-link">Remove</button>
+                        </form>
+                    </li>
+                    <li>
+                        <a href="skill-detail.html">Figma UI Design</a>
+                        <span class="skill-meta">Design</span>
+                        <form class="inline-form">
+                            <input type="hidden" name="action" value="delete_skill">
+                            <input type="hidden" name="skill_id" value="2">
+                            <button type="submit" class="btn-link">Remove</button>
+                        </form>
+                    </li>
+                    <li>
+                        <a href="skill-detail.html">Illustrator for Beginners</a>
+                        <span class="skill-meta">Design</span>
+                        <form class="inline-form">
+                            <input type="hidden" name="action" value="delete_skill">
+                            <input type="hidden" name="skill_id" value="3">
+                            <button type="submit" class="btn-link">Remove</button>
+                        </form>
+                    </li>
+                </ul>
+
+                <!-- Add Skill Offered Form -->
+                <form class="add-skill-form">
+                    <input type="hidden" name="action" value="add_skill">
+                    <input type="hidden" name="skill_type" value="offer">
+                    <input type="text" name="skill_title" placeholder="Skill title" required>
+                    <textarea name="skill_description" placeholder="Brief description" rows="2"></textarea>
+                    <select name="category_id" required>
+                        <option value="">Category</option>
+                        <option value="1">Design</option>
+                        <option value="2">Music</option>
+                        <option value="3">Languages</option>
+                        <option value="4">Coding</option>
+                        <option value="5">Photography</option>
+                        <option value="6">Writing</option>
+                        <option value="7">Marketing</option>
+                        <option value="8">Other</option>
+                    </select>
+                    <button type="submit" class="btn btn-outline">Add Skill</button>
+                </form>
+            </section>
+
+            <!-- Skills Wanted Section -->
+            <section class="profile-section">
+                <h2>Skills Wanted</h2>
+                <ul class="skill-list">
+                    <li>
+                        Guitar for Beginners
+                        <span class="skill-meta">Music</span>
+                        <form class="inline-form">
+                            <input type="hidden" name="action" value="delete_skill">
+                            <input type="hidden" name="skill_id" value="4">
+                            <button type="submit" class="btn-link">Remove</button>
+                        </form>
+                    </li>
+                    <li>
+                        Conversational Spanish
+                        <span class="skill-meta">Languages</span>
+                        <form class="inline-form">
+                            <input type="hidden" name="action" value="delete_skill">
+                            <input type="hidden" name="skill_id" value="5">
+                            <button type="submit" class="btn-link">Remove</button>
+                        </form>
+                    </li>
+                </ul>
+
+                <!-- Add Skill Wanted Form -->
+                <form class="add-skill-form">
+                    <input type="hidden" name="action" value="add_skill">
+                    <input type="hidden" name="skill_type" value="want">
+                    <input type="text" name="skill_title" placeholder="Skill you want to learn" required>
+                    <textarea name="skill_description" placeholder="Optional notes" rows="2"></textarea>
+                    <select name="category_id" required>
+                        <option value="">Category</option>
+                        <option value="1">Design</option>
+                        <option value="2">Music</option>
+                        <option value="3">Languages</option>
+                        <option value="4">Coding</option>
+                        <option value="5">Photography</option>
+                        <option value="6">Writing</option>
+                        <option value="7">Marketing</option>
+                        <option value="8">Other</option>
+                    </select>
+                    <button type="submit" class="btn btn-outline">Add Skill Wanted</button>
+                </form>
+            </section>
+
+            <!-- Reviews Section -->
+            <section class="profile-section">
+                <h2>Reviews</h2>
+                <div class="reviews-list">
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-rating">★★★★★</span>
+                            <span class="review-author">Marcus Lee</span>
+                            <span class="review-date">Jan 5, 2025</span>
+                        </div>
+                        <p>Sarah is an amazing teacher! She explained Photoshop concepts clearly and was very patient
+                            with my questions.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-rating">★★★★☆</span>
+                            <span class="review-author">Elena Torres</span>
+                            <span class="review-date">Dec 20, 2024</span>
+                        </div>
+                        <p>Great session on Figma! Sarah shared really useful tips and tricks. Would definitely
+                            recommend.</p>
+                    </div>
+
+                    <div class="review-card">
+                        <div class="review-header">
+                            <span class="review-rating">★★★★★</span>
+                            <span class="review-author">Arjun Mehta</span>
+                            <span class="review-date">Dec 10, 2024</span>
+                        </div>
+                        <p>Learned so much in just one session. Sarah is knowledgeable, friendly and very well prepared.
+                        </p>
+                    </div>
+
+                </div>
+            </section>
+
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
+<!-- ```
+
+---
+
+**How it connects:**
+```
+pages/profile.html
+├── styles → ../css/main.css
+├── styles → ../css/components.css
+├── links → ../index.html
+├── links → explore.html
+├── links → dashboard.html
+├── links → skill-detail.html
+└── script → ../js/main.js -->

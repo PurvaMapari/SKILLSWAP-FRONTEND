@@ -1,0 +1,1578 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap - Exchange Skills, Not Money</title>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link
+        href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&family=Caveat:wght@500;600&display=swap"
+        rel="stylesheet">
+
+    <style>
+        /* ========================
+           ROOT VARIABLES
+        ======================== */
+        :root {
+            --yellow: #F2BD19;
+            --yellow-dark: #d4a614;
+            --yellow-muted: #C9A84C;
+            --yellow-bg: #F5C842;
+            --black: #1A1A1A;
+            --white: #FAFAFA;
+            --grey: #6b6b6b;
+            --grey-light: #f0f0f0;
+            --font-heading: 'Darker Grotesque', sans-serif;
+            --font-body: 'Inter', sans-serif;
+            --font-cursive: 'Caveat', cursive;
+            --radius-card: 24px;
+            --radius-btn: 50px;
+            --radius-img: 16px;
+        }
+
+        /* ========================
+           RESET & BASE
+        ======================== */
+        *,
+        *::before,
+        *::after {
+            box-sizing: border-box;
+            margin: 0;
+            padding: 0;
+        }
+
+        html {
+            scroll-behavior: smooth;
+        }
+
+        body {
+            font-family: var(--font-body);
+            background: var(--white);
+            color: var(--black);
+            overflow-x: hidden;
+            line-height: 1.6;
+        }
+
+        a {
+            text-decoration: none;
+            color: inherit;
+        }
+
+        img {
+            max-width: 100%;
+            display: block;
+        }
+
+        ul {
+            list-style: none;
+        }
+
+        /* ========================
+           BUTTONS
+        ======================== */
+        .btn {
+            display: inline-flex;
+            align-items: center;
+            justify-content: center;
+            font-family: var(--font-body);
+            font-weight: 600;
+            font-size: 0.95rem;
+            border: none;
+            cursor: pointer;
+            border-radius: var(--radius-btn);
+            transition: all 0.25s ease;
+            white-space: nowrap;
+        }
+
+        .btn-yellow {
+            background: var(--yellow);
+            color: var(--black);
+            padding: 0.7rem 1.8rem;
+        }
+
+        .btn-yellow:hover {
+            background: var(--yellow-dark);
+        }
+
+        .btn-outline-black {
+            background: transparent;
+            color: var(--black);
+            padding: 0.65rem 1.8rem;
+            border: 2px solid var(--black);
+        }
+
+        .btn-outline-black:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .btn-outline-white {
+            background: transparent;
+            color: var(--white);
+            padding: 0.65rem 1.8rem;
+            border: 2px solid var(--white);
+        }
+
+        .btn-outline-white:hover {
+            background: var(--white);
+            color: var(--black);
+        }
+
+        /* ========================
+           NAVBAR
+        ======================== */
+        .navbar {
+            position: sticky;
+            top: 0;
+            z-index: 999;
+            background: var(--white);
+            border-bottom: 1px solid #e8e8e8;
+            padding: 1rem 3rem;
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+        }
+
+        .navbar-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .logo-box {
+            background: var(--black);
+            border-radius: 6px;
+            width: 38px;
+            height: 38px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+        }
+
+        .logo-box svg {
+            width: 22px;
+            height: 22px;
+        }
+
+        .logo-name {
+            font-family: var(--font-heading);
+            font-weight: 700;
+            font-size: 1.3rem;
+            color: var(--black);
+            letter-spacing: -0.02em;
+        }
+
+        .nav-links {
+            display: flex;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .nav-links a {
+            font-size: 0.9rem;
+            font-weight: 500;
+            color: var(--black);
+            transition: color 0.2s;
+        }
+
+        .nav-links a:hover {
+            color: var(--yellow-dark);
+        }
+
+        .nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 0.75rem;
+        }
+
+        .nav-toggle {
+            display: none;
+            flex-direction: column;
+            gap: 5px;
+            background: none;
+            border: none;
+            cursor: pointer;
+            padding: 0.3rem;
+        }
+
+        .nav-toggle span {
+            display: block;
+            width: 24px;
+            height: 2px;
+            background: var(--black);
+            transition: all 0.3s;
+        }
+
+        /* ========================
+           SECTION 1 — HERO
+        ======================== */
+        .hero {
+            display: grid;
+            grid-template-columns: 1fr 1fr;
+            min-height: 88vh;
+        }
+
+        .hero-left {
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            padding: 5rem 4rem 5rem 3rem;
+            background: var(--white);
+        }
+
+        .hero-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(2.8rem, 5vw, 4.2rem);
+            font-weight: 900;
+            line-height: 1.1;
+            color: var(--black);
+            margin-bottom: 2.5rem;
+            letter-spacing: -0.03em;
+        }
+
+        .hero-buttons {
+            display: flex;
+            gap: 1rem;
+            flex-wrap: wrap;
+        }
+
+        .hero-right {
+            position: relative;
+            background: var(--yellow);
+            overflow: hidden;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            justify-content: flex-end;
+        }
+
+        .hero-words {
+            position: absolute;
+            top: 10%;
+            right: 3%;
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.3rem;
+        }
+
+        .hero-word {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 4vw, 3.5rem);
+            font-weight: 800;
+            letter-spacing: 0.25em;
+            text-transform: uppercase;
+            color: rgba(26, 26, 26, 0.15);
+        }
+
+        .hero-word.active {
+            color: rgba(26, 26, 26, 0.55);
+            font-weight: 900;
+        }
+
+        .hero-image {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+            object-position: center top;
+        }
+
+        /* Tagline bar */
+        .hero-tagline-bar {
+            background: var(--white);
+            padding: 2.5rem 3rem;
+            text-align: center;
+            border-bottom: 1px solid #e8e8e8;
+        }
+
+        .hero-tagline {
+            font-family: var(--font-cursive);
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            color: var(--grey);
+            letter-spacing: 0.01em;
+        }
+
+        .hero-tagline-divider {
+            width: 60%;
+            margin: 1.2rem auto 0;
+            border: none;
+            border-top: 1px solid #d0d0d0;
+        }
+
+        /* ========================
+           SECTION 2 — THE THOUGHT
+        ======================== */
+        .thought-section {
+            padding: 5rem 3rem;
+            background: var(--white);
+        }
+
+        .thought-card {
+            background: var(--yellow);
+            border-radius: var(--radius-card);
+            padding: 3.5rem 4rem;
+            display: grid;
+            grid-template-columns: 1fr 380px;
+            gap: 3rem;
+            align-items: center;
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .thought-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 800;
+            color: var(--grey);
+            margin-bottom: 1.5rem;
+            line-height: 1.1;
+        }
+
+        .thought-heading span {
+            color: var(--black);
+            font-weight: 900;
+        }
+
+        .thought-body {
+            font-family: var(--font-body);
+            font-size: 1.5rem;
+            color: var(--black);
+            line-height: 1.8;
+            opacity: 0.8;
+        }
+
+        .thought-image-box {
+            background: var(--white);
+            border-radius: var(--radius-img);
+            padding: 1.5rem;
+            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.08);
+        }
+
+        .thought-image-box img {
+            width: 100%;
+            height: 240px;
+            object-fit: contain;
+        }
+
+        /* ========================
+           SECTION 3 — WHY SKILLSWAP
+        ======================== */
+        .why-section {
+            padding: 5rem 3rem;
+            background: var(--white);
+            text-align: center;
+        }
+
+        .why-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 900;
+            color: var(--black);
+            margin-bottom: 1rem;
+            letter-spacing: -0.02em;
+        }
+
+        .why-subtitle {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            color: var(--grey);
+            margin-bottom: 2.5rem;
+            line-height: 1.6;
+        }
+
+        .why-image-wrapper {
+            max-width: 1100px;
+            margin: 0 auto;
+            border: 3px solid var(--yellow-muted);
+            border-radius: var(--radius-card);
+            overflow: hidden;
+        }
+
+        .why-image-wrapper img {
+            width: 100%;
+            height: 420px;
+            object-fit: cover;
+        }
+
+        /* ========================
+           SECTION 4 — THE INTERFACE
+        ======================== */
+        .interface-section {
+            padding: 5rem 3rem;
+            background: var(--white);
+            max-width: 1200px;
+            margin: 0 auto;
+            display: grid;
+            grid-template-columns: 1fr 1.2fr;
+            gap: 4rem;
+            align-items: center;
+        }
+
+        .interface-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(1.8rem, 3vw, 2.8rem);
+            font-weight: 900;
+            color: var(--black);
+            margin-bottom: 2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .interface-lines {
+            display: flex;
+            flex-direction: column;
+            gap: 0.2rem;
+            margin-bottom: 1.5rem;
+        }
+
+        .interface-line {
+            font-family: var(--font-heading);
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 600;
+            color: var(--grey);
+            line-height: 1.4;
+        }
+
+        .interface-keywords {
+            font-family: var(--font-heading);
+            font-size: clamp(1.1rem, 2vw, 1.4rem);
+            font-weight: 700;
+            color: var(--yellow-dark);
+        }
+
+        .interface-image {
+            border-radius: var(--radius-card);
+            overflow: hidden;
+        }
+
+        .interface-image img {
+            width: 100%;
+            height: auto;
+            object-fit: cover;
+        }
+
+        /* ========================
+           SECTION 5 — MATCH MOMENT
+        ======================== */
+        .match-text-section {
+            padding: 5rem 3rem 3rem;
+            background: var(--white);
+            max-width: 900px;
+        }
+
+        .match-heading {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3.5vw, 3rem);
+            font-weight: 900;
+            color: var(--black);
+            margin-bottom: 1.2rem;
+            letter-spacing: -0.02em;
+        }
+
+        .match-badge {
+            display: inline-block;
+            background: var(--black);
+            padding: 0.4rem 1.2rem;
+            border-radius: 4px;
+            margin-bottom: 1.2rem;
+        }
+
+        .match-badge span {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--yellow);
+        }
+
+        .match-subtitle {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--grey);
+            line-height: 1.7;
+        }
+
+        /* Carousel */
+        .carousel-section {
+            background: linear-gradient(135deg, #F2BD19 0%, #e6a800 100%);
+            padding: 5rem 0 6rem;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .carousel-wrapper {
+            position: relative;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            padding: 2rem 3rem;
+        }
+
+        .carousel-btn {
+            width: 52px;
+            height: 52px;
+            border-radius: 50%;
+            background: var(--yellow);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 1.3rem;
+            color: var(--black);
+            box-shadow: 0 4px 16px rgba(0, 0, 0, 0.2);
+            transition: all 0.2s;
+            z-index: 10;
+            flex-shrink: 0;
+        }
+
+        .carousel-btn:hover {
+            background: var(--white);
+            transform: scale(1.05);
+        }
+
+        .carousel-cards {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 1.5rem;
+            position: relative;
+        }
+
+        .skill-card-wrap {
+            position: relative;
+            transition: all 0.4s ease;
+        }
+
+        .skill-card-wrap.side {
+            transform: scale(0.82) translateY(20px);
+            opacity: 0.85;
+        }
+
+        .skill-card-wrap.side-far {
+            transform: scale(0.7) translateY(30px);
+            opacity: 0.5;
+        }
+
+        .skill-card-wrap.center {
+            transform: scale(1);
+            z-index: 5;
+        }
+
+        .skill-card {
+            width: 280px;
+            height: 420px;
+            border-radius: 20px;
+            overflow: hidden;
+            position: relative;
+            box-shadow: 0 8px 32px rgba(0, 0, 0, 0.25);
+        }
+
+        .skill-card-wrap.center .skill-card {
+            width: 320px;
+            height: 480px;
+            border: 3px solid var(--yellow);
+            box-shadow: 0 16px 48px rgba(0, 0, 0, 0.3);
+        }
+
+        .skill-card img {
+            width: 100%;
+            height: 100%;
+            object-fit: cover;
+        }
+
+        .skill-card-overlay {
+            position: absolute;
+            bottom: 0;
+            left: 0;
+            right: 0;
+            padding: 1.5rem 1.2rem 1.2rem;
+            background: linear-gradient(to top, rgba(0, 0, 0, 0.85) 0%, transparent 100%);
+        }
+
+        .skill-card-title {
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 0.5rem;
+        }
+
+        .skill-card-pill {
+            display: inline-block;
+            background: rgba(255, 255, 255, 0.15);
+            backdrop-filter: blur(8px);
+            border: 1px solid rgba(255, 255, 255, 0.3);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            padding: 0.45rem 1.1rem;
+            border-radius: var(--radius-btn);
+        }
+
+        .skill-card-wrap.center .skill-card-pill {
+            background: rgba(255, 255, 255, 0.2);
+            font-size: 0.95rem;
+            padding: 0.5rem 1.3rem;
+        }
+
+        .request-swap-tag {
+            text-align: center;
+            margin-top: 1.2rem;
+        }
+
+        .request-swap-tag a {
+            background: rgba(0, 0, 0, 0.3);
+            backdrop-filter: blur(8px);
+            color: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.9rem;
+            font-weight: 500;
+            padding: 0.5rem 2rem;
+            border-radius: var(--radius-btn);
+            display: inline-block;
+            transition: background 0.2s;
+        }
+
+        .request-swap-tag a:hover {
+            background: rgba(0, 0, 0, 0.5);
+        }
+
+        /* ========================
+           SECTION 6 — SKILL LOOP
+        ======================== */
+        .skillloop-section {
+            padding: 6rem 3rem;
+            background: var(--white);
+        }
+
+        .skillloop-inner {
+            max-width: 1100px;
+            margin: 0 auto;
+        }
+
+        .skillloop-badge {
+            display: inline-flex;
+            align-items: center;
+            gap: 0;
+            margin-bottom: 1rem;
+        }
+
+        .skillloop-badge-black {
+            background: var(--black);
+            padding: 0.4rem 1rem;
+            border-radius: 4px 0 0 4px;
+        }
+
+        .skillloop-badge-yellow {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--yellow);
+        }
+
+        .skillloop-badge-text {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 800;
+            color: var(--black);
+            padding: 0.4rem 0.5rem;
+        }
+
+        .skillloop-subtitle {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--grey);
+            margin-bottom: 3rem;
+            line-height: 1.6;
+        }
+
+        .skillloop-image {
+            width: 100%;
+            max-width: 800px;
+            margin: 0 auto;
+        }
+
+        .skillloop-image img {
+            width: 100%;
+            height: auto;
+        }
+
+        /* ========================
+           SECTION 7 — MATCH PROFILES
+        ======================== */
+        .profiles-section {
+            padding: 4rem 3rem;
+            background: #f7f7f7;
+        }
+
+        .profiles-inner {
+            max-width: 1200px;
+            margin: 0 auto;
+        }
+
+        .profiles-navbar {
+            display: flex;
+            align-items: center;
+            justify-content: space-between;
+            margin-bottom: 3rem;
+            padding-bottom: 1.5rem;
+            border-bottom: 1px solid #e0e0e0;
+        }
+
+        .profiles-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+        }
+
+        .profiles-logo-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--yellow-dark);
+        }
+
+        .profiles-logo-text {
+            font-family: var(--font-heading);
+            font-size: 1.2rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .profiles-nav-links {
+            display: flex;
+            gap: 1.5rem;
+        }
+
+        .profiles-nav-links a {
+            font-size: 0.85rem;
+            color: var(--grey);
+            font-weight: 500;
+            transition: color 0.2s;
+        }
+
+        .profiles-nav-links a:hover {
+            color: var(--black);
+        }
+
+        .profiles-nav-actions {
+            display: flex;
+            align-items: center;
+            gap: 1rem;
+        }
+
+        .profiles-search-icon {
+            background: none;
+            border: none;
+            cursor: pointer;
+            color: var(--grey);
+            font-size: 1.1rem;
+        }
+
+        .profiles-menu-btn {
+            width: 40px;
+            height: 40px;
+            border-radius: 50%;
+            background: var(--black);
+            border: none;
+            cursor: pointer;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            color: var(--white);
+            font-size: 1rem;
+        }
+
+        .profiles-content {
+            display: grid;
+            grid-template-columns: auto 1fr auto;
+            align-items: center;
+            gap: 2rem;
+        }
+
+        .profiles-title {
+            font-family: var(--font-heading);
+            font-size: clamp(2rem, 3vw, 2.8rem);
+            font-weight: 900;
+            color: var(--black);
+            letter-spacing: -0.02em;
+        }
+
+        .profiles-quote {
+            font-family: var(--font-body);
+            font-size: 0.95rem;
+            color: var(--grey);
+            text-align: center;
+            line-height: 1.6;
+        }
+
+        .profiles-see-all {
+            text-align: right;
+        }
+
+        .profiles-see-all a {
+            font-family: var(--font-body);
+            font-size: 1rem;
+            font-weight: 600;
+            color: var(--yellow-dark);
+            display: flex;
+            flex-direction: column;
+            align-items: flex-end;
+            gap: 0.2rem;
+            transition: color 0.2s;
+        }
+
+        .profiles-see-all a:hover {
+            color: var(--black);
+        }
+
+        .profiles-arrow {
+            font-size: 1.5rem;
+        }
+
+        /* ========================
+           SECTION 8 — FOOTER
+        ======================== */
+        .footer-section {
+            padding: 3rem 3rem 2rem;
+            background: var(--white);
+        }
+
+        .footer-card {
+            max-width: 1200px;
+            margin: 0 auto;
+            border: 1.5px solid var(--yellow-muted);
+            border-radius: var(--radius-card);
+            padding: 3rem 3.5rem;
+            display: grid;
+            grid-template-columns: 1.4fr 1fr 1fr 1fr;
+            gap: 3rem;
+        }
+
+        .footer-brand {}
+
+        .footer-logo {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            margin-bottom: 1rem;
+        }
+
+        .footer-logo-icon svg {
+            width: 28px;
+            height: 28px;
+            fill: var(--yellow-dark);
+        }
+
+        .footer-logo-name {
+            font-family: var(--font-heading);
+            font-size: 1.3rem;
+            font-weight: 700;
+            color: var(--black);
+        }
+
+        .footer-subscribe-text {
+            font-size: 0.85rem;
+            color: var(--grey);
+            margin-bottom: 1.2rem;
+            line-height: 1.6;
+        }
+
+        .footer-email-row {
+            display: flex;
+            gap: 0.5rem;
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-email-input {
+            flex: 1;
+            padding: 0.6rem 1rem;
+            border: 1.5px solid var(--black);
+            border-radius: 6px;
+            font-size: 0.85rem;
+            font-family: var(--font-body);
+            background: var(--white);
+            color: var(--black);
+            outline: none;
+        }
+
+        .footer-email-input:focus {
+            border-color: var(--yellow);
+        }
+
+        .footer-join-btn {
+            padding: 0.6rem 1.2rem;
+            border: 1.5px solid var(--black);
+            border-radius: 6px;
+            background: var(--white);
+            font-family: var(--font-body);
+            font-size: 0.85rem;
+            font-weight: 600;
+            cursor: pointer;
+            transition: all 0.2s;
+        }
+
+        .footer-join-btn:hover {
+            background: var(--black);
+            color: var(--white);
+        }
+
+        .footer-privacy-note {
+            font-size: 0.75rem;
+            color: var(--grey);
+            line-height: 1.4;
+        }
+
+        .footer-col-title {
+            font-family: var(--font-heading);
+            font-size: 0.95rem;
+            font-weight: 800;
+            color: var(--black);
+            margin-bottom: 1.2rem;
+            letter-spacing: 0.01em;
+        }
+
+        .footer-links {
+            display: flex;
+            flex-direction: column;
+            gap: 0.6rem;
+        }
+
+        .footer-links a {
+            font-size: 0.85rem;
+            color: var(--grey);
+            transition: color 0.2s;
+        }
+
+        .footer-links a:hover {
+            color: var(--black);
+        }
+
+        .footer-social-link {
+            display: flex;
+            align-items: center;
+            gap: 0.6rem;
+            font-size: 0.85rem;
+            color: var(--grey);
+            transition: color 0.2s;
+        }
+
+        .footer-social-link:hover {
+            color: var(--black);
+        }
+
+        .footer-social-icon {
+            width: 20px;
+            height: 20px;
+            fill: currentColor;
+        }
+
+        /* Footer bottom */
+        .footer-bottom {
+            max-width: 1200px;
+            margin: 1.5rem auto 0;
+            text-align: center;
+            padding-top: 1.2rem;
+            border-top: 1px solid #e0e0e0;
+        }
+
+        .footer-copyright {
+            font-size: 0.82rem;
+            color: var(--grey);
+            margin-bottom: 0.6rem;
+        }
+
+        .footer-bottom-links {
+            display: flex;
+            justify-content: center;
+            gap: 1.5rem;
+        }
+
+        .footer-bottom-links a {
+            font-size: 0.82rem;
+            color: var(--grey);
+            text-decoration: underline;
+            transition: color 0.2s;
+        }
+
+        .footer-bottom-links a:hover {
+            color: var(--black);
+        }
+
+        /* ========================
+           MOBILE RESPONSIVE
+        ======================== */
+        @media (max-width: 900px) {
+            .navbar {
+                padding: 1rem 1.5rem;
+            }
+
+            .nav-links,
+            .nav-actions {
+                display: none;
+            }
+
+            .nav-toggle {
+                display: flex;
+            }
+
+            .nav-links.active {
+                display: flex;
+                flex-direction: column;
+                position: absolute;
+                top: 100%;
+                left: 0;
+                right: 0;
+                background: var(--white);
+                padding: 1.5rem;
+                border-bottom: 1px solid #eee;
+                gap: 1rem;
+            }
+
+            .hero {
+                grid-template-columns: 1fr;
+                min-height: auto;
+            }
+
+            .hero-left {
+                padding: 3rem 1.5rem;
+            }
+
+            .hero-right {
+                height: 60vw;
+            }
+
+            .thought-card {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+            }
+
+            .thought-image-box {
+                max-width: 300px;
+                margin: 0 auto;
+            }
+
+            .why-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .why-image-wrapper img {
+                height: 250px;
+            }
+
+            .interface-section {
+                grid-template-columns: 1fr;
+                padding: 3rem 1.5rem;
+                max-width: 100%;
+            }
+
+            .match-text-section {
+                padding: 3rem 1.5rem 2rem;
+            }
+
+            .carousel-cards {
+                gap: 0.5rem;
+            }
+
+            .skill-card {
+                width: 200px;
+                height: 300px;
+            }
+
+            .skill-card-wrap.center .skill-card {
+                width: 230px;
+                height: 340px;
+            }
+
+            .skillloop-section {
+                padding: 4rem 1.5rem;
+            }
+
+            .profiles-section {
+                padding: 3rem 1.5rem;
+            }
+
+            .profiles-navbar {
+                flex-wrap: wrap;
+                gap: 1rem;
+            }
+
+            .profiles-nav-links {
+                display: none;
+            }
+
+            .profiles-content {
+                grid-template-columns: 1fr;
+            }
+
+            .profiles-see-all {
+                text-align: left;
+            }
+
+            .footer-card {
+                grid-template-columns: 1fr;
+                padding: 2rem;
+                gap: 2rem;
+            }
+
+            .footer-section {
+                padding: 2rem 1.5rem;
+            }
+
+            .thought-section {
+                padding: 3rem 1.5rem;
+            }
+        }
+    </style>
+</head>
+
+<body>
+
+    <!-- ========================
+         NAVBAR
+    ======================== -->
+    <nav class="navbar">
+        <div class="navbar-logo">
+            <div class="logo-box">
+                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+                        stroke="#F2BD19" stroke-width="2" fill="none" stroke-linecap="round" />
+                    <path
+                        d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
+                        fill="#F2BD19" />
+                </svg>
+            </div>
+            <span class="logo-name">SkillSwap</span>
+        </div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">How it Works</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="login.html" class="btn btn-outline-black">Log In</a>
+            <a href="signup.html" class="btn btn-yellow">Sign Up</a>
+        </div>
+
+        <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+    <!-- ========================
+         SECTION 1 — HERO
+    ======================== -->
+    <section class="hero">
+        <div class="hero-left">
+            <h1 class="hero-heading">Exchange Skills,<br>Not Money</h1>
+            <div class="hero-buttons">
+                <a href="pages/home.html" class="btn btn-yellow">Swap a Skill</a>
+                <a href="pages/explore.html" class="btn btn-outline-black">Browse Talents</a>
+            </div>
+        </div>
+        <div class="hero-right">
+            <div class="hero-words">
+                <span class="hero-word"></span>
+                <span class="hero-word active"></span>
+                <span class="hero-word"></span>
+            </div>
+            <img class="hero-image" src="images/hero-people.png" alt="People exchanging skills">
+        </div>
+    </section>
+
+    <!-- Tagline Bar -->
+    <div class="hero-tagline-bar">
+        <p class="hero-tagline">A visual story of connecting people through skills</p>
+        <hr class="hero-tagline-divider">
+    </div>
+
+    <!-- ========================
+         SECTION 2 — THE THOUGHT
+    ======================== -->
+    <section class="thought-section">
+        <div class="thought-card">
+            <div class="thought-left">
+                <h2 class="thought-heading">The <span>Thought</span></h2>
+                <p class="thought-body">
+                    To bridge the gap between people who have skills and <br>
+                    those who want to learn,by creating a platform <br>
+                    that combines transparency, accessibility,<br>
+                    and community engagement.
+                </p>
+            </div>
+            <div class="thought-image-box">
+                <img src="images/thought-illustration.png" alt="Person walking towards target">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================
+         SECTION 3 — WHY SKILLSWAP
+    ======================== -->
+    <section class="why-section">
+        <h2 class="why-heading">Why SkillSwap?</h2>
+        <p class="why-subtitle">
+            "I can code. You can paint. We both want to learn."<br>
+            Let's stop scrolling and start swapping a skill.
+        </p>
+        <div class="why-image-wrapper">
+            <img src="images/why-skillswap.png" alt="Two people exchanging skills">
+        </div>
+    </section>
+
+    <!-- ========================
+         SECTION 4 — THE INTERFACE
+    ======================== -->
+    <section style="background: var(--white); padding: 2rem 0;">
+        <div class="interface-section">
+            <div class="interface-left">
+                <h2 class="interface-heading">The Interface</h2>
+                <div class="interface-lines">
+                    <p class="interface-line">Simple Blocks.</p>
+                    <p class="interface-line">Each Skill Is A Tile.</p>
+                    <p class="interface-line">Each Swap Is A Story.</p>
+                </div>
+                <p class="interface-keywords">"Offer." &nbsp;"Search." &nbsp;"Swap."</p>
+            </div>
+            <div class="interface-image">
+                <img src="images/interface-mockup.png" alt="SkillSwap interface mockup">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================
+         SECTION 5 — MATCH MOMENT
+    ======================== -->
+    <section style="background: var(--white);">
+        <div class="match-text-section">
+            <h2 class="match-heading">The Match Moment</h2>
+            <div class="match-badge">
+                <span>"It's A Match!"</span>
+            </div>
+            <p class="match-subtitle">
+                Discover A World Of Opportunities With Our Unique Skill Swap Platform.<br>
+                Tailor Your Learning Journey And Connect With Others To Exchange Valuable Skills.
+            </p>
+        </div>
+    </section>
+
+    <!-- Carousel -->
+    <section class="carousel-section">
+        <div class="carousel-wrapper">
+            <button class="carousel-btn" id="prevBtn">&#8592;</button>
+
+            <div class="carousel-cards" id="carouselCards">
+                <!-- Card: Side Far Left -->
+                <div class="skill-card-wrap side-far" data-index="4">
+                    <div class="skill-card">
+                        <img src="images/card-dance.png" alt="guitarist">
+                        <div class="skill-card-overlay">
+                            <p class="skill-card-title">Dancer</p>
+                            <span class="skill-card-pill">Like to learn skating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Side Left -->
+                <div class="skill-card-wrap side" data-index="0">
+                    <div class="skill-card">
+                        <img src="images/card-skater.png" alt="skater">
+                        <div class="skill-card-overlay">
+                            <p class="skill-card-title">Skater</p>
+                            <span class="skill-card-pill">Like to learn skating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Center (Active) -->
+                <div class="skill-card-wrap center" data-index="1">
+                    <div class="skill-card">
+                        <img src="images/card-designer.png" alt="UIUX Designer">
+                        <div class="skill-card-overlay">
+                            <p class="skill-card-title">UIUX Designer</p>
+                            <span class="skill-card-pill">Like to learn Guitar</span>
+                        </div>
+                    </div>
+                    <div class="request-swap-tag">
+                        <a href="pages/swap-request.html">Request swap</a>
+                    </div>
+                </div>
+
+                <!-- Card: Side Right -->
+                <div class="skill-card-wrap side" data-index="2">
+                    <div class="skill-card">
+                        <img src="images/card-guitarist.png" alt="guitarist">
+                        <div class="skill-card-overlay">
+                            <p class="skill-card-title">Guitarist</p>
+                            <span class="skill-card-pill">Like to learn language</span>
+                        </div>
+                    </div>
+                </div>
+
+                <!-- Card: Side Far Right -->
+                <div class="skill-card-wrap side-far" data-index="3">
+                    <div class="skill-card">
+                        <img src="images/card-piano.png" alt="pianist">
+                        <div class="skill-card-overlay">
+                            <p class="skill-card-title">Pianist</p>
+                            <span class="skill-card-pill">Like to learn designing</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <button class="carousel-btn" id="nextBtn">&#8594;</button>
+        </div>
+    </section>
+
+    <!-- ========================
+         SECTION 6 — SKILL LOOP
+    ======================== -->
+    <section class="skillloop-section">
+        <div class="skillloop-inner">
+            <div class="skillloop-badge">
+                <div class="skillloop-badge-black">
+                    <span class="skillloop-badge-yellow">Skill</span>
+                </div>
+                <span class="skillloop-badge-text">Loop</span>
+            </div>
+            <p class="skillloop-subtitle">
+                A Circular Swap — Person A Helps B, B Helps C, C Helps A.
+            </p>
+            <div class="skillloop-image">
+                <img src="images/skill-loop.png" alt="Skill Loop circular swap illustration">
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================
+         SECTION 7 — MATCH PROFILES
+    ======================== -->
+    <section class="profiles-section">
+        <div class="profiles-inner">
+            <div class="profiles-navbar">
+                <div class="profiles-logo">
+                    <div class="profiles-logo-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+                                stroke="#C9A84C" stroke-width="2" fill="none" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="profiles-logo-text">skill swap</span>
+                </div>
+                <div class="profiles-nav-links">
+                    <a href="#">Home ∨</a>
+                    <a href="#">About ∨</a>
+                    <a href="#">Services ∨</a>
+                    <a href="#">Projects ∨</a>
+                    <a href="#">Blog ∨</a>
+                    <a href="#">Contact ∨</a>
+                </div>
+                <div class="profiles-nav-actions">
+                    <button class="profiles-search-icon">&#128269;</button>
+                    <button class="profiles-menu-btn">&#9776;</button>
+                </div>
+            </div>
+            <div class="profiles-content">
+                <h2 class="profiles-title">Match Profiles</h2>
+                <p class="profiles-quote">
+                    "Get Matched With People Who Have The Skills You Need —<br>
+                    And Need The Skills You Have."
+                </p>
+                <div class="profiles-see-all">
+                    <a href="pages/explore.html">
+                        See All
+                        <span class="profiles-arrow">&#8594;</span>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- ========================
+         SECTION 8 — FOOTER
+    ======================== -->
+    <footer class="footer-section">
+        <div class="footer-card">
+            <!-- Brand + Newsletter -->
+            <div class="footer-brand">
+                <div class="footer-logo">
+                    <div class="footer-logo-icon">
+                        <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                            <path
+                                d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+                                stroke="#C9A84C" stroke-width="2.5" fill="none" stroke-linecap="round" />
+                        </svg>
+                    </div>
+                    <span class="footer-logo-name">skilldex</span>
+                </div>
+                <p class="footer-subscribe-text">
+                    Subscribe to our newsletter for the latest updates on features and new releases.
+                </p>
+                <div class="footer-email-row">
+                    <input type="email" class="footer-email-input" placeholder="Your email here">
+                    <button class="footer-join-btn">Join</button>
+                </div>
+                <p class="footer-privacy-note">
+                    By subscribing, you consent to our Privacy Policy and agree to receive updates.
+                </p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <p class="footer-col-title">Quick Links</p>
+                <div class="footer-links">
+                    <a href="#">About Us</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Blog Posts</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Community Forum</a>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div>
+                <p class="footer-col-title">Resources</p>
+                <div class="footer-links">
+                    <a href="#">Webinars</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">E-books</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Feedback</a>
+                </div>
+            </div>
+
+            <!-- Connect With Us -->
+            <div>
+                <p class="footer-col-title">Connect With Us</p>
+                <div class="footer-links">
+                    <a href="#" class="footer-social-link">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+                        </svg>
+                        Facebook
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" ry="5" />
+                            <path d="M16 11.37A4 4 0 1112.63 8 4 4 0 0116 11.37z" fill="white" />
+                            <line x1="17.5" y1="6.5" x2="17.51" y2="6.5" stroke="white" stroke-width="2" />
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                        X
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path
+                                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="#" class="footer-social-link">
+                        <svg class="footer-social-icon" viewBox="0 0 24 24">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z" />
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="white" />
+                        </svg>
+                        YouTube
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <!-- Footer Bottom -->
+        <div class="footer-bottom">
+            <p class="footer-copyright">© 2025 SkillSwap. All rights reserved.</p>
+            <div class="footer-bottom-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookies Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- ========================
+         JAVASCRIPT
+    ======================== -->
+    <script>
+        // Mobile Nav Toggle
+        const navToggle = document.getElementById('navToggle');
+        const navLinks = document.getElementById('navLinks');
+        navToggle.addEventListener('click', () => {
+            navLinks.classList.toggle('active');
+        });
+        document.addEventListener('click', (e) => {
+            if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+                navLinks.classList.remove('active');
+            }
+        });
+
+        // Carousel
+        const cards = [
+            { img: 'images/card-skater.png', title: 'Skater', pill: 'Like to learn Dance', link: 'pages/swap-request.html' },
+            { img: 'images/card-designer.png', title: 'UIUX Designer', pill: 'Like to learn Guitar', link: 'pages/swap-request.html' },
+            { img: 'images/card-guitarist.png', title: 'Guitarist', pill: 'Like to learn language', link: 'pages/swap-request.html' },
+            { img: 'images/card-piano.png', title: 'Pianist', pill: 'Like to learn Designing', link: 'pages/swap-request.html' },
+            { img: 'images/card-dance.png', title: 'Dancer', pill: 'Like to learn Skating', link: 'pages/swap-request.html' },
+        ];
+
+        let current = 1; // start at center card
+
+        function getIndex(offset) {
+            return (current + offset + cards.length) % cards.length;
+        }
+
+        function updateCarousel() {
+            const wraps = document.querySelectorAll('.skill-card-wrap');
+            const positions = ['side-far', 'side', 'center', 'side', 'side-far'];
+            const dataIndexes = [
+                getIndex(-2), getIndex(-1), current, getIndex(1), getIndex(2)
+            ];
+
+            wraps.forEach((wrap, i) => {
+                const cardData = cards[dataIndexes[i]];
+                // Update class
+                wrap.className = 'skill-card-wrap ' + positions[i];
+                // Update image
+                wrap.querySelector('img').src = cardData.img;
+                wrap.querySelector('img').alt = cardData.title;
+                // Update overlay
+                wrap.querySelector('.skill-card-title').textContent = cardData.title;
+                wrap.querySelector('.skill-card-pill').textContent = cardData.pill;
+                // Update request swap tag (only on center)
+                const tag = wrap.querySelector('.request-swap-tag');
+                if (tag) {
+                    tag.querySelector('a').href = cardData.link;
+                }
+            });
+        }
+
+        document.getElementById('prevBtn').addEventListener('click', () => {
+            current = (current - 1 + cards.length) % cards.length;
+            updateCarousel();
+        });
+
+        document.getElementById('nextBtn').addEventListener('click', () => {
+            current = (current + 1) % cards.length;
+            updateCarousel();
+        });
+
+        // Init carousel
+        updateCarousel();
+    </script>
+</body>
+
+</html>

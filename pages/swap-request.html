@@ -1,0 +1,81 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Request Swap - SkillSwap</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="../index.html" class="logo">SkillSwap</a>
+            <ul class="nav-links">
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../index.html">Logout</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container swap-request-page">
+            <h1>Request Swap</h1>
+            <p class="section-subtitle">You're requesting: <strong>Adobe Photoshop Basics</strong></p>
+
+            <!-- Error alert -->
+            <div class="alert alert-error" id="formError" style="display:none;"></div>
+
+            <form class="swap-request-form">
+                <div class="form-group">
+                    <label for="skill_offered_id">Your skill to exchange</label>
+                    <select id="skill_offered_id" name="skill_offered_id" required>
+                        <option value="">Select a skill you can offer</option>
+                        <option value="1">Python for Beginners</option>
+                        <option value="2">HTML & CSS Basics</option>
+                        <option value="3">Music Production Basics</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label for="message">Message (optional)</label>
+                    <textarea id="message" name="message" rows="4"
+                        placeholder="Introduce yourself and why you'd like to swap..."></textarea>
+                </div>
+                <button type="submit" class="btn btn-primary">Send Request</button>
+                <a href="skill-detail.html" class="btn btn-outline">Cancel</a>
+            </form>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
+<!-- ```
+
+---
+
+**How it connects:**
+```
+pages/swap-request.html
+├── styles → ../css/main.css
+├── styles → ../css/components.css
+├── links → ../index.html
+├── links → explore.html
+├── links → dashboard.html
+├── links → profile.html
+├── links → skill-detail.html
+└── script → ../js/main.js -->

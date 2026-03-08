@@ -1,0 +1,123 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Messages - SkillSwap</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="../index.html" class="logo">SkillSwap</a>
+            <ul class="nav-links">
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../index.html">Logout</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container messages-page">
+
+            <!-- Messages Header -->
+            <div class="messages-header">
+                <a href="dashboard.html" class="back-link">&larr; Back to Dashboard</a>
+                <h1>Messages with Elena Torres</h1>
+            </div>
+
+            <div class="messages-container">
+
+                <!-- Messages List -->
+                <div class="messages-list">
+
+                    <!-- Received message -->
+                    <div class="message message-received">
+                        <span class="message-author">Elena Torres</span>
+                        <p class="message-text">Hi Sarah! I'm so excited to start our skill swap. When would you be
+                            available for our first Figma session?</p>
+                        <span class="message-time">Jan 5, 10:30 AM</span>
+                    </div>
+
+                    <!-- Sent message -->
+                    <div class="message message-sent">
+                        <span class="message-author">Sarah Johnson</span>
+                        <p class="message-text">Hey Elena! I'm free this weekend — Saturday afternoon works great for
+                            me. How about 3 PM?</p>
+                        <span class="message-time">Jan 5, 11:15 AM</span>
+                    </div>
+
+                    <!-- Received message -->
+                    <div class="message message-received">
+                        <span class="message-author">Elena Torres</span>
+                        <p class="message-text">Saturday at 3 PM sounds perfect! We can do the Figma session first and
+                            then plan the Spanish lesson for the following week.</p>
+                        <span class="message-time">Jan 5, 11:45 AM</span>
+                    </div>
+
+                    <!-- Sent message -->
+                    <div class="message message-sent">
+                        <span class="message-author">Sarah Johnson</span>
+                        <p class="message-text">That sounds like a great plan! I'll send you the Figma file link before
+                            the session so you can install it beforehand.</p>
+                        <span class="message-time">Jan 5, 12:00 PM</span>
+                    </div>
+
+                    <!-- Received message -->
+                    <div class="message message-received">
+                        <span class="message-author">Elena Torres</span>
+                        <p class="message-text">Perfect, thank you! Looking forward to it 😊</p>
+                        <span class="message-time">Jan 5, 12:10 PM</span>
+                    </div>
+
+                    <!-- Sent message -->
+                    <div class="message message-sent">
+                        <span class="message-author">Sarah Johnson</span>
+                        <p class="message-text">Me too! See you Saturday 🙌</p>
+                        <span class="message-time">Jan 5, 12:15 PM</span>
+                    </div>
+
+                </div>
+
+                <!-- Message Input Form -->
+                <form class="message-form">
+                    <textarea name="message_text" placeholder="Type your message..." rows="3" required></textarea>
+                    <button type="submit" class="btn btn-primary">Send</button>
+                </form>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
+<!-- ```
+
+---
+
+**How it connects:**
+```
+pages/messages.html
+├── styles → ../css/main.css
+├── styles → ../css/components.css
+├── links → ../index.html
+├── links → explore.html
+├── links → dashboard.html
+├── links → profile.html
+└── script → ../js/main.js -->

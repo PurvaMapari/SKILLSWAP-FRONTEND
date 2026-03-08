@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dashboard - SkillSwap</title>
+    <link rel="stylesheet" href="../css/main.css">
+    <link rel="stylesheet" href="../css/components.css">
+</head>
+
+<body>
+    <header class="site-header">
+        <nav class="nav-container">
+            <a href="../index.html" class="logo">SkillSwap</a>
+            <ul class="nav-links">
+                <li><a href="explore.html">Explore</a></li>
+                <li><a href="dashboard.html">Dashboard</a></li>
+                <li><a href="profile.html">Profile</a></li>
+                <li><a href="../index.html">Logout</a></li>
+            </ul>
+            <button class="nav-toggle" aria-label="Toggle menu">
+                <span></span><span></span><span></span>
+            </button>
+        </nav>
+    </header>
+
+    <main class="main-content">
+        <div class="container dashboard-page">
+            <h1>Dashboard</h1>
+            <p class="section-subtitle">Manage your swap requests and messages</p>
+
+            <!-- Alerts -->
+            <div class="alert alert-success" id="formSuccess" style="display:none;"></div>
+            <div class="alert alert-error" id="formError" style="display:none;"></div>
+
+            <div class="dashboard-tabs">
+
+                <!-- Incoming Requests -->
+                <div class="dashboard-section" id="incoming">
+                    <h2>Incoming Requests</h2>
+                    <ul class="request-list">
+
+                        <li class="request-card status-pending">
+                            <div class="request-info">
+                                <strong>Marcus Lee</strong> wants to swap
+                                <em>Guitar for Beginners</em> for your
+                                <em>Adobe Photoshop Basics</em>
+                                <span class="request-date">Jan 10, 2025</span>
+                                <p class="request-message">"Hi Sarah! I've been wanting to learn Photoshop for a while.
+                                    I can teach you guitar in exchange!"</p>
+                            </div>
+                            <form class="request-actions">
+                                <input type="hidden" name="request_id" value="1">
+                                <input type="hidden" name="action" value="accept">
+                                <button type="submit" class="btn btn-primary btn-sm">Accept</button>
+                            </form>
+                            <form class="request-actions">
+                                <input type="hidden" name="request_id" value="1">
+                                <input type="hidden" name="action" value="reject">
+                                <button type="submit" class="btn btn-outline btn-sm">Reject</button>
+                            </form>
+                        </li>
+
+                        <li class="request-card status-accepted">
+                            <div class="request-info">
+                                <strong>Elena Torres</strong> wants to swap
+                                <em>Conversational Spanish</em> for your
+                                <em>Figma UI Design</em>
+                                <span class="request-date">Jan 5, 2025</span>
+                                <p class="request-message">"Hello! I'd love to learn Figma. I can teach you Spanish in
+                                    return!"</p>
+                            </div>
+                            <a href="messages.html" class="btn btn-primary btn-sm">Message</a>
+                        </li>
+
+                        <li class="request-card status-rejected">
+                            <div class="request-info">
+                                <strong>Arjun Mehta</strong> wants to swap
+                                <em>Python for Beginners</em> for your
+                                <em>Adobe Photoshop Basics</em>
+                                <span class="request-date">Dec 28, 2024</span>
+                                <p class="request-message">"I can teach Python if you can help me with Photoshop
+                                    basics."</p>
+                            </div>
+                            <span class="status-badge">Rejected</span>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Outgoing Requests -->
+                <div class="dashboard-section" id="outgoing">
+                    <h2>Outgoing Requests</h2>
+                    <ul class="request-list">
+
+                        <li class="request-card status-pending">
+                            <div class="request-info">
+                                You requested <em>Mobile Photography Tips</em> from
+                                <strong>Priya Sharma</strong> in exchange for
+                                <em>Figma UI Design</em>
+                                <span class="request-date">Jan 8, 2025</span>
+                                <span class="status-badge">Pending</span>
+                            </div>
+                        </li>
+
+                        <li class="request-card status-accepted">
+                            <div class="request-info">
+                                You requested <em>Creative Writing Workshop</em> from
+                                <strong>James Carter</strong> in exchange for
+                                <em>Adobe Photoshop Basics</em>
+                                <span class="request-date">Jan 3, 2025</span>
+                                <span class="status-badge">Accepted</span>
+                            </div>
+                            <a href="messages.html" class="btn btn-primary btn-sm">Message</a>
+                        </li>
+
+                        <li class="request-card status-rejected">
+                            <div class="request-info">
+                                You requested <em>Guitar for Beginners</em> from
+                                <strong>Marcus Lee</strong> in exchange for
+                                <em>Illustrator for Beginners</em>
+                                <span class="request-date">Dec 20, 2024</span>
+                                <span class="status-badge">Rejected</span>
+                            </div>
+                        </li>
+
+                    </ul>
+                </div>
+
+                <!-- Active Swaps -->
+                <div class="dashboard-section" id="messages">
+                    <h2>Active Swaps</h2>
+                    <p class="section-note">Accepted swaps you can message</p>
+                    <ul class="request-list">
+
+                        <li class="request-card">
+                            <div class="request-info">
+                                Swap with <strong>Elena Torres</strong>
+                            </div>
+                            <a href="messages.html" class="btn btn-primary btn-sm">Open Messages</a>
+                        </li>
+
+                        <li class="request-card">
+                            <div class="request-info">
+                                Swap with <strong>James Carter</strong>
+                            </div>
+                            <a href="messages.html" class="btn btn-primary btn-sm">Open Messages</a>
+                        </li>
+
+                    </ul>
+                </div>
+
+            </div>
+        </div>
+    </main>
+
+    <footer class="site-footer">
+        <div class="footer-container">
+            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+        </div>
+    </footer>
+
+    <script src="../js/main.js"></script>
+</body>
+
+</html>
+<!-- ```
+
+---
+
+**How it connects:**
+```
+pages/dashboard.html
+├── styles → ../css/main.css
+├── styles → ../css/components.css
+├── links → ../index.html
+├── links → explore.html
+├── links → profile.html
+├── links → messages.html
+└── script → ../js/main.js -->
