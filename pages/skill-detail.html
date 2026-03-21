@@ -1,96 +1,607 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Adobe Photoshop Basics - SkillSwap</title>
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/components.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Home — SkillSwap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:       #0E0E0E;
+  --bg2:      #161616;
+  --bg3:      #1E1E1E;
+  --bg4:      #252525;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.14);
+
+  --flame:    #F97316;
+  --flame-dk: #EA6A0A;
+  --flame-lt: #FB923C;
+  --amber:    #FBBF24;
+  --glow:     rgba(249,115,22,0.18);
+  --glow-sm:  rgba(249,115,22,0.10);
+
+  --ink:      #FFFAF5;
+  --ink2:     #D1CCBF;
+  --ink3:     #8A857A;
+  --ink4:     #4A4740;
+
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --r-btn: 50px;
+  --r-card: 18px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky; top: 0; z-index: 999;
+  background: rgba(14,14,14,0.92); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem; height: 66px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo-wrap { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--flame); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.logo-icon svg { width: 20px; height: 20px; }
+.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; color: var(--ink); }
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--flame-lt); }
+.btn-signup {
+  background: var(--flame); color: #1a0a00;
+  padding: 7px 20px; border-radius: var(--r-btn);
+  font-weight: 600; font-size: 0.875rem; font-family: var(--font-body);
+  transition: background 0.2s, box-shadow 0.2s;
+  box-shadow: 0 0 16px rgba(249,115,22,0.3);
+}
+.btn-signup:hover { background: var(--flame-lt); box-shadow: 0 0 24px rgba(249,115,22,0.45); color: #1a0a00; }
+.btn-login {
+  font-size: 0.875rem; font-weight: 500; color: var(--ink3);
+  border: 1px solid var(--border2); border-radius: var(--r-btn);
+  padding: 6px 18px; transition: all 0.2s;
+}
+.btn-login:hover { color: var(--ink); border-color: var(--border2); background: var(--bg3); }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
+
+/* ── MAIN ── */
+.main-content { flex: 1; position: relative; z-index: 1; }
+
+/* ── WELCOME BANNER ── */
+.welcome-banner {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 2.5rem 3rem;
+  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
+  flex-wrap: wrap;
+  position: relative; overflow: hidden;
+}
+.welcome-banner::after {
+  content: '';
+  position: absolute; right: -80px; top: -80px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 65%);
+  pointer-events: none;
+}
+.welcome-text
+.welcome-greeting {
+  font-family: var(--font-head); font-size: clamp(1.5rem, 2.5vw, 2rem);
+  font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px;
+}
+.welcome-greeting span { color: var(--flame); }
+.welcome-sub { font-size: 0.9rem; color: var(--ink3); }
+.welcome-actions { display: flex; gap: 10px; flex-wrap: wrap; }
+.btn-primary {
+  background: var(--flame); color: #1a0a00; padding: 10px 24px;
+  border-radius: var(--r-btn); font-family: var(--font-head); font-weight: 700;
+  font-size: 0.88rem; border: none; cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(249,115,22,0.3);
+}
+.btn-primary:hover { background: var(--flame-lt); transform: translateY(-1px); box-shadow: 0 0 32px rgba(249,115,22,0.45); }
+.btn-secondary {
+  background: transparent; color: var(--ink2); padding: 9px 24px;
+  border-radius: var(--r-btn); font-family: var(--font-body); font-weight: 500;
+  font-size: 0.88rem; border: 1px solid var(--border2); cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-secondary:hover { background: var(--bg3); color: var(--ink); }
+
+/* ── PAGE CONTAINER ── */
+.page-container { max-width: 1200px; margin: 0 auto; padding: 3rem; }
+
+/* ── STATS ROW ── */
+.stats-row {
+  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
+  margin-bottom: 3rem;
+}
+.stat-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 1.5rem;
+  transition: border-color 0.2s, transform 0.2s;
+}
+.stat-card:hover { border-color: rgba(249,115,22,0.25); transform: translateY(-2px); }
+.stat-card:nth-child(1) .stat-icon { color: var(--flame); }
+.stat-card:nth-child(2) .stat-icon { color: var(--amber); }
+.stat-card:nth-child(3) .stat-icon { color: #4ade80; }
+.stat-card:nth-child(4) .stat-icon { color: #60a5fa; }
+.stat-icon { font-size: 1.4rem; margin-bottom: 10px; }
+.stat-val { font-family: var(--font-head); font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; color: var(--ink); line-height: 1; margin-bottom: 4px; }
+.stat-lbl { font-size: 0.75rem; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.06em; }
+
+/* ── SECTION HEADER ── */
+.section-header {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.2rem;
+}
+.section-title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; }
+.section-link { font-size: 0.82rem; color: var(--flame-lt); transition: color 0.2s; }
+.section-link:hover { color: var(--flame); }
+
+/* ── TWO COL LAYOUT ── */
+.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+
+/* ── SKILL CARDS ── */
+.skill-list { display: flex; flex-direction: column; gap: 10px; }
+.skill-item {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px;
+  transition: all 0.2s; cursor: pointer;
+}
+.skill-item:hover { border-color: rgba(249,115,22,0.3); background: var(--bg3); transform: translateX(4px); }
+.skill-item-icon {
+  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
+  background: var(--bg3);
+}
+.skill-item-info { flex: 1; min-width: 0; }
+.skill-item-name { font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.skill-item-meta { font-size: 0.75rem; color: var(--ink3); }
+.skill-item-badge {
+  font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 3px 9px; border-radius: 50px; flex-shrink: 0;
+}
+.badge-active   { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
+.badge-pending  { background: rgba(251,191,36,0.12); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
+.badge-new      { background: var(--glow-sm); color: var(--flame-lt); border: 1px solid rgba(249,115,22,0.25); }
+
+/* ── SWAP REQUESTS ── */
+.request-list { display: flex; flex-direction: column; gap: 10px; }
+.request-item {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: 14px; padding: 14px 16px;
+  display: flex; align-items: center; gap: 14px; transition: border-color 0.2s;
+}
+.request-item:hover { border-color: var(--border2); }
+.req-avatar {
+  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
+  display: flex; align-items: center; justify-content: center;
+  font-size: 1.2rem; font-weight: 800; font-family: var(--font-head);
+  background: var(--bg4); border: 1px solid var(--border2);
+}
+.req-info { flex: 1; min-width: 0; }
+.req-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--ink); margin-bottom: 2px; }
+.req-detail { font-size: 0.75rem; color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
+.req-actions { display: flex; gap: 6px; flex-shrink: 0; }
+.btn-accept {
+  background: rgba(74,222,128,0.12); color: #4ade80;
+  border: 1px solid rgba(74,222,128,0.25); border-radius: 50px;
+  padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+}
+.btn-accept:hover { background: rgba(74,222,128,0.22); }
+.btn-decline {
+  background: rgba(248,113,113,0.08); color: #f87171;
+  border: 1px solid rgba(248,113,113,0.2); border-radius: 50px;
+  padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+}
+.btn-decline:hover { background: rgba(248,113,113,0.18); }
+
+/* ── EXPLORE GRID ── */
+.explore-grid {
+  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
+  margin-bottom: 3rem;
+}
+.explore-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 1.5rem;
+  transition: all 0.2s; cursor: pointer; position: relative; overflow: hidden;
+}
+.explore-card::before {
+  content: ''; position: absolute; inset: 0; opacity: 0;
+  transition: opacity 0.2s;
+  background: radial-gradient(circle at top right, rgba(249,115,22,0.08), transparent 60%);
+}
+.explore-card:hover { border-color: rgba(249,115,22,0.3); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
+.explore-card:hover::before { opacity: 1; }
+.ec-icon { font-size: 2rem; margin-bottom: 12px; }
+.ec-name { font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.02em; }
+.ec-teacher { font-size: 0.78rem; color: var(--ink3); margin-bottom: 12px; }
+.ec-footer { display: flex; align-items: center; justify-content: space-between; }
+.ec-tag {
+  font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 3px 10px; border-radius: 50px;
+  background: var(--glow-sm); color: var(--flame-lt); border: 1px solid rgba(249,115,22,0.2);
+}
+.ec-swap-btn {
+  font-size: 0.75rem; font-weight: 600; color: var(--flame-lt);
+  background: none; border: none; cursor: pointer; transition: color 0.2s;
+  font-family: var(--font-body);
+}
+.ec-swap-btn:hover { color: var(--flame); }
+
+/* ── ACTIVITY FEED ── */
+.activity-feed { display: flex; flex-direction: column; gap: 0; }
+.activity-item {
+  display: flex; align-items: flex-start; gap: 12px;
+  padding: 14px 0; border-bottom: 1px solid var(--border);
+}
+.activity-item:last-child { border-bottom: none; }
+.activity-dot {
+  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
+}
+.dot-flame  { background: var(--flame); box-shadow: 0 0 6px rgba(249,115,22,0.5); }
+.dot-green  { background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.4); }
+.dot-amber  { background: var(--amber); box-shadow: 0 0 6px rgba(251,191,36,0.4); }
+.dot-blue   { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,0.4); }
+.activity-text { flex: 1; font-size: 0.84rem; color: var(--ink2); line-height: 1.5; }
+.activity-text strong { color: var(--ink); font-weight: 600; }
+.activity-time { font-size: 0.72rem; color: var(--ink4); flex-shrink: 0; margin-top: 2px; }
+
+/* ── FOOTER ── */
+.site-footer {
+  position: relative; z-index: 1;
+  text-align: center; padding: 1.2rem;
+  font-size: 0.78rem; color: var(--ink4);
+  border-top: 1px solid var(--border); background: var(--bg2);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 1024px) {
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .explore-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 768px) {
+  .navbar { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+  .welcome-banner { padding: 2rem 1.5rem; }
+  .page-container { padding: 2rem 1.5rem; }
+  .two-col { grid-template-columns: 1fr; }
+  .stats-row { grid-template-columns: repeat(2,1fr); }
+  .explore-grid { grid-template-columns: 1fr; }
+}
+@media (max-width: 480px) {
+  .stats-row { grid-template-columns: 1fr 1fr; }
+}
+
+/* ── FADE-IN ── */
+.fade-up { opacity: 0; transform: translateY(16px); animation: fuAnim 0.5s ease forwards; }
+.fade-up:nth-child(1){animation-delay:.05s}
+.fade-up:nth-child(2){animation-delay:.12s}
+.fade-up:nth-child(3){animation-delay:.19s}
+.fade-up:nth-child(4){animation-delay:.26s}
+@keyframes fuAnim { to { opacity:1; transform:translateY(0); } }
+</style>
 </head>
-
 <body>
-    <header class="site-header">
-        <nav class="nav-container">
-            <a href="../index.html" class="logo">SkillSwap</a>
-            <ul class="nav-links">
-                <li><a href="explore.html">Explore</a></li>
-                <li><a href="../login.html">Login</a></li>
-                <li><a href="../signup.html" class="btn btn-primary">Sign Up</a></li>
-            </ul>
-            <button class="nav-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-        </nav>
-    </header>
 
-    <main class="main-content">
-        <div class="container skill-detail-page">
-            <div class="skill-detail-layout">
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
+      </svg>
+    </div>
+    <span class="logo-name">SkillSwap</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="pages/explore.html">Explore</a></li>
+    <li><a href="pages/dashboard.html" class="active">Dashboard</a></li>
+    <li><a href="pages/profile.html">Profile</a></li>
+    <li><a href="login.html" class="btn-login">Login</a></li>
+    <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
+    <span></span><span></span><span></span>
+  </button>
+</nav>
 
-                <!-- Main Skill Info -->
-                <div class="skill-detail-main">
-                    <span class="skill-category">Design</span>
-                    <h1>Adobe Photoshop Basics</h1>
-                    <div class="skill-description">
-                        <p>Learn the fundamentals of Photoshop — layers, masks, and photo editing techniques. This skill
-                            is perfect for beginners who want to get started with digital design.</p>
-                        <p>We will cover the following topics:</p>
-                        <p>• Understanding layers and masks<br>
-                            • Photo retouching and color correction<br>
-                            • Working with text and shapes<br>
-                            • Exporting and saving files<br>
-                            • Basic design principles</p>
-                        <p>Sessions are flexible and can be scheduled at a time that works for both of us. I am happy to
-                            swap for skills in music, languages or any other area you are good at!</p>
-                    </div>
+<!-- MAIN -->
+<main class="main-content">
 
-                    <!-- Logged out state: show login link -->
-                    <p><a href="../login.html">Log in</a> to request a swap.</p>
+  <!-- Welcome Banner -->
+  <div class="welcome-banner">
+    <div class="welcome-text">
+      <div class="welcome-greeting">Welcome back, <span>Alex 👋</span></div>
+      <div class="welcome-sub">You have 3 pending swap requests and 2 active swaps.</div>
+    </div>
+    <div class="welcome-actions">
+      <button class="btn-primary" onclick="window.location.href='pages/explore.html'">Browse Skills →</button>
+      <button class="btn-secondary" onclick="window.location.href='pages/profile.html'">My Profile</button>
+    </div>
+  </div>
 
-                    <!-- Logged in state: show button (uncomment when backend is ready) -->
-                    <!-- <a href="swap-request.html" class="btn btn-primary btn-lg">Request Swap</a> -->
-                </div>
+  <div class="page-container">
 
-                <!-- Teacher Sidebar -->
-                <aside class="skill-teacher-card">
-                    <h3>Teacher</h3>
-                    <a href="profile.html" class="teacher-link">
-                        <div class="teacher-avatar">S</div>
-                        <h4>Sarah Johnson</h4>
-                        <p class="teacher-bio">Passionate designer with 5 years of experience in Photoshop, Illustrator
-                            and Figma. Love teaching beginners and helping them discover their creative side...</p>
-                    </a>
-                    <a href="profile.html" class="btn btn-outline btn-block">View Profile</a>
-                </aside>
+    <!-- Stats -->
+    <div class="stats-row">
+      <div class="stat-card fade-up">
+        <div class="stat-icon">🔥</div>
+        <div class="stat-val">5</div>
+        <div class="stat-lbl">Active Swaps</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon">⭐</div>
+        <div class="stat-val">12</div>
+        <div class="stat-lbl">Skills Offered</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon">✅</div>
+        <div class="stat-val">28</div>
+        <div class="stat-lbl">Swaps Completed</div>
+      </div>
+      <div class="stat-card fade-up">
+        <div class="stat-icon">💬</div>
+        <div class="stat-val">4.9</div>
+        <div class="stat-lbl">Avg. Rating</div>
+      </div>
+    </div>
 
+    <!-- My Skills + Incoming Requests -->
+    <div class="two-col">
+      <div>
+        <div class="section-header">
+          <div class="section-title">My Skills</div>
+          <a href="pages/profile.html" class="section-link">Manage →</a>
+        </div>
+        <div class="skill-list">
+          <div class="skill-item">
+            <div class="skill-item-icon">🐍</div>
+            <div class="skill-item-info">
+              <div class="skill-item-name">Python for Beginners</div>
+              <div class="skill-item-meta">3 swap requests</div>
             </div>
+            <span class="skill-item-badge badge-active">Active</span>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-icon">🌐</div>
+            <div class="skill-item-info">
+              <div class="skill-item-name">HTML &amp; CSS Basics</div>
+              <div class="skill-item-meta">1 swap request</div>
+            </div>
+            <span class="skill-item-badge badge-active">Active</span>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-icon">🎵</div>
+            <div class="skill-item-info">
+              <div class="skill-item-name">Music Production</div>
+              <div class="skill-item-meta">Awaiting approval</div>
+            </div>
+            <span class="skill-item-badge badge-pending">Pending</span>
+          </div>
+          <div class="skill-item">
+            <div class="skill-item-icon">📊</div>
+            <div class="skill-item-info">
+              <div class="skill-item-name">Data Analysis</div>
+              <div class="skill-item-meta">Just added</div>
+            </div>
+            <span class="skill-item-badge badge-new">New</span>
+          </div>
         </div>
-    </main>
+      </div>
 
-    <footer class="site-footer">
-        <div class="footer-container">
-            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+      <div>
+        <div class="section-header">
+          <div class="section-title">Incoming Requests</div>
+          <a href="pages/dashboard.html" class="section-link">View all →</a>
         </div>
-    </footer>
+        <div class="request-list">
+          <div class="request-item">
+            <div class="req-avatar" style="color:var(--flame)">S</div>
+            <div class="req-info">
+              <div class="req-name">Sara K.</div>
+              <div class="req-detail">Wants Python · Offers UI/UX Design</div>
+            </div>
+            <div class="req-actions">
+              <button class="btn-accept">✓</button>
+              <button class="btn-decline">✕</button>
+            </div>
+          </div>
+          <div class="request-item">
+            <div class="req-avatar" style="color:var(--amber)">A</div>
+            <div class="req-info">
+              <div class="req-name">Arjun M.</div>
+              <div class="req-detail">Wants HTML/CSS · Offers Photography</div>
+            </div>
+            <div class="req-actions">
+              <button class="btn-accept">✓</button>
+              <button class="btn-decline">✕</button>
+            </div>
+          </div>
+          <div class="request-item">
+            <div class="req-avatar" style="color:#4ade80">L</div>
+            <div class="req-info">
+              <div class="req-name">Leo T.</div>
+              <div class="req-detail">Wants Python · Offers Guitar Lessons</div>
+            </div>
+            <div class="req-actions">
+              <button class="btn-accept">✓</button>
+              <button class="btn-decline">✕</button>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
 
-    <script src="../js/main.js"></script>
+    <!-- Explore Skills -->
+    <div class="section-header">
+      <div class="section-title">Skills You Might Like</div>
+      <a href="pages/explore.html" class="section-link">Browse all →</a>
+    </div>
+    <div class="explore-grid">
+      <div class="explore-card">
+        <div class="ec-icon">🎨</div>
+        <div class="ec-name">Adobe Photoshop Basics</div>
+        <div class="ec-teacher">by Sara K. · 4.9 ★</div>
+        <div class="ec-footer">
+          <span class="ec-tag">Design</span>
+          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <div class="ec-icon">📸</div>
+        <div class="ec-name">Photography Fundamentals</div>
+        <div class="ec-teacher">by Mei L. · 4.7 ★</div>
+        <div class="ec-footer">
+          <span class="ec-tag">Creative</span>
+          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <div class="ec-icon">🎸</div>
+        <div class="ec-name">Guitar for Beginners</div>
+        <div class="ec-teacher">by Leo T. · 5.0 ★</div>
+        <div class="ec-footer">
+          <span class="ec-tag">Music</span>
+          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <div class="ec-icon">🗣️</div>
+        <div class="ec-name">Spanish Conversation</div>
+        <div class="ec-teacher">by Carlos R. · 4.8 ★</div>
+        <div class="ec-footer">
+          <span class="ec-tag">Language</span>
+          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <div class="ec-icon">🍳</div>
+        <div class="ec-name">Cooking Masterclass</div>
+        <div class="ec-teacher">by Aiko S. · 4.6 ★</div>
+        <div class="ec-footer">
+          <span class="ec-tag">Lifestyle</span>
+          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
+        </div>
+      </div>
+      <div class="explore-card">
+        <div class="ec-icon">📈</div>
+        <div class="ec-name">Excel &amp; Data Basics</div>
+        <div class="ec-teacher">by Priya N. · 4.9 ★</div>
+        <div class="ec-footer">
+          <span class="ec-tag">Tech</span>
+          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
+        </div>
+      </div>
+    </div>
+
+    <!-- Activity Feed -->
+    <div class="section-header">
+      <div class="section-title">Recent Activity</div>
+    </div>
+    <div style="background:var(--bg2); border:1px solid var(--border); border-radius:var(--r-card); padding:1.2rem 1.5rem; margin-bottom:3rem;">
+      <div class="activity-feed">
+        <div class="activity-item">
+          <div class="activity-dot dot-green"></div>
+          <div class="activity-text"><strong>Sara K.</strong> accepted your swap request for UI/UX Design.</div>
+          <div class="activity-time">2m ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot dot-flame"></div>
+          <div class="activity-text"><strong>Arjun M.</strong> sent you a new swap request — Photography for HTML/CSS.</div>
+          <div class="activity-time">18m ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot dot-amber"></div>
+          <div class="activity-text">Your skill <strong>Music Production</strong> is pending admin review.</div>
+          <div class="activity-time">1h ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot dot-blue"></div>
+          <div class="activity-text"><strong>Leo T.</strong> left a 5★ review on your Python session.</div>
+          <div class="activity-time">3h ago</div>
+        </div>
+        <div class="activity-item">
+          <div class="activity-dot dot-green"></div>
+          <div class="activity-text">Swap with <strong>Mei L.</strong> marked as completed. 🎉</div>
+          <div class="activity-time">Yesterday</div>
+        </div>
+      </div>
+    </div>
+
+  </div><!-- /page-container -->
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  © 2025 SkillSwap. Exchange skills, not money.
+</footer>
+
+<script>
+  // Mobile nav
+  const navToggle = document.getElementById('navToggle');
+  const navLinks  = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
+  document.addEventListener('click', e => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
+      navLinks.classList.remove('mob-open');
+  });
+  const s = document.createElement('style');
+  s.textContent = `@media(max-width:768px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
+  document.head.appendChild(s);
+
+  // Accept / Decline buttons
+  document.querySelectorAll('.btn-accept').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.request-item');
+      item.style.opacity = '0.4';
+      item.style.pointerEvents = 'none';
+      btn.textContent = '✓ Accepted';
+    });
+  });
+  document.querySelectorAll('.btn-decline').forEach(btn => {
+    btn.addEventListener('click', () => {
+      const item = btn.closest('.request-item');
+      item.style.transition = 'all 0.3s';
+      item.style.opacity = '0';
+      item.style.height = item.offsetHeight + 'px';
+      setTimeout(() => { item.style.height = '0'; item.style.padding = '0'; item.style.marginBottom = '0'; }, 50);
+      setTimeout(() => item.remove(), 350);
+    });
+  });
+</script>
+
 </body>
-
 </html>
-<!-- ```
-
----
-
-**How it connects:**
-```
-pages/skill-detail.html
-├── styles → ../css/main.css
-├── styles → ../css/components.css
-├── links → ../index.html
-├── links → ../login.html
-├── links → ../signup.html
-├── links → explore.html
-├── links → profile.html
-├── links → swap-request.html (coming later)
-└── script → ../js/main.js -->

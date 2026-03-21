@@ -1,452 +1,371 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Login - SkillSwap</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-    <style>
-        :root {
-            --yellow: #F2BD19;
-            --yellow-dark: #d4a614;
-            --black: #1A1A1A;
-            --white: #FAFAFA;
-            --grey: #6b6b6b;
-            --grey-light: #f0f0f0;
-            --error: #dc2626;
-            --success: #059669;
-            --font-heading: 'Darker Grotesque', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --radius-btn: 50px;
-            --radius-card: 20px;
-        }
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Login — SkillSwap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600&display=swap" rel="stylesheet">
 
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
+<style>
+:root {
+  --bg:       #0E0E0E;
+  --bg2:      #161616;
+  --bg3:      #1E1E1E;
+  --bg4:      #252525;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.14);
 
-        body {
-            font-family: var(--font-body);
-            background: radial-gradient(ellipse at 20% 50%, rgba(242, 189, 25, 0.15) 0%, transparent 60%),
-                radial-gradient(ellipse at 80% 20%, rgba(242, 189, 25, 0.12) 0%, transparent 50%),
-                radial-gradient(ellipse at 60% 80%, rgba(242, 189, 25, 0.1) 0%, transparent 50%),
-                #f5f0e8;
-            color: var(--black);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
+  --flame:    #F97316;
+  --flame-dk: #EA6A0A;
+  --flame-lt: #FB923C;
+  --glow:     rgba(249,115,22,0.18);
+  --glow-sm:  rgba(249,115,22,0.10);
 
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
+  --ink:      #FFFAF5;
+  --ink2:     #D1CCBF;
+  --ink3:     #8A857A;
+  --ink4:     #4A4740;
 
-        /* ── NAVBAR ── */
-        .navbar {
-            background: var(--white);
-            border-bottom: 1px solid #e8e8e8;
-            padding: 1rem 3rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-        }
+  --error:    #f87171;
+  --error-bg: rgba(248,113,113,0.1);
+  --error-br: rgba(248,113,113,0.25);
+  --success:    #4ade80;
+  --success-bg: rgba(74,222,128,0.1);
+  --success-br: rgba(74,222,128,0.25);
 
-        .navbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-        }
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --r-btn: 50px;
+  --r-card: 22px;
+}
 
-        .logo-box {
-            background: var(--black);
-            border-radius: 6px;
-            width: 36px;
-            height: 36px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
 
-        .logo-box svg {
-            width: 20px;
-            height: 20px;
-        }
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex;
+  flex-direction: column;
+}
 
-        .logo-name {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 1.2rem;
-            color: var(--black);
-            letter-spacing: -0.02em;
-        }
+/* subtle grid texture on body */
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
 
-        .nav-links {
-            display: flex;
-            align-items: center;
-            gap: 2rem;
-            list-style: none;
-        }
+a { text-decoration: none; color: inherit; }
 
-        .nav-links a {
-            font-size: 0.9rem;
-            font-weight: 500;
-            color: var(--black);
-            transition: color 0.2s;
-        }
+/* ── NAVBAR ── */
+.navbar {
+  position: relative; z-index: 10;
+  background: rgba(14,14,14,0.9); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem; height: 66px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo-wrap { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--flame); display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 20px; height: 20px; }
+.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; }
+.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
+.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+.btn-nav {
+  background: var(--flame); color: #1a0a00;
+  padding: 0.5rem 1.3rem; border-radius: var(--r-btn);
+  font-weight: 600; font-size: 0.875rem; font-family: var(--font-body);
+  transition: background 0.2s; box-shadow: 0 0 16px rgba(249,115,22,0.3);
+}
+.btn-nav:hover { background: var(--flame-lt); }
 
-        .nav-links a:hover {
-            color: var(--yellow-dark);
-        }
+/* ── MAIN ── */
+.main-content {
+  flex: 1; display: flex; align-items: center; justify-content: center;
+  padding: 3rem 1.5rem; position: relative; z-index: 1;
+}
 
-        .btn-nav-yellow {
-            background: var(--yellow);
-            color: var(--black);
-            padding: 0.5rem 1.3rem;
-            border-radius: var(--radius-btn);
-            font-weight: 600;
-            font-size: 0.9rem;
-            font-family: var(--font-body);
-            transition: background 0.2s;
-        }
+/* glow orb behind card */
+.main-content::before {
+  content: '';
+  position: absolute;
+  width: 500px; height: 500px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 65%);
+  top: 50%; left: 50%; transform: translate(-50%, -50%);
+  pointer-events: none;
+}
 
-        .btn-nav-yellow:hover {
-            background: var(--yellow-dark);
-        }
+/* ── AUTH CARD ── */
+.auth-card {
+  background: var(--bg2);
+  border: 1px solid var(--border2);
+  border-radius: var(--r-card);
+  padding: 2.8rem 2.5rem;
+  width: 100%; max-width: 440px;
+  box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.06);
+  position: relative; overflow: hidden;
+  animation: cardIn 0.5s ease forwards;
+}
+@keyframes cardIn {
+  from { opacity: 0; transform: translateY(20px); }
+  to   { opacity: 1; transform: translateY(0); }
+}
 
-        /* ── MAIN ── */
-        .main-content {
-            flex: 1;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            padding: 3rem 1.5rem;
-        }
+/* top-right glow accent */
+.auth-card::before {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.12) 0%, transparent 70%);
+  pointer-events: none;
+}
 
-        /* ── AUTH CARD ── */
-        .auth-card {
-            background: var(--white);
-            border-radius: var(--radius-card);
-            padding: 2.8rem 2.5rem;
-            width: 100%;
-            max-width: 440px;
-            box-shadow: 0 8px 40px rgba(0, 0, 0, 0.09);
-        }
+.auth-top {
+  display: flex; align-items: center; gap: 8px;
+  margin-bottom: 2rem;
+}
+.auth-logo-icon {
+  width: 30px; height: 30px; border-radius: 8px;
+  background: var(--flame); display: flex; align-items: center; justify-content: center;
+}
+.auth-logo-icon svg { width: 17px; height: 17px; }
+.auth-logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: var(--ink); }
 
-        .auth-top {
-            display: flex;
-            align-items: center;
-            gap: 0.6rem;
-            margin-bottom: 2rem;
-        }
+.auth-heading {
+  font-family: var(--font-head); font-size: 2rem; font-weight: 800;
+  letter-spacing: -0.03em; color: var(--ink); margin-bottom: 0.4rem;
+}
+.auth-heading span { color: var(--flame); }
 
-        .auth-logo-box {
-            background: var(--black);
-            border-radius: 6px;
-            width: 32px;
-            height: 32px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
+.auth-subtitle { font-size: 0.88rem; color: var(--ink3); margin-bottom: 2rem; line-height: 1.5; }
 
-        .auth-logo-box svg {
-            width: 18px;
-            height: 18px;
-        }
+/* ── ALERTS ── */
+.alert {
+  padding: 0.75rem 1rem; border-radius: 10px;
+  font-size: 0.85rem; margin-bottom: 1rem;
+  display: none; align-items: center; gap: 8px;
+  font-weight: 500;
+}
+.alert-error  { background: var(--error-bg);   color: var(--error);   border: 1px solid var(--error-br); }
+.alert-success{ background: var(--success-bg); color: var(--success); border: 1px solid var(--success-br); }
 
-        .auth-logo-name {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 1.1rem;
-            color: var(--black);
-        }
+/* ── FORM ── */
+.form-group { margin-bottom: 1.2rem; }
+.form-group label {
+  display: block; font-size: 0.82rem; font-weight: 600;
+  color: var(--ink2); margin-bottom: 6px; letter-spacing: 0.02em;
+}
+.form-group input {
+  width: 100%; padding: 0.75rem 1rem;
+  border: 1px solid var(--border2); border-radius: 10px;
+  font-size: 0.9rem; font-family: var(--font-body);
+  background: var(--bg3); color: var(--ink);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+}
+.form-group input:focus {
+  border-color: var(--flame);
+  box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+}
+.form-group input::placeholder { color: var(--ink4); }
 
-        .auth-heading {
-            font-family: var(--font-heading);
-            font-size: 2rem;
-            font-weight: 900;
-            color: var(--black);
-            letter-spacing: -0.03em;
-            margin-bottom: 0.4rem;
-        }
+/* password row */
+.pw-row { position: relative; }
+.pw-toggle {
+  position: absolute; right: 12px; top: 50%; transform: translateY(-50%);
+  background: none; border: none; cursor: pointer;
+  color: var(--ink3); font-size: 1rem; padding: 4px;
+  transition: color 0.2s;
+}
+.pw-toggle:hover { color: var(--flame-lt); }
 
-        .auth-subtitle {
-            font-size: 0.9rem;
-            color: var(--grey);
-            margin-bottom: 1.8rem;
-        }
+/* forgot link */
+.forgot-row {
+  display: flex; justify-content: flex-end; margin-top: -0.6rem; margin-bottom: 1.2rem;
+}
+.forgot-link { font-size: 0.78rem; color: var(--ink3); transition: color 0.2s; }
+.forgot-link:hover { color: var(--flame-lt); }
 
-        /* Alerts */
-        .alert {
-            padding: 0.75rem 1rem;
-            border-radius: 8px;
-            font-size: 0.875rem;
-            margin-bottom: 1rem;
-            display: none;
-        }
+/* ── SUBMIT ── */
+.btn-submit {
+  width: 100%; padding: 0.9rem;
+  background: var(--flame); color: #1a0a00;
+  font-family: var(--font-head); font-size: 1rem; font-weight: 700;
+  border: none; border-radius: var(--r-btn); cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 0 24px rgba(249,115,22,0.35);
+  letter-spacing: -0.01em;
+}
+.btn-submit:hover {
+  background: var(--flame-lt);
+  box-shadow: 0 0 36px rgba(249,115,22,0.5);
+  transform: translateY(-1px);
+}
+.btn-submit:active { transform: scale(0.98); }
 
-        .alert-error {
-            background: #fef2f2;
-            color: var(--error);
-            border: 1px solid #fecaca;
-        }
+/* ── DIVIDER ── */
+.auth-divider {
+  display: flex; align-items: center; gap: 0.8rem; margin: 1.6rem 0;
+}
+.auth-divider hr { flex: 1; border: none; border-top: 1px solid var(--border); }
+.auth-divider span { font-size: 0.78rem; color: var(--ink3); white-space: nowrap; }
 
-        .alert-success {
-            background: #f0fdf4;
-            color: var(--success);
-            border: 1px solid #bbf7d0;
-        }
+/* ── FOOTER LINK ── */
+.auth-footer {
+  text-align: center; font-size: 0.875rem; color: var(--ink3);
+}
+.auth-footer a { color: var(--flame-lt); font-weight: 600; transition: color 0.2s; }
+.auth-footer a:hover { color: var(--flame); }
 
-        /* Form */
-        .form-group {
-            margin-bottom: 1.2rem;
-        }
+/* ── SITE FOOTER ── */
+.site-footer {
+  position: relative; z-index: 1;
+  text-align: center; padding: 1.2rem;
+  font-size: 0.78rem; color: var(--ink4);
+  border-top: 1px solid var(--border);
+  background: var(--bg2);
+}
 
-        .form-group label {
-            display: block;
-            font-size: 0.85rem;
-            font-weight: 600;
-            color: var(--black);
-            margin-bottom: 0.4rem;
-        }
-
-        .form-group input {
-            width: 100%;
-            padding: 0.7rem 1rem;
-            border: 1.5px solid #e0e0e0;
-            border-radius: 8px;
-            font-size: 0.9rem;
-            font-family: var(--font-body);
-            background: var(--white);
-            color: var(--black);
-            outline: none;
-            transition: border-color 0.2s;
-        }
-
-        .form-group input:focus {
-            border-color: var(--yellow);
-        }
-
-        .form-group input::placeholder {
-            color: #b0b0b0;
-        }
-
-        /* Submit btn */
-        .btn-submit {
-            width: 100%;
-            padding: 0.85rem;
-            background: var(--yellow);
-            color: var(--black);
-            font-family: var(--font-body);
-            font-size: 1rem;
-            font-weight: 700;
-            border: none;
-            border-radius: var(--radius-btn);
-            cursor: pointer;
-            transition: background 0.2s, transform 0.1s;
-            margin-top: 0.5rem;
-        }
-
-        .btn-submit:hover {
-            background: var(--yellow-dark);
-        }
-
-        .btn-submit:active {
-            transform: scale(0.98);
-        }
-
-        /* Divider */
-        .auth-divider {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            margin: 1.4rem 0;
-        }
-
-        .auth-divider hr {
-            flex: 1;
-            border: none;
-            border-top: 1px solid #e0e0e0;
-        }
-
-        .auth-divider span {
-            font-size: 0.8rem;
-            color: var(--grey);
-            white-space: nowrap;
-        }
-
-        /* Footer link */
-        .auth-footer {
-            text-align: center;
-            font-size: 0.875rem;
-            color: var(--grey);
-            margin-top: 1.4rem;
-        }
-
-        .auth-footer a {
-            color: var(--yellow-dark);
-            font-weight: 600;
-            transition: color 0.2s;
-        }
-
-        .auth-footer a:hover {
-            color: var(--black);
-        }
-
-        /* ── SITE FOOTER ── */
-        .site-footer {
-            text-align: center;
-            padding: 1.2rem;
-            font-size: 0.8rem;
-            color: var(--grey);
-            border-top: 1px solid #e8e8e8;
-            background: var(--white);
-        }
-
-        @media (max-width: 600px) {
-            .navbar {
-                padding: 1rem 1.2rem;
-            }
-
-            .nav-links {
-                display: none;
-            }
-
-            .auth-card {
-                padding: 2rem 1.5rem;
-            }
-        }
-    </style>
+/* ── RESPONSIVE ── */
+@media (max-width: 600px) {
+  .navbar { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .auth-card { padding: 2rem 1.5rem; }
+}
+</style>
 </head>
-
 <body>
 
-    <!-- NAVBAR -->
-    <nav class="navbar">
-        <a href="index.html" class="navbar-logo">
-            <div class="logo-box">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
-                        stroke="#F2BD19" stroke-width="2" fill="none" stroke-linecap="round" />
-                    <path
-                        d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
-                        fill="#F2BD19" />
-                </svg>
-            </div>
-            <span class="logo-name">SkillSwap</span>
-        </a>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="index.html" class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
+      </svg>
+    </div>
+    <span class="logo-name">SkillSwap</span>
+  </a>
+  <ul class="nav-links">
+    <li><a href="pages/explore.html">Explore</a></li>
+    <li><a href="login.html">Login</a></li>
+    <li><a href="signup.html" class="btn-nav">Sign Up</a></li>
+  </ul>
+</nav>
 
-        <ul class="nav-links">
-            <li><a href="pages/explore.html">Explore</a></li>
-            <li><a href="login.html">Login</a></li>
-            <li><a href="signup.html" class="btn-nav-yellow">Sign Up</a></li>
-        </ul>
-    </nav>
+<!-- MAIN -->
+<main class="main-content">
+  <div class="auth-card">
 
-    <!-- MAIN -->
-    <main class="main-content">
-        <div class="auth-card">
+    <div class="auth-top">
+      <div class="auth-logo-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
+        </svg>
+      </div>
+      <span class="auth-logo-name">SkillSwap</span>
+    </div>
 
-            <div class="auth-top">
-                <div class="auth-logo-box">
-                    <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
-                            stroke="#F2BD19" stroke-width="2" fill="none" stroke-linecap="round" />
-                    </svg>
-                </div>
-                <span class="auth-logo-name">SkillSwap</span>
-            </div>
+    <h1 class="auth-heading">Welcome <span>Back</span></h1>
+    <p class="auth-subtitle">Log in to continue exchanging skills</p>
 
-            <h1 class="auth-heading">Welcome Back</h1>
-            <p class="auth-subtitle">Log in to continue exchanging skills</p>
+    <div class="alert alert-error" id="formError"></div>
+    <div class="alert alert-success" id="formSuccess"></div>
 
-            <div class="alert alert-error" id="formError"></div>
-            <div class="alert alert-success" id="formSuccess"></div>
+    <form id="loginForm">
+      <div class="form-group">
+        <label for="email">Email</label>
+        <input type="email" id="email" name="email" required placeholder="you@example.com">
+      </div>
 
-            <form id="loginForm">
-                <div class="form-group">
-                    <label for="email">Email</label>
-                    <input type="email" id="email" name="email" required placeholder="you@example.com">
-                </div>
-                <div class="form-group">
-                    <label for="password">Password</label>
-                    <input type="password" id="password" name="password" required placeholder="Your password">
-                </div>
-                <button type="submit" class="btn-submit">Log In</button>
-            </form>
-
-            <div class="auth-divider">
-                <hr><span>Don't have an account?</span>
-                <hr>
-            </div>
-
-            <p class="auth-footer">
-                New here? <a href="signup.html">Create an account</a>
-            </p>
-
+      <div class="form-group">
+        <label for="password">Password</label>
+        <div class="pw-row">
+          <input type="password" id="password" name="password" required placeholder="Your password">
+          <button type="button" class="pw-toggle" id="pwToggle" aria-label="Toggle password">👁</button>
         </div>
-    </main>
+      </div>
 
-    <!-- FOOTER -->
-    <footer class="site-footer">
-        © 2025 SkillSwap. Exchange skills, not money.
-    </footer>
+      <div class="forgot-row">
+        <a href="#" class="forgot-link">Forgot password?</a>
+      </div>
 
-    <script>
-        const loginForm = document.getElementById('loginForm');
-        const formError = document.getElementById('formError');
-        const formSuccess = document.getElementById('formSuccess');
+      <button type="submit" class="btn-submit">Log In →</button>
+    </form>
 
-        loginForm.addEventListener('submit', function (e) {
-            e.preventDefault();
+    <div class="auth-divider">
+      <hr><span>Don't have an account?</span><hr>
+    </div>
 
-            const email = document.getElementById('email').value.trim();
-            const password = document.getElementById('password').value;
+    <p class="auth-footer">
+      New here? <a href="signup.html">Create an account</a>
+    </p>
 
-            // Hide previous alerts
-            formError.style.display = 'none';
-            formSuccess.style.display = 'none';
+  </div>
+</main>
 
-            // Basic validation
-            if (!email || !password) {
-                formError.textContent = 'Please fill in all fields.';
-                formError.style.display = 'block';
-                return;
-            }
+<!-- SITE FOOTER -->
+<footer class="site-footer">
+  © 2025 SkillSwap. Exchange skills, not money.
+</footer>
 
-            if (password.length < 6) {
-                formError.textContent = 'Password must be at least 6 characters.';
-                formError.style.display = 'block';
-                return;
-            }
+<script>
+  // Password toggle
+  const pwToggle = document.getElementById('pwToggle');
+  const pwInput  = document.getElementById('password');
+  pwToggle.addEventListener('click', () => {
+    const show = pwInput.type === 'password';
+    pwInput.type = show ? 'text' : 'password';
+    pwToggle.textContent = show ? '🙈' : '👁';
+  });
 
-            // Success — redirect to home
-            formSuccess.textContent = 'Logging you in...';
-            formSuccess.style.display = 'block';
+  // Form submit
+  const loginForm   = document.getElementById('loginForm');
+  const formError   = document.getElementById('formError');
+  const formSuccess = document.getElementById('formSuccess');
 
-            setTimeout(() => {
-                window.location.href = 'pages/home.html';
-            }, 800);
-        });
+  loginForm.addEventListener('submit', function(e) {
+    e.preventDefault();
+    const email    = document.getElementById('email').value.trim();
+    const password = pwInput.value;
 
-        // Clear error on input change
-        document.querySelectorAll('input').forEach(input => {
-            input.addEventListener('input', () => {
-                formError.style.display = 'none';
-            });
-        });
-    </script>
+    formError.style.display   = 'none';
+    formSuccess.style.display = 'none';
+
+    if (!email || !password) {
+      formError.textContent   = 'Please fill in all fields.';
+      formError.style.display = 'flex';
+      return;
+    }
+    if (password.length < 6) {
+      formError.textContent   = 'Password must be at least 6 characters.';
+      formError.style.display = 'flex';
+      return;
+    }
+
+    formSuccess.textContent   = '🔥 Logging you in...';
+    formSuccess.style.display = 'flex';
+
+    setTimeout(() => { window.location.href = 'pages/home.html'; }, 900);
+  });
+
+  // Clear error on typing
+  document.querySelectorAll('input').forEach(input => {
+    input.addEventListener('input', () => { formError.style.display = 'none'; });
+  });
+</script>
 
 </body>
-
 </html>

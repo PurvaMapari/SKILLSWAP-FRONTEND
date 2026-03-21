@@ -1,988 +1,650 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Explore Skills - SkillSwap</title>
-    <link rel="preconnect" href="https://fonts.googleapis.com">
-    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-    <link
-        href="https://fonts.googleapis.com/css2?family=Darker+Grotesque:wght@400;500;600;700;800;900&family=Inter:wght@400;500;600&display=swap"
-        rel="stylesheet">
-
-    <style>
-        :root {
-            --yellow: #F2BD19;
-            --yellow-dark: #d4a614;
-            --yellow-light: #fef9e7;
-            --black: #1A1A1A;
-            --white: #FAFAFA;
-            --grey: #6b6b6b;
-            --grey-light: #f5f5f5;
-            --border: #e8e8e8;
-            --font-heading: 'Darker Grotesque', sans-serif;
-            --font-body: 'Inter', sans-serif;
-            --radius-btn: 50px;
-            --radius-card: 14px;
-        }
-
-        *,
-        *::before,
-        *::after {
-            box-sizing: border-box;
-            margin: 0;
-            padding: 0;
-        }
-
-        html {
-            scroll-behavior: smooth;
-        }
-
-        body {
-            font-family: var(--font-body);
-            background: var(--white);
-            color: var(--black);
-            min-height: 100vh;
-            display: flex;
-            flex-direction: column;
-        }
-
-        a {
-            text-decoration: none;
-            color: inherit;
-        }
-
-        ul {
-            list-style: none;
-        }
-
-        /* ========================
-           NAVBAR
-        ======================== */
-        .navbar {
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 0.85rem 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            position: sticky;
-            top: 0;
-            z-index: 100;
-        }
-
-        .navbar-logo {
-            display: flex;
-            align-items: center;
-            gap: 0.55rem;
-            flex-shrink: 0;
-        }
-
-        .logo-box {
-            background: var(--black);
-            border-radius: 8px;
-            width: 38px;
-            height: 38px;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .logo-box svg {
-            width: 22px;
-            height: 22px;
-        }
-
-        .logo-name {
-            font-family: var(--font-heading);
-            font-weight: 700;
-            font-size: 1.25rem;
-            color: var(--black);
-            letter-spacing: -0.02em;
-        }
-
-        .nav-center {
-            display: flex;
-            align-items: center;
-            gap: 0.2rem;
-        }
-
-        .nav-center a {
-            font-family: var(--font-body);
-            font-size: 0.88rem;
-            font-weight: 500;
-            color: var(--grey);
-            padding: 0.45rem 0.9rem;
-            border-radius: var(--radius-btn);
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .nav-center a:hover {
-            color: var(--black);
-            background: #f0f0f0;
-        }
-
-        .nav-center a.active {
-            background: var(--yellow);
-            color: var(--black);
-            font-weight: 600;
-        }
-
-        .nav-right {
-            display: flex;
-            align-items: center;
-            gap: 0.8rem;
-            flex-shrink: 0;
-        }
-
-        .nav-search-btn {
-            background: none;
-            border: none;
-            cursor: pointer;
-            color: var(--grey);
-            display: flex;
-            align-items: center;
-            padding: 0.3rem;
-            transition: color 0.2s;
-        }
-
-        .nav-search-btn:hover {
-            color: var(--black);
-        }
-
-        .nav-search-btn svg {
-            width: 20px;
-            height: 20px;
-        }
-
-        .nav-dropdown {
-            position: relative;
-        }
-
-        .nav-menu-btn {
-            width: 40px;
-            height: 40px;
-            background: var(--black);
-            border: none;
-            border-radius: 50%;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            color: var(--white);
-            font-size: 1rem;
-            transition: background 0.2s;
-        }
-
-        .nav-menu-btn:hover {
-            background: #333;
-        }
-
-        .dropdown-menu {
-            display: none;
-            position: absolute;
-            top: calc(100% + 0.5rem);
-            right: 0;
-            background: var(--white);
-            border: 1px solid #e0e0e0;
-            border-radius: 12px;
-            box-shadow: 0 8px 30px rgba(0, 0, 0, 0.12);
-            min-width: 170px;
-            overflow: hidden;
-            z-index: 200;
-        }
-
-        .dropdown-menu.open {
-            display: block;
-        }
-
-        .dropdown-menu a {
-            display: block;
-            padding: 0.75rem 1.2rem;
-            font-size: 0.88rem;
-            color: var(--black);
-            font-weight: 500;
-            transition: background 0.15s;
-        }
-
-        .dropdown-menu a:hover {
-            background: #f5f5f5;
-        }
-
-        .dropdown-menu .logout {
-            color: #dc2626;
-            border-top: 1px solid #f0f0f0;
-        }
-
-        .dropdown-menu .logout:hover {
-            background: #fef2f2;
-        }
-
-        /* ========================
-           HERO BAR
-        ======================== */
-        .hero-bar {
-            background: var(--yellow);
-            padding: 3rem 3rem 2.5rem;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-        }
-
-        .hero-bar-inner {
-            max-width: 600px;
-            width: 100%;
-            text-align: center;
-        }
-
-        .hero-title {
-            font-family: var(--font-heading);
-            font-size: clamp(6rem, 8vw, 5rem);
-            font-weight: 900;
-            color: var(--black);
-            letter-spacing: -0.03em;
-            margin-bottom: 0.4rem;
-        }
-
-        .hero-subtitle {
-            font-family: var(--font-body);
-            font-size: 1rem;
-            color: rgba(26, 26, 26, 0.7);
-            margin-bottom: 1.8rem;
-        }
-
-        .hero-search {
-            display: flex;
-            max-width: 100%;
-            border-radius: 10px;
-            overflow: hidden;
-            box-shadow: 0 4px 20px rgba(0, 0, 0, 0.12);
-        }
-
-        .hero-search-input {
-            flex: 1;
-            padding: 0.9rem 1.4rem;
-            font-family: var(--font-body);
-            font-size: 0.95rem;
-            border: none;
-            outline: none;
-            background: var(--white);
-            color: var(--black);
-        }
-
-        .hero-search-input::placeholder {
-            color: #aaa;
-        }
-
-        .hero-search-btn {
-            background: var(--black);
-            border: none;
-            padding: 0 1.4rem;
-            cursor: pointer;
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            transition: background 0.2s;
-        }
-
-        .hero-search-btn:hover {
-            background: #333;
-        }
-
-        .hero-search-btn svg {
-            width: 20px;
-            height: 20px;
-            stroke: var(--white);
-            fill: none;
-            stroke-width: 2.5;
-            stroke-linecap: round;
-        }
-
-        /* ========================
-           CATEGORY PILLS
-        ======================== */
-        .categories-bar {
-            background: var(--white);
-            border-bottom: 1px solid var(--border);
-            padding: 1rem 3rem;
-            position: sticky;
-            top: 65px;
-            z-index: 90;
-        }
-
-        .categories-inner {
-            max-width: 1100px;
-            margin: 0 auto;
-            display: flex;
-            gap: 0.6rem;
-            flex-wrap: wrap;
-        }
-
-        .cat-pill {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            font-weight: 500;
-            padding: 0.45rem 1.1rem;
-            border-radius: var(--radius-btn);
-            border: 1.5px solid var(--border);
-            background: var(--white);
-            color: var(--grey);
-            cursor: pointer;
-            transition: all 0.2s;
-            white-space: nowrap;
-        }
-
-        .cat-pill:hover {
-            border-color: var(--yellow);
-            color: var(--black);
-            background: var(--yellow-light);
-        }
-
-        .cat-pill.active {
-            background: var(--yellow);
-            border-color: var(--yellow);
-            color: var(--black);
-            font-weight: 600;
-        }
-
-        /* ========================
-           MAIN CONTENT
-        ======================== */
-        .main-content {
-            flex: 1;
-            padding: 2.5rem 3rem;
-            max-width: 1100px;
-            margin: 0 auto;
-            width: 100%;
-        }
-
-        .results-info {
-            font-family: var(--font-body);
-            font-size: 0.88rem;
-            color: var(--grey);
-            margin-bottom: 1.5rem;
-        }
-
-        .results-info span {
-            font-weight: 600;
-            color: var(--black);
-        }
-
-        /* ========================
-           SKILL CARDS GRID
-        ======================== */
-        .skills-grid {
-            display: grid;
-            grid-template-columns: repeat(3, 1fr);
-            gap: 1.2rem;
-            margin-bottom: 2.5rem;
-        }
-
-        .skill-card {
-            background: var(--white);
-            border: 1.5px solid var(--border);
-            border-radius: var(--radius-card);
-            padding: 1.5rem;
-            cursor: pointer;
-            transition: all 0.25s ease;
-            display: flex;
-            flex-direction: column;
-            gap: 0.5rem;
-            position: relative;
-            overflow: hidden;
-        }
-
-        .skill-card::before {
-            content: '';
-            position: absolute;
-            left: 0;
-            top: 0;
-            bottom: 0;
-            width: 4px;
-            background: var(--yellow);
-            transform: scaleY(0);
-            transition: transform 0.25s ease;
-            border-radius: 4px 0 0 4px;
-        }
-
-        .skill-card:hover {
-            border-color: var(--yellow);
-            box-shadow: 0 6px 24px rgba(242, 189, 25, 0.15);
-            transform: translateY(-2px);
-        }
-
-        .skill-card:hover::before {
-            transform: scaleY(1);
-        }
-
-        .skill-card-category {
-            font-family: var(--font-body);
-            font-size: 0.72rem;
-            font-weight: 700;
-            letter-spacing: 0.1em;
-            text-transform: uppercase;
-            color: var(--yellow-dark);
-        }
-
-        .skill-card-title {
-            font-family: var(--font-heading);
-            font-size: 1.2rem;
-            font-weight: 800;
-            color: var(--black);
-            line-height: 1.2;
-            letter-spacing: -0.01em;
-        }
-
-        .skill-card-desc {
-            font-family: var(--font-body);
-            font-size: 0.85rem;
-            color: var(--grey);
-            line-height: 1.6;
-            flex: 1;
-        }
-
-        .skill-card-footer {
-            display: flex;
-            align-items: center;
-            justify-content: space-between;
-            margin-top: 0.5rem;
-            padding-top: 0.8rem;
-            border-top: 1px solid var(--border);
-        }
-
-        .skill-card-teacher {
-            display: flex;
-            align-items: center;
-            gap: 0.5rem;
-        }
-
-        .teacher-avatar {
-            width: 28px;
-            height: 28px;
-            border-radius: 50%;
-            background: var(--yellow);
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            font-family: var(--font-heading);
-            font-size: 0.75rem;
-            font-weight: 800;
-            color: var(--black);
-            flex-shrink: 0;
-        }
-
-        .teacher-name {
-            font-family: var(--font-body);
-            font-size: 0.8rem;
-            color: var(--grey);
-        }
-
-        .skill-card-arrow {
-            color: var(--yellow-dark);
-            font-size: 1rem;
-            transition: transform 0.2s;
-        }
-
-        .skill-card:hover .skill-card-arrow {
-            transform: translateX(4px);
-        }
-
-        /* ========================
-           PAGINATION
-        ======================== */
-        .pagination {
-            display: flex;
-            align-items: center;
-            justify-content: center;
-            gap: 0.8rem;
-            margin-top: 1rem;
-            padding-bottom: 1rem;
-        }
-
-        .page-btn {
-            font-family: var(--font-body);
-            font-size: 0.88rem;
-            font-weight: 600;
-            padding: 0.55rem 1.4rem;
-            border-radius: var(--radius-btn);
-            border: 2px solid var(--yellow);
-            background: var(--white);
-            color: var(--black);
-            cursor: pointer;
-            transition: all 0.2s;
-        }
-
-        .page-btn:hover {
-            background: var(--yellow);
-        }
-
-        .page-btn:disabled {
-            border-color: var(--border);
-            color: var(--grey);
-            cursor: not-allowed;
-            background: var(--white);
-        }
-
-        .page-info {
-            font-family: var(--font-body);
-            font-size: 0.88rem;
-            color: var(--grey);
-            padding: 0 0.5rem;
-        }
-
-        /* ========================
-           FOOTER
-        ======================== */
-        .site-footer {
-            text-align: center;
-            padding: 1rem;
-            font-size: 0.8rem;
-            color: var(--grey);
-            background: var(--white);
-            border-top: 1px solid var(--border);
-        }
-
-        /* ========================
-           RESPONSIVE
-        ======================== */
-        @media (max-width: 900px) {
-            .navbar {
-                padding: 0.8rem 1.2rem;
-            }
-
-            .nav-center {
-                display: none;
-            }
-
-            .hero-bar {
-                padding: 2rem 1.5rem;
-            }
-
-            .categories-bar {
-                padding: 0.8rem 1.5rem;
-                top: 58px;
-            }
-
-            .main-content {
-                padding: 1.5rem;
-            }
-
-            .skills-grid {
-                grid-template-columns: repeat(2, 1fr);
-            }
-        }
-
-        @media (max-width: 580px) {
-            .skills-grid {
-                grid-template-columns: 1fr;
-            }
-        }
-    </style>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Explore Skills — SkillSwap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:       #0E0E0E;
+  --bg2:      #161616;
+  --bg3:      #1E1E1E;
+  --bg4:      #252525;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.14);
+
+  --flame:    #F97316;
+  --flame-dk: #EA6A0A;
+  --flame-lt: #FB923C;
+  --amber:    #FBBF24;
+  --glow:     rgba(249,115,22,0.18);
+  --glow-sm:  rgba(249,115,22,0.10);
+
+  --ink:      #FFFAF5;
+  --ink2:     #D1CCBF;
+  --ink3:     #8A857A;
+  --ink4:     #4A4740;
+
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --r-btn: 50px;
+  --r-card: 16px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky; top: 0; z-index: 999;
+  background: rgba(14,14,14,0.92); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 2.5rem; height: 66px;
+  display: flex; align-items: center; justify-content: space-between; gap: 1rem;
+}
+.logo-wrap { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--flame); display: flex; align-items: center; justify-content: center;
+}
+.logo-icon svg { width: 20px; height: 20px; }
+.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; }
+
+.nav-center { display: flex; align-items: center; gap: 2px; }
+.nav-center a {
+  font-size: 0.85rem; font-weight: 500; color: var(--ink3);
+  padding: 6px 14px; border-radius: var(--r-btn); transition: all 0.2s;
+}
+.nav-center a:hover { color: var(--ink); background: var(--bg3); }
+.nav-center a.active { background: var(--flame); color: #1a0a00; font-weight: 700; }
+
+.nav-right { display: flex; align-items: center; gap: 10px; flex-shrink: 0; }
+.nav-search-btn {
+  background: none; border: none; cursor: pointer;
+  color: var(--ink3); display: flex; align-items: center; padding: 6px; transition: color 0.2s;
+}
+.nav-search-btn:hover { color: var(--ink); }
+.nav-search-btn svg { width: 18px; height: 18px; }
+
+.nav-dropdown { position: relative; }
+.nav-menu-btn {
+  width: 38px; height: 38px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border2); cursor: pointer;
+  display: flex; align-items: center; justify-content: center;
+  color: var(--ink2); font-size: 1rem; transition: all 0.2s;
+}
+.nav-menu-btn:hover { background: var(--bg4); border-color: var(--border2); }
+
+.dropdown-menu {
+  display: none; position: absolute; top: calc(100% + 8px); right: 0;
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 14px; box-shadow: 0 12px 40px rgba(0,0,0,0.5);
+  min-width: 180px; overflow: hidden; z-index: 200;
+}
+.dropdown-menu.open { display: block; animation: ddIn 0.18s ease; }
+@keyframes ddIn { from{opacity:0;transform:translateY(-6px)} to{opacity:1;transform:translateY(0)} }
+.dropdown-menu a {
+  display: flex; align-items: center; gap: 10px;
+  padding: 11px 16px; font-size: 0.875rem; font-weight: 500; color: var(--ink2);
+  transition: background 0.15s;
+}
+.dropdown-menu a:hover { background: var(--bg3); color: var(--ink); }
+.dropdown-menu .logout { color: #f87171; border-top: 1px solid var(--border); }
+.dropdown-menu .logout:hover { background: rgba(248,113,113,0.08); }
+
+/* ── HERO BAR ── */
+.hero-bar {
+  background: var(--flame);
+  padding: 3rem 3rem 2.5rem;
+  display: flex; align-items: center; justify-content: center;
+  position: relative; overflow: hidden;
+}
+.hero-bar::before {
+  content: '';
+  position: absolute; bottom: -80px; left: -80px;
+  width: 320px; height: 320px; border-radius: 50%;
+  background: rgba(0,0,0,0.06); pointer-events: none;
+}
+.hero-bar::after {
+  content: '';
+  position: absolute; top: -60px; right: -60px;
+  width: 260px; height: 260px; border-radius: 50%;
+  background: rgba(255,255,255,0.06); pointer-events: none;
+}
+.hero-bar-inner {
+  max-width: 580px; width: 100%; text-align: center; position: relative; z-index: 1;
+}
+.hero-title {
+  font-family: var(--font-head);
+  font-size: clamp(2.8rem, 6vw, 4.5rem);
+  font-weight: 800; color: #1a0a00;
+  letter-spacing: -0.04em; margin-bottom: 6px; line-height: 1;
+}
+.hero-subtitle { font-size: 0.95rem; color: rgba(26,10,0,0.65); margin-bottom: 1.8rem; }
+
+.hero-search {
+  display: flex; border-radius: 12px; overflow: hidden;
+  box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+}
+.hero-search-input {
+  flex: 1; padding: 0.9rem 1.3rem;
+  font-family: var(--font-body); font-size: 0.95rem;
+  border: none; outline: none;
+  background: var(--bg2); color: var(--ink);
+}
+.hero-search-input::placeholder { color: var(--ink3); }
+.hero-search-btn {
+  background: var(--bg); border: none; padding: 0 1.3rem; cursor: pointer;
+  display: flex; align-items: center; justify-content: center; transition: background 0.2s;
+}
+.hero-search-btn:hover { background: var(--bg3); }
+.hero-search-btn svg {
+  width: 20px; height: 20px; stroke: var(--flame-lt); fill: none;
+  stroke-width: 2.5; stroke-linecap: round;
+}
+
+/* ── CATEGORY PILLS BAR ── */
+.categories-bar {
+  background: var(--bg2); border-bottom: 1px solid var(--border);
+  padding: 1rem 3rem;
+  position: sticky; top: 66px; z-index: 90;
+}
+.categories-inner {
+  max-width: 1100px; margin: 0 auto;
+  display: flex; gap: 8px; flex-wrap: wrap;
+}
+.cat-pill {
+  font-family: var(--font-body); font-size: 0.82rem; font-weight: 500;
+  padding: 7px 18px; border-radius: var(--r-btn);
+  border: 1px solid var(--border2); background: var(--bg3); color: var(--ink3);
+  cursor: pointer; transition: all 0.2s; white-space: nowrap;
+}
+.cat-pill:hover { border-color: rgba(249,115,22,0.4); color: var(--ink); background: var(--bg4); }
+.cat-pill.active {
+  background: var(--flame); border-color: var(--flame); color: #1a0a00;
+  font-weight: 700; box-shadow: 0 0 14px rgba(249,115,22,0.3);
+}
+
+/* ── MAIN ── */
+.main-content {
+  flex: 1; position: relative; z-index: 1;
+  max-width: 1100px; margin: 0 auto; width: 100%;
+  padding: 2.5rem 3rem;
+}
+
+.results-bar {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-bottom: 1.5rem; flex-wrap: wrap; gap: 10px;
+}
+.results-info { font-size: 0.85rem; color: var(--ink3); }
+.results-info span { font-weight: 700; color: var(--ink); }
+
+.sort-select {
+  font-family: var(--font-body); font-size: 0.82rem; color: var(--ink2);
+  background: var(--bg2); border: 1px solid var(--border2); border-radius: 8px;
+  padding: 6px 12px; outline: none; cursor: pointer; transition: border-color 0.2s;
+}
+.sort-select:focus { border-color: var(--flame); }
+.sort-select option { background: var(--bg2); }
+
+/* ── SKILL CARDS GRID ── */
+.skills-grid {
+  display: grid; grid-template-columns: repeat(3,1fr);
+  gap: 1.2rem; margin-bottom: 2.5rem;
+}
+
+.skill-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 1.4rem;
+  cursor: pointer; transition: all 0.22s ease;
+  display: flex; flex-direction: column; gap: 6px;
+  position: relative; overflow: hidden;
+}
+.skill-card::before {
+  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
+  width: 3px; border-radius: 3px 0 0 3px;
+  background: var(--flame); transform: scaleY(0); transform-origin: bottom;
+  transition: transform 0.25s ease;
+}
+.skill-card:hover {
+  border-color: rgba(249,115,22,0.3);
+  box-shadow: 0 8px 32px rgba(249,115,22,0.08);
+  transform: translateY(-3px);
+}
+.skill-card:hover::before { transform: scaleY(1); }
+
+.skill-card-category {
+  font-size: 0.7rem; font-weight: 700; letter-spacing: 0.1em;
+  text-transform: uppercase; color: var(--flame-lt);
+}
+.skill-card-title {
+  font-family: var(--font-head); font-size: 1.05rem; font-weight: 800;
+  color: var(--ink); line-height: 1.25; letter-spacing: -0.02em;
+}
+.skill-card-desc {
+  font-size: 0.82rem; color: var(--ink3); line-height: 1.6; flex: 1;
+}
+.skill-card-footer {
+  display: flex; align-items: center; justify-content: space-between;
+  margin-top: 8px; padding-top: 10px; border-top: 1px solid var(--border);
+}
+.skill-card-teacher { display: flex; align-items: center; gap: 8px; }
+.teacher-avatar {
+  width: 28px; height: 28px; border-radius: 50%;
+  background: var(--bg3); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-size: 0.68rem; font-weight: 800;
+  color: var(--ink2); flex-shrink: 0;
+}
+.teacher-name { font-size: 0.78rem; color: var(--ink3); }
+.skill-card-arrow {
+  color: var(--flame); font-size: 1rem; transition: transform 0.2s;
+  opacity: 0; 
+}
+.skill-card:hover .skill-card-arrow { transform: translateX(4px); opacity: 1; }
+
+/* empty state */
+.empty-state {
+  grid-column: 1 / -1; text-align: center;
+  padding: 4rem 2rem; background: var(--bg2);
+  border: 1px solid var(--border); border-radius: var(--r-card);
+}
+.empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
+.empty-title { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--ink2); margin-bottom: 6px; }
+.empty-sub { font-size: 0.82rem; color: var(--ink3); }
+
+/* ── PAGINATION ── */
+.pagination {
+  display: flex; align-items: center; justify-content: center;
+  gap: 10px; padding-bottom: 1rem;
+}
+.page-btn {
+  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
+  padding: 8px 22px; border-radius: var(--r-btn);
+  border: 1px solid var(--border2); background: var(--bg2); color: var(--ink2);
+  cursor: pointer; transition: all 0.2s;
+}
+.page-btn:hover:not(:disabled) { background: var(--flame); color: #1a0a00; border-color: var(--flame); box-shadow: 0 0 16px rgba(249,115,22,0.3); }
+.page-btn:disabled { opacity: 0.35; cursor: not-allowed; }
+.page-info { font-size: 0.82rem; color: var(--ink3); padding: 0 6px; }
+
+/* ── FOOTER ── */
+.site-footer {
+  position: relative; z-index: 1;
+  text-align: center; padding: 1.2rem;
+  font-size: 0.78rem; color: var(--ink4);
+  border-top: 1px solid var(--border); background: var(--bg2);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .navbar { padding: 0 1.5rem; }
+  .nav-center { display: none; }
+  .hero-bar { padding: 2rem 1.5rem; }
+  .categories-bar { padding: 0.8rem 1.5rem; top: 66px; }
+  .main-content { padding: 1.8rem 1.5rem; }
+  .skills-grid { grid-template-columns: repeat(2,1fr); }
+}
+@media (max-width: 540px) {
+  .skills-grid { grid-template-columns: 1fr; }
+  .hero-title { font-size: 2.4rem; }
+}
+</style>
 </head>
-
 <body>
 
-    <!-- ========================
-         NAVBAR
-    ======================== -->
-    <nav class="navbar">
-        <a href="../index.html" class="navbar-logo">
-            <div class="logo-box">
-                <svg viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
-                    <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
-                        stroke="#F2BD19" stroke-width="2" fill="none" stroke-linecap="round" />
-                    <path
-                        d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
-                        fill="#F2BD19" />
-                </svg>
-            </div>
-            <span class="logo-name">SkillSwap</span>
-        </a>
-
-        <nav class="nav-center">
-            <a href="home.html">Home </a>
-            <a href="#">About </a>
-            <a href="explore.html" class="active">Explore </a>
-            <a href="dashboard.html">Dashboard </a>
-            <a href="#">Blog </a>
-            <a href="#">Contact </a>
-        </nav>
-
-        <div class="nav-right">
-            <button class="nav-search-btn" aria-label="Search">
-                <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
-                    <circle cx="11" cy="11" r="8" />
-                    <path d="m21 21-4.35-4.35" />
-                </svg>
-            </button>
-            <div class="nav-dropdown">
-                <button class="nav-menu-btn" id="menuBtn">&#9776;</button>
-                <div class="dropdown-menu" id="dropdownMenu">
-                    <a href="home.html">🏠 Home</a>
-                    <a href="explore.html">🔍 Explore</a>
-                    <a href="dashboard.html">📋 Dashboard</a>
-                    <a href="profile.html">👤 Profile</a>
-                    <a href="messages.html">💬 Messages</a>
-                    <a href="../login.html" class="logout">⬅ Logout</a>
-                </div>
-            </div>
-        </div>
-    </nav>
-
-    <!-- ========================
-         HERO BAR
-    ======================== -->
-    <div class="hero-bar">
-        <div class="hero-bar-inner">
-            <h1 class="hero-title">Explore Skills</h1>
-            <p class="hero-subtitle">Find skills to learn and connect with teachers</p>
-            <div class="hero-search">
-                <input type="text" class="hero-search-input" id="searchInput" placeholder="Search skills...">
-                <button class="hero-search-btn" id="searchBtn">
-                    <svg viewBox="0 0 24 24">
-                        <circle cx="11" cy="11" r="8" />
-                        <path d="m21 21-4.35-4.35" />
-                    </svg>
-                </button>
-            </div>
-        </div>
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="../index.html" class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
+      </svg>
     </div>
+    <span class="logo-name">SkillSwap</span>
+  </a>
 
-    <!-- ========================
-         CATEGORY PILLS
-    ======================== -->
-    <div class="categories-bar">
-        <div class="categories-inner" id="categoryPills">
-            <button class="cat-pill active" data-cat="all">All</button>
-            <button class="cat-pill" data-cat="design">Design</button>
-            <button class="cat-pill" data-cat="music">Music</button>
-            <button class="cat-pill" data-cat="coding">Coding</button>
-            <button class="cat-pill" data-cat="languages">Languages</button>
-            <button class="cat-pill" data-cat="photography">Photography</button>
-            <button class="cat-pill" data-cat="writing">Writing</button>
-            <button class="cat-pill" data-cat="marketing">Marketing</button>
-        </div>
+  <nav class="nav-center">
+    <a href="home.html">Home</a>
+    <a href="#">About</a>
+    <a href="explore.html" class="active">Explore</a>
+    <a href="dashboard.html">Dashboard</a>
+    <a href="#">Blog</a>
+    <a href="#">Contact</a>
+  </nav>
+
+  <div class="nav-right">
+    <button class="nav-search-btn" aria-label="Search" id="navSearchBtn">
+      <svg viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round">
+        <circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/>
+      </svg>
+    </button>
+    <div class="nav-dropdown">
+      <button class="nav-menu-btn" id="menuBtn">☰</button>
+      <div class="dropdown-menu" id="dropdownMenu">
+        <a href="home.html">🏠 Home</a>
+        <a href="explore.html">🔍 Explore</a>
+        <a href="dashboard.html">📋 Dashboard</a>
+        <a href="profile.html">👤 Profile</a>
+        <a href="messages.html">💬 Messages</a>
+        <a href="../login.html" class="logout">← Logout</a>
+      </div>
     </div>
+  </div>
+</nav>
 
-    <!-- ========================
-         MAIN CONTENT
-    ======================== -->
-    <main class="main-content">
+<!-- HERO BAR -->
+<div class="hero-bar">
+  <div class="hero-bar-inner">
+    <h1 class="hero-title">Explore Skills</h1>
+    <p class="hero-subtitle">Find skills to learn and connect with teachers</p>
+    <div class="hero-search">
+      <input type="text" class="hero-search-input" id="searchInput" placeholder="Search skills, categories, teachers...">
+      <button class="hero-search-btn" id="searchBtn">
+        <svg viewBox="0 0 24 24"><circle cx="11" cy="11" r="8"/><path d="m21 21-4.35-4.35"/></svg>
+      </button>
+    </div>
+  </div>
+</div>
 
-        <p class="results-info" id="resultsInfo">Showing <span id="resultCount">12</span> skills</p>
+<!-- CATEGORY PILLS -->
+<div class="categories-bar">
+  <div class="categories-inner" id="categoryPills">
+    <button class="cat-pill active" data-cat="all">All</button>
+    <button class="cat-pill" data-cat="design">🎨 Design</button>
+    <button class="cat-pill" data-cat="music">🎵 Music</button>
+    <button class="cat-pill" data-cat="coding">💻 Coding</button>
+    <button class="cat-pill" data-cat="languages">🗣️ Languages</button>
+    <button class="cat-pill" data-cat="photography">📸 Photography</button>
+    <button class="cat-pill" data-cat="writing">✏️ Writing</button>
+    <button class="cat-pill" data-cat="marketing">📣 Marketing</button>
+  </div>
+</div>
 
-        <!-- Skills Grid -->
-        <div class="skills-grid" id="skillsGrid">
+<!-- MAIN -->
+<main class="main-content">
 
-            <!-- Card 1 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="design">
-                <p class="skill-card-category">Design</p>
-                <h3 class="skill-card-title">Adobe Photoshop Basics</h3>
-                <p class="skill-card-desc">Learn the fundamentals of Photoshop — layers, masks, and photo editing
-                    techniques...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">SJ</div>
-                        <span class="teacher-name">by Sarah Johnson</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+  <div class="results-bar">
+    <p class="results-info">Showing <span id="resultCount">12</span> skills</p>
+    <select class="sort-select" id="sortSelect">
+      <option value="default">Sort: Default</option>
+      <option value="az">A → Z</option>
+      <option value="za">Z → A</option>
+    </select>
+  </div>
 
-            <!-- Card 2 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="music">
-                <p class="skill-card-category">Music</p>
-                <h3 class="skill-card-title">Guitar for Beginners</h3>
-                <p class="skill-card-desc">Start your guitar journey with basic chords, strumming patterns and simple
-                    songs...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">ML</div>
-                        <span class="teacher-name">by Marcus Lee</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+  <div class="skills-grid" id="skillsGrid">
 
-            <!-- Card 3 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="languages">
-                <p class="skill-card-category">Languages</p>
-                <h3 class="skill-card-title">Conversational Spanish</h3>
-                <p class="skill-card-desc">Practice everyday Spanish conversation with a native speaker. All levels
-                    welcome...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">ET</div>
-                        <span class="teacher-name">by Elena Torres</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="design">
+      <p class="skill-card-category">Design</p>
+      <h3 class="skill-card-title">Adobe Photoshop Basics</h3>
+      <p class="skill-card-desc">Learn the fundamentals of Photoshop — layers, masks, and photo editing techniques...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">SJ</div><span class="teacher-name">Sarah Johnson</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 4 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="coding">
-                <p class="skill-card-category">Coding</p>
-                <h3 class="skill-card-title">Python for Beginners</h3>
-                <p class="skill-card-desc">Get started with Python programming — variables, loops, functions and mini
-                    projects...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">AM</div>
-                        <span class="teacher-name">by Arjun Mehta</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="music">
+      <p class="skill-card-category">Music</p>
+      <h3 class="skill-card-title">Guitar for Beginners</h3>
+      <p class="skill-card-desc">Start your guitar journey with basic chords, strumming patterns and simple songs...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">ML</div><span class="teacher-name">Marcus Lee</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 5 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="photography">
-                <p class="skill-card-category">Photography</p>
-                <h3 class="skill-card-title">Mobile Photography Tips</h3>
-                <p class="skill-card-desc">Take stunning photos with just your phone. Lighting, composition and editing
-                    tips...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">PS</div>
-                        <span class="teacher-name">by Priya Sharma</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="languages">
+      <p class="skill-card-category">Languages</p>
+      <h3 class="skill-card-title">Conversational Spanish</h3>
+      <p class="skill-card-desc">Practice everyday Spanish conversation with a native speaker. All levels welcome...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">ET</div><span class="teacher-name">Elena Torres</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 6 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="writing">
-                <p class="skill-card-category">Writing</p>
-                <h3 class="skill-card-title">Creative Writing Workshop</h3>
-                <p class="skill-card-desc">Develop your storytelling skills with guided writing exercises and
-                    feedback...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">JC</div>
-                        <span class="teacher-name">by James Carter</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="coding">
+      <p class="skill-card-category">Coding</p>
+      <h3 class="skill-card-title">Python for Beginners</h3>
+      <p class="skill-card-desc">Get started with Python programming — variables, loops, functions and mini projects...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">AM</div><span class="teacher-name">Arjun Mehta</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 7 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="marketing">
-                <p class="skill-card-category">Marketing</p>
-                <h3 class="skill-card-title">Social Media Marketing</h3>
-                <p class="skill-card-desc">Grow your brand on Instagram, Twitter and LinkedIn with proven strategies...
-                </p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">NP</div>
-                        <span class="teacher-name">by Nina Patel</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="photography">
+      <p class="skill-card-category">Photography</p>
+      <h3 class="skill-card-title">Mobile Photography Tips</h3>
+      <p class="skill-card-desc">Take stunning photos with just your phone. Lighting, composition and editing tips...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">PS</div><span class="teacher-name">Priya Sharma</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 8 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="coding">
-                <p class="skill-card-category">Coding</p>
-                <h3 class="skill-card-title">HTML & CSS for Beginners</h3>
-                <p class="skill-card-desc">Build your first website from scratch using HTML and CSS. No experience
-                    needed...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">DK</div>
-                        <span class="teacher-name">by David Kim</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="writing">
+      <p class="skill-card-category">Writing</p>
+      <h3 class="skill-card-title">Creative Writing Workshop</h3>
+      <p class="skill-card-desc">Develop your storytelling skills with guided writing exercises and feedback...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">JC</div><span class="teacher-name">James Carter</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 9 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="design">
-                <p class="skill-card-category">Design</p>
-                <h3 class="skill-card-title">Figma UI Design</h3>
-                <p class="skill-card-desc">Design beautiful user interfaces using Figma. Learn components, grids and
-                    prototyping...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">AK</div>
-                        <span class="teacher-name">by Aisha Malik</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="marketing">
+      <p class="skill-card-category">Marketing</p>
+      <h3 class="skill-card-title">Social Media Marketing</h3>
+      <p class="skill-card-desc">Grow your brand on Instagram, Twitter and LinkedIn with proven strategies...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">NP</div><span class="teacher-name">Nina Patel</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 10 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="music">
-                <p class="skill-card-category">Music</p>
-                <h3 class="skill-card-title">Music Production Basics</h3>
-                <p class="skill-card-desc">Create your first beats using a DAW. Learn about rhythm, melody and mixing
-                    basics...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">CR</div>
-                        <span class="teacher-name">by Carlos Rivera</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="coding">
+      <p class="skill-card-category">Coding</p>
+      <h3 class="skill-card-title">HTML &amp; CSS for Beginners</h3>
+      <p class="skill-card-desc">Build your first website from scratch using HTML and CSS. No experience needed...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">DK</div><span class="teacher-name">David Kim</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 11 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="languages">
-                <p class="skill-card-category">Languages</p>
-                <h3 class="skill-card-title">Japanese for Beginners</h3>
-                <p class="skill-card-desc">Learn Hiragana, Katakana and basic Japanese phrases for everyday
-                    conversation...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">YT</div>
-                        <span class="teacher-name">by Yuki Tanaka</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="design">
+      <p class="skill-card-category">Design</p>
+      <h3 class="skill-card-title">Figma UI Design</h3>
+      <p class="skill-card-desc">Design beautiful user interfaces using Figma. Learn components, grids and prototyping...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">AK</div><span class="teacher-name">Aisha Malik</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-            <!-- Card 12 -->
-            <a href="skill-detail.html" class="skill-card" data-cat="photography">
-                <p class="skill-card-category">Photography</p>
-                <h3 class="skill-card-title">Portrait Photography</h3>
-                <p class="skill-card-desc">Master lighting, angles and camera settings to take professional portrait
-                    photos...</p>
-                <div class="skill-card-footer">
-                    <div class="skill-card-teacher">
-                        <div class="teacher-avatar">LM</div>
-                        <span class="teacher-name">by Lena Müller</span>
-                    </div>
-                    <span class="skill-card-arrow">→</span>
-                </div>
-            </a>
+    <a href="skill-detail.html" class="skill-card" data-cat="music">
+      <p class="skill-card-category">Music</p>
+      <h3 class="skill-card-title">Music Production Basics</h3>
+      <p class="skill-card-desc">Create your first beats using a DAW. Learn about rhythm, melody and mixing basics...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">CR</div><span class="teacher-name">Carlos Rivera</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-        </div>
+    <a href="skill-detail.html" class="skill-card" data-cat="languages">
+      <p class="skill-card-category">Languages</p>
+      <h3 class="skill-card-title">Japanese for Beginners</h3>
+      <p class="skill-card-desc">Learn Hiragana, Katakana and basic Japanese phrases for everyday conversation...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">YT</div><span class="teacher-name">Yuki Tanaka</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-        <!-- Pagination -->
-        <div class="pagination">
-            <button class="page-btn" id="prevBtn" disabled>← Previous</button>
-            <span class="page-info" id="pageInfo">Page 1 of 3</span>
-            <button class="page-btn" id="nextBtn">Next →</button>
-        </div>
+    <a href="skill-detail.html" class="skill-card" data-cat="photography">
+      <p class="skill-card-category">Photography</p>
+      <h3 class="skill-card-title">Portrait Photography</h3>
+      <p class="skill-card-desc">Master lighting, angles and camera settings to take professional portrait photos...</p>
+      <div class="skill-card-footer">
+        <div class="skill-card-teacher"><div class="teacher-avatar">LM</div><span class="teacher-name">Lena Müller</span></div>
+        <span class="skill-card-arrow">→</span>
+      </div>
+    </a>
 
-    </main>
+  </div>
 
-    <!-- ========================
-         FOOTER
-    ======================== -->
-    <footer class="site-footer">
-        © 2025 SkillSwap. Exchange skills, not money.
-    </footer>
+  <!-- Pagination -->
+  <div class="pagination">
+    <button class="page-btn" id="prevBtn" disabled>← Previous</button>
+    <span class="page-info" id="pageInfo">Page 1 of 3</span>
+    <button class="page-btn" id="nextBtn">Next →</button>
+  </div>
 
-    <!-- ========================
-         JAVASCRIPT
-    ======================== -->
-    <script>
-        // Dropdown
-        const menuBtn = document.getElementById('menuBtn');
-        const dropdownMenu = document.getElementById('dropdownMenu');
-        menuBtn.addEventListener('click', (e) => {
-            e.stopPropagation();
-            dropdownMenu.classList.toggle('open');
-        });
-        document.addEventListener('click', () => dropdownMenu.classList.remove('open'));
+</main>
 
-        // Category filter
-        const pills = document.querySelectorAll('.cat-pill');
-        const cards = document.querySelectorAll('.skill-card');
-        const resultCount = document.getElementById('resultCount');
+<!-- FOOTER -->
+<footer class="site-footer">
+  © 2025 SkillSwap. Exchange skills, not money.
+</footer>
 
-        pills.forEach(pill => {
-            pill.addEventListener('click', () => {
-                pills.forEach(p => p.classList.remove('active'));
-                pill.classList.add('active');
+<script>
+  // Dropdown
+  const menuBtn      = document.getElementById('menuBtn');
+  const dropdownMenu = document.getElementById('dropdownMenu');
+  menuBtn.addEventListener('click', e => { e.stopPropagation(); dropdownMenu.classList.toggle('open'); });
+  document.addEventListener('click', () => dropdownMenu.classList.remove('open'));
 
-                const cat = pill.dataset.cat;
-                let visible = 0;
+  // Mobile nav search focus
+  document.getElementById('navSearchBtn').addEventListener('click', () => {
+    document.getElementById('searchInput').focus();
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  });
 
-                cards.forEach(card => {
-                    if (cat === 'all' || card.dataset.cat === cat) {
-                        card.style.display = 'flex';
-                        visible++;
-                    } else {
-                        card.style.display = 'none';
-                    }
-                });
+  // All cards reference
+  const allCards   = Array.from(document.querySelectorAll('.skill-card'));
+  const resultCount = document.getElementById('resultCount');
+  const grid        = document.getElementById('skillsGrid');
 
-                resultCount.textContent = visible;
-            });
-        });
+  // Category filter
+  let activeCat  = 'all';
+  let searchTerm = '';
 
-        // Search filter
-        const searchInput = document.getElementById('searchInput');
-        const searchBtn = document.getElementById('searchBtn');
+  document.querySelectorAll('.cat-pill').forEach(pill => {
+    pill.addEventListener('click', () => {
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      pill.classList.add('active');
+      activeCat = pill.dataset.cat;
+      applyFilters();
+    });
+  });
 
-        function doSearch() {
-            const q = searchInput.value.toLowerCase().trim();
-            let visible = 0;
+  // Search
+  const searchInput = document.getElementById('searchInput');
+  function doSearch() {
+    searchTerm = searchInput.value.toLowerCase().trim();
+    // reset category to all when searching
+    if (searchTerm) {
+      document.querySelectorAll('.cat-pill').forEach(p => p.classList.remove('active'));
+      document.querySelector('[data-cat="all"]').classList.add('active');
+      activeCat = 'all';
+    }
+    applyFilters();
+  }
+  document.getElementById('searchBtn').addEventListener('click', doSearch);
+  searchInput.addEventListener('input', doSearch);
+  searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
 
-            // Reset category pills
-            pills.forEach(p => p.classList.remove('active'));
-            document.querySelector('[data-cat="all"]').classList.add('active');
+  // Sort
+  document.getElementById('sortSelect').addEventListener('change', function() {
+    const cards = Array.from(grid.querySelectorAll('.skill-card'));
+    if (this.value === 'az') {
+      cards.sort((a,b) => a.querySelector('.skill-card-title').textContent.localeCompare(b.querySelector('.skill-card-title').textContent));
+    } else if (this.value === 'za') {
+      cards.sort((a,b) => b.querySelector('.skill-card-title').textContent.localeCompare(a.querySelector('.skill-card-title').textContent));
+    } else {
+      cards.sort((a,b) => allCards.indexOf(a) - allCards.indexOf(b));
+    }
+    cards.forEach(c => grid.appendChild(c));
+  });
 
-            cards.forEach(card => {
-                const title = card.querySelector('.skill-card-title').textContent.toLowerCase();
-                const desc = card.querySelector('.skill-card-desc').textContent.toLowerCase();
-                const cat = card.querySelector('.skill-card-category').textContent.toLowerCase();
+  function applyFilters() {
+    let visible = 0;
+    // remove old empty state
+    const existing = grid.querySelector('.empty-state');
+    if (existing) existing.remove();
 
-                if (!q || title.includes(q) || desc.includes(q) || cat.includes(q)) {
-                    card.style.display = 'flex';
-                    visible++;
-                } else {
-                    card.style.display = 'none';
-                }
-            });
+    allCards.forEach(card => {
+      const matchCat  = activeCat === 'all' || card.dataset.cat === activeCat;
+      const title     = card.querySelector('.skill-card-title').textContent.toLowerCase();
+      const desc      = card.querySelector('.skill-card-desc').textContent.toLowerCase();
+      const cat       = card.querySelector('.skill-card-category').textContent.toLowerCase();
+      const teacher   = card.querySelector('.teacher-name').textContent.toLowerCase();
+      const matchSearch = !searchTerm || title.includes(searchTerm) || desc.includes(searchTerm) || cat.includes(searchTerm) || teacher.includes(searchTerm);
 
-            resultCount.textContent = visible;
-        }
+      if (matchCat && matchSearch) {
+        card.style.display = 'flex'; visible++;
+      } else {
+        card.style.display = 'none';
+      }
+    });
 
-        searchBtn.addEventListener('click', doSearch);
-        searchInput.addEventListener('keydown', (e) => {
-            if (e.key === 'Enter') doSearch();
-        });
-        searchInput.addEventListener('input', doSearch);
+    resultCount.textContent = visible;
 
-        // Check URL param ?q= from home.html search
-        const params = new URLSearchParams(window.location.search);
-        const qParam = params.get('q');
-        if (qParam) {
-            searchInput.value = qParam;
-            doSearch();
-        }
+    if (visible === 0) {
+      const empty = document.createElement('div');
+      empty.className = 'empty-state';
+      empty.innerHTML = `<div class="empty-icon">🔍</div><div class="empty-title">No skills found</div><div class="empty-sub">Try a different search or category</div>`;
+      grid.appendChild(empty);
+    }
+  }
 
-        // Pagination (static UI)
-        let currentPage = 1;
-        const totalPages = 3;
-        const prevBtn = document.getElementById('prevBtn');
-        const nextBtn = document.getElementById('nextBtn');
-        const pageInfo = document.getElementById('pageInfo');
+  // URL param ?q=
+  const params = new URLSearchParams(window.location.search);
+  const qParam = params.get('q');
+  if (qParam) { searchInput.value = qParam; doSearch(); }
 
-        prevBtn.addEventListener('click', () => {
-            if (currentPage > 1) {
-                currentPage--;
-                updatePagination();
-            }
-        });
+  // Pagination
+  let currentPage = 1;
+  const totalPages = 3;
+  const prevBtn = document.getElementById('prevBtn');
+  const nextBtn = document.getElementById('nextBtn');
+  const pageInfo = document.getElementById('pageInfo');
 
-        nextBtn.addEventListener('click', () => {
-            if (currentPage < totalPages) {
-                currentPage++;
-                updatePagination();
-            }
-        });
-
-        function updatePagination() {
-            pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
-            prevBtn.disabled = currentPage === 1;
-            nextBtn.disabled = currentPage === totalPages;
-        }
-    </script>
+  function updatePagination() {
+    pageInfo.textContent = `Page ${currentPage} of ${totalPages}`;
+    prevBtn.disabled = currentPage === 1;
+    nextBtn.disabled = currentPage === totalPages;
+  }
+  prevBtn.addEventListener('click', () => { if (currentPage > 1) { currentPage--; updatePagination(); window.scrollTo({ top: 0, behavior: 'smooth' }); } });
+  nextBtn.addEventListener('click', () => { if (currentPage < totalPages) { currentPage++; updatePagination(); window.scrollTo({ top: 0, behavior: 'smooth' }); } });
+</script>
 
 </body>
-
 </html>

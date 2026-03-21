@@ -1,164 +1,646 @@
 <!DOCTYPE html>
 <html lang="en">
-
 <head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Marcus Lee's Profile - SkillSwap</title>
-    <link rel="stylesheet" href="../css/main.css">
-    <link rel="stylesheet" href="../css/components.css">
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Marcus Lee — SkillSwap</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+
+<style>
+:root {
+  --bg:       #0E0E0E;
+  --bg2:      #161616;
+  --bg3:      #1E1E1E;
+  --bg4:      #252525;
+  --border:   rgba(255,255,255,0.08);
+  --border2:  rgba(255,255,255,0.14);
+
+  --flame:    #F97316;
+  --flame-dk: #EA6A0A;
+  --flame-lt: #FB923C;
+  --amber:    #FBBF24;
+  --glow:     rgba(249,115,22,0.18);
+  --glow-sm:  rgba(249,115,22,0.10);
+
+  --ink:      #FFFAF5;
+  --ink2:     #D1CCBF;
+  --ink3:     #8A857A;
+  --ink4:     #4A4740;
+
+  --error:      #f87171;
+  --error-bg:   rgba(248,113,113,0.10);
+  --error-br:   rgba(248,113,113,0.25);
+  --success:    #4ade80;
+  --success-bg: rgba(74,222,128,0.10);
+  --success-br: rgba(74,222,128,0.25);
+
+  --font-head: 'Syne', sans-serif;
+  --font-body: 'Instrument Sans', sans-serif;
+  --r-btn: 50px;
+  --r-card: 18px;
+}
+
+*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
+html { scroll-behavior: smooth; }
+
+body {
+  font-family: var(--font-body);
+  background: var(--bg);
+  color: var(--ink);
+  min-height: 100vh;
+  display: flex; flex-direction: column;
+}
+body::before {
+  content: '';
+  position: fixed; inset: 0; z-index: 0;
+  background-image:
+    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
+  background-size: 44px 44px;
+  pointer-events: none;
+}
+a { text-decoration: none; color: inherit; }
+ul { list-style: none; }
+
+/* ── NAVBAR ── */
+.navbar {
+  position: sticky; top: 0; z-index: 999;
+  background: rgba(14,14,14,0.92); backdrop-filter: blur(18px);
+  border-bottom: 1px solid var(--border);
+  padding: 0 3rem; height: 66px;
+  display: flex; align-items: center; justify-content: space-between;
+}
+.logo-wrap { display: flex; align-items: center; gap: 10px; }
+.logo-icon {
+  width: 36px; height: 36px; border-radius: 10px;
+  background: var(--flame); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
+}
+.logo-icon svg { width: 20px; height: 20px; }
+.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; }
+.nav-links { display: flex; align-items: center; gap: 2rem; }
+.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
+.nav-links a:hover { color: var(--ink); }
+.nav-links a.active { color: var(--flame-lt); }
+.btn-nav-logout {
+  font-size: 0.875rem; font-weight: 500; color: var(--ink3);
+  border: 1px solid var(--border2); border-radius: var(--r-btn);
+  padding: 6px 16px; transition: all 0.2s;
+}
+.btn-nav-logout:hover { color: var(--error); border-color: rgba(248,113,113,0.3); }
+.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
+.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
+
+/* ── LAYOUT ── */
+.main-content { flex: 1; position: relative; z-index: 1; }
+.page-wrap {
+  max-width: 1100px; margin: 0 auto;
+  padding: 3rem;
+  display: grid; grid-template-columns: 300px 1fr;
+  gap: 2.5rem; align-items: start;
+}
+
+/* ── ALERTS ── */
+.alert {
+  padding: 0.75rem 1rem; border-radius: 10px;
+  font-size: 0.85rem; margin-bottom: 1.2rem;
+  display: none; align-items: center; gap: 8px; font-weight: 500;
+  grid-column: 1 / -1;
+}
+.alert-error   { background: var(--error-bg);   color: var(--error);   border: 1px solid var(--error-br); }
+.alert-success { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-br); }
+
+/* ── SIDEBAR ── */
+.sidebar { display: flex; flex-direction: column; gap: 1.5rem; }
+
+.profile-card {
+  background: var(--bg2); border: 1px solid var(--border2);
+  border-radius: 22px; padding: 2rem;
+  text-align: center; position: relative; overflow: hidden;
+}
+.profile-card::before {
+  content: ''; position: absolute; top: -60px; right: -60px;
+  width: 200px; height: 200px; border-radius: 50%;
+  background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%);
+  pointer-events: none;
+}
+.avatar {
+  width: 88px; height: 88px; border-radius: 50%;
+  background: var(--bg3); color: var(--flame-lt);
+  font-family: var(--font-head); font-size: 2.2rem; font-weight: 800;
+  display: flex; align-items: center; justify-content: center;
+  margin: 0 auto 1rem;
+  border: 2px solid var(--border2);
+}
+.profile-name {
+  font-family: var(--font-head); font-size: 1.3rem; font-weight: 800;
+  letter-spacing: -0.02em; color: var(--ink); margin-bottom: 4px;
+}
+.profile-location { font-size: 0.82rem; color: var(--ink3); margin-bottom: 1rem; }
+.profile-rating {
+  display: inline-flex; align-items: center; gap: 5px;
+  background: var(--glow-sm); border: 1px solid rgba(249,115,22,0.2);
+  border-radius: 50px; padding: 5px 14px; margin-bottom: 1.2rem;
+  font-size: 0.8rem; font-weight: 600; color: var(--flame-lt);
+}
+.profile-stats {
+  display: grid; grid-template-columns: 1fr 1fr;
+  gap: 1px; background: var(--border);
+  border-radius: 12px; overflow: hidden; margin-bottom: 1.2rem;
+}
+.pstat { background: var(--bg3); padding: 12px 8px; text-align: center; }
+.pstat-val { font-family: var(--font-head); font-size: 1.3rem; font-weight: 800; color: var(--ink); line-height: 1; }
+.pstat-lbl { font-size: 0.68rem; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.06em; margin-top: 3px; }
+
+/* CTA buttons in sidebar */
+.sidebar-actions { display: flex; flex-direction: column; gap: 8px; }
+.btn-swap {
+  width: 100%; padding: 0.85rem;
+  background: var(--flame); color: #1a0a00;
+  font-family: var(--font-head); font-size: 0.9rem; font-weight: 700;
+  border: none; border-radius: var(--r-btn); cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 0 20px rgba(249,115,22,0.3); letter-spacing: -0.01em;
+}
+.btn-swap:hover { background: var(--flame-lt); box-shadow: 0 0 32px rgba(249,115,22,0.45); transform: translateY(-1px); }
+.btn-message {
+  width: 100%; padding: 0.82rem;
+  background: transparent; color: var(--ink2);
+  font-family: var(--font-body); font-size: 0.875rem; font-weight: 500;
+  border: 1px solid var(--border2); border-radius: var(--r-btn); cursor: pointer;
+  transition: all 0.2s;
+}
+.btn-message:hover { background: var(--bg3); color: var(--ink); border-color: var(--border2); }
+
+/* Bio card */
+.bio-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r-card); padding: 1.4rem;
+}
+.bio-card-title {
+  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
+  text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink3);
+  margin-bottom: 8px;
+}
+.bio-text { font-size: 0.875rem; color: var(--ink2); line-height: 1.7; }
+
+/* ── CONTENT ── */
+.content { display: flex; flex-direction: column; gap: 2rem; }
+
+/* Section card */
+.section-card {
+  background: var(--bg2); border: 1px solid var(--border);
+  border-radius: var(--r-card); overflow: hidden;
+}
+.section-head {
+  display: flex; align-items: center; justify-content: space-between;
+  padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border);
+}
+.section-head-title {
+  font-family: var(--font-head); font-size: 1rem; font-weight: 800;
+  letter-spacing: -0.02em; display: flex; align-items: center; gap: 8px;
+}
+.section-count {
+  font-size: 0.72rem; font-weight: 600; text-transform: uppercase;
+  letter-spacing: 0.06em; padding: 3px 10px; border-radius: 50px;
+  background: var(--glow-sm); color: var(--flame-lt); border: 1px solid rgba(249,115,22,0.2);
+}
+
+/* Skill rows */
+.skill-rows { padding: 0.5rem 0; }
+.skill-row {
+  display: flex; align-items: center; gap: 12px;
+  padding: 10px 1.5rem; border-bottom: 1px solid var(--border);
+  transition: background 0.15s;
+}
+.skill-row:last-child { border-bottom: none; }
+.skill-row:hover { background: rgba(255,255,255,0.02); }
+.skill-row-icon {
+  width: 36px; height: 36px; border-radius: 8px; flex-shrink: 0;
+  background: var(--bg3); border: 1px solid var(--border);
+  display: flex; align-items: center; justify-content: center; font-size: 1rem;
+}
+.skill-row-info { flex: 1; min-width: 0; }
+.skill-row-name {
+  font-size: 0.88rem; font-weight: 600; color: var(--ink); transition: color 0.2s;
+  white-space: nowrap; overflow: hidden; text-overflow: ellipsis; display: block;
+}
+a.skill-row-name:hover { color: var(--flame-lt); }
+.skill-row-cat {
+  display: inline-block; font-size: 0.68rem; font-weight: 600;
+  text-transform: uppercase; letter-spacing: 0.05em;
+  padding: 2px 8px; border-radius: 50px; margin-top: 2px;
+  background: var(--bg4); color: var(--ink3); border: 1px solid var(--border);
+}
+.btn-request {
+  background: var(--glow-sm); color: var(--flame-lt);
+  border: 1px solid rgba(249,115,22,0.25); border-radius: 50px;
+  padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
+  cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
+  white-space: nowrap; flex-shrink: 0;
+}
+.btn-request:hover { background: var(--glow); border-color: rgba(249,115,22,0.45); }
+
+/* ── REVIEWS ── */
+.reviews-list { padding: 0.5rem 0; }
+.review-card {
+  padding: 1.2rem 1.5rem; border-bottom: 1px solid var(--border); transition: background 0.15s;
+}
+.review-card:hover { background: rgba(255,255,255,0.015); }
+.review-head {
+  display: flex; align-items: center; gap: 10px; margin-bottom: 8px; flex-wrap: wrap;
+}
+.review-avatar {
+  width: 30px; height: 30px; border-radius: 50%;
+  background: var(--bg4); border: 1px solid var(--border2);
+  display: flex; align-items: center; justify-content: center;
+  font-family: var(--font-head); font-size: 0.72rem; font-weight: 700;
+  color: var(--ink2); flex-shrink: 0;
+}
+.review-author { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--ink); }
+.review-stars { color: var(--amber); font-size: 0.85rem; letter-spacing: 1px; }
+.review-date { font-size: 0.75rem; color: var(--ink3); margin-left: auto; }
+.review-text { font-size: 0.85rem; color: var(--ink2); line-height: 1.65; }
+
+/* ── LEAVE REVIEW ── */
+.leave-review {
+  border-top: 1px solid var(--border);
+  padding: 1.5rem;
+  background: rgba(249,115,22,0.02);
+}
+.leave-review-title {
+  font-family: var(--font-head); font-size: 0.95rem; font-weight: 800;
+  letter-spacing: -0.01em; margin-bottom: 1.2rem;
+  display: flex; align-items: center; gap: 8px;
+}
+.leave-review-title::before {
+  content: '✍️'; font-size: 1rem;
+}
+.form-group { margin-bottom: 1rem; }
+.form-group label {
+  display: block; font-size: 0.78rem; font-weight: 600;
+  color: var(--ink2); margin-bottom: 6px; letter-spacing: 0.02em;
+}
+.form-group select,
+.form-group textarea {
+  width: 100%;
+  border: 1px solid var(--border2); border-radius: 10px;
+  font-size: 0.875rem; font-family: var(--font-body);
+  background: var(--bg3); color: var(--ink);
+  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
+  padding: 0.65rem 0.9rem;
+}
+.form-group textarea { resize: vertical; min-height: 90px; line-height: 1.6; }
+.form-group select {
+  appearance: none; -webkit-appearance: none;
+  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A857A' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+  background-repeat: no-repeat; background-position: right 12px center;
+  padding-right: 34px; cursor: pointer;
+}
+.form-group select option { background: var(--bg3); color: var(--ink); }
+.form-group select:focus,
+.form-group textarea:focus {
+  border-color: var(--flame); box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
+}
+.form-group textarea::placeholder { color: var(--ink4); }
+
+/* star rating interactive */
+.star-picker { display: flex; gap: 4px; margin-bottom: 1rem; }
+.star-picker button {
+  background: none; border: none; cursor: pointer;
+  font-size: 1.6rem; color: var(--ink4); transition: color 0.15s, transform 0.1s;
+  padding: 0; line-height: 1;
+}
+.star-picker button:hover,
+.star-picker button.lit { color: var(--amber); transform: scale(1.15); }
+
+.review-form-row { display: flex; gap: 10px; align-items: flex-start; }
+.review-form-row .form-group { flex: 1; margin-bottom: 0; }
+.btn-submit-review {
+  padding: 0.82rem 1.8rem;
+  background: var(--flame); color: #1a0a00;
+  font-family: var(--font-head); font-size: 0.88rem; font-weight: 700;
+  border: none; border-radius: var(--r-btn); cursor: pointer;
+  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+  box-shadow: 0 0 18px rgba(249,115,22,0.3); white-space: nowrap; align-self: flex-end;
+}
+.btn-submit-review:hover { background: var(--flame-lt); box-shadow: 0 0 28px rgba(249,115,22,0.45); transform: translateY(-1px); }
+.btn-submit-review:active { transform: scale(0.98); }
+
+/* ── FOOTER ── */
+.site-footer {
+  position: relative; z-index: 1;
+  text-align: center; padding: 1.2rem;
+  font-size: 0.78rem; color: var(--ink4);
+  border-top: 1px solid var(--border); background: var(--bg2);
+}
+
+/* ── RESPONSIVE ── */
+@media (max-width: 900px) {
+  .page-wrap { grid-template-columns: 1fr; padding: 2rem 1.5rem; }
+  .review-form-row { flex-direction: column; }
+  .btn-submit-review { width: 100%; }
+}
+@media (max-width: 640px) {
+  .navbar { padding: 0 1.5rem; }
+  .nav-links { display: none; }
+  .nav-toggle { display: flex; }
+}
+
+/* ── ANIMATIONS ── */
+.fade-up { opacity: 0; transform: translateY(14px); animation: fuAnim 0.5s ease forwards; }
+.fade-up:nth-child(1){animation-delay:.05s}
+.fade-up:nth-child(2){animation-delay:.13s}
+.fade-up:nth-child(3){animation-delay:.21s}
+.fade-up:nth-child(4){animation-delay:.29s}
+@keyframes fuAnim { to { opacity:1; transform:translateY(0); } }
+</style>
 </head>
-
 <body>
-    <header class="site-header">
-        <nav class="nav-container">
-            <a href="../index.html" class="logo">SkillSwap</a>
-            <ul class="nav-links">
-                <li><a href="explore.html">Explore</a></li>
-                <li><a href="dashboard.html">Dashboard</a></li>
-                <li><a href="profile.html">Profile</a></li>
-                <li><a href="../index.html">Logout</a></li>
-            </ul>
-            <button class="nav-toggle" aria-label="Toggle menu">
-                <span></span><span></span><span></span>
-            </button>
-        </nav>
-    </header>
 
-    <main class="main-content">
-        <div class="container profile-page">
+<!-- NAVBAR -->
+<nav class="navbar">
+  <a href="../index.html" class="logo-wrap">
+    <div class="logo-icon">
+      <svg viewBox="0 0 24 24" fill="none">
+        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
+        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
+      </svg>
+    </div>
+    <span class="logo-name">SkillSwap</span>
+  </a>
+  <ul class="nav-links" id="navLinks">
+    <li><a href="explore.html">Explore</a></li>
+    <li><a href="dashboard.html">Dashboard</a></li>
+    <li><a href="profile.html">Profile</a></li>
+    <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
+  </ul>
+  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+</nav>
 
-            <!-- Alerts -->
-            <div class="alert alert-success" id="formSuccess" style="display:none;"></div>
-            <div class="alert alert-error" id="formError" style="display:none;"></div>
+<!-- MAIN -->
+<main class="main-content">
+  <div class="page-wrap">
 
-            <!-- Profile Header -->
-            <div class="profile-header">
-                <div class="profile-avatar">M</div>
-                <div class="profile-info">
-                    <h1>Marcus Lee</h1>
-                    <p class="profile-location">Delhi, India</p>
-                </div>
-            </div>
+    <!-- Alerts -->
+    <div class="alert alert-success" id="formSuccess"></div>
+    <div class="alert alert-error"   id="formError"></div>
 
-            <!-- Bio (read only - not own profile) -->
-            <div class="profile-bio">
-                <p>Passionate guitarist with 8 years of experience. I love teaching beginners and helping them find
-                    their rhythm. Currently learning digital design and photography on the side.</p>
-            </div>
+    <!-- ── SIDEBAR ── -->
+    <aside class="sidebar">
 
-            <!-- Skills Offered Section -->
-            <section class="profile-section">
-                <h2>Skills Offered</h2>
-                <ul class="skill-list">
-                    <li>
-                        <a href="skill-detail.html">Guitar for Beginners</a>
-                        <span class="skill-meta">Music</span>
-                    </li>
-                    <li>
-                        <a href="skill-detail.html">Music Theory Basics</a>
-                        <span class="skill-meta">Music</span>
-                    </li>
-                    <li>
-                        <a href="skill-detail.html">Ukulele for Beginners</a>
-                        <span class="skill-meta">Music</span>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Skills Wanted Section -->
-            <section class="profile-section">
-                <h2>Skills Wanted</h2>
-                <ul class="skill-list">
-                    <li>
-                        Adobe Photoshop Basics
-                        <span class="skill-meta">Design</span>
-                    </li>
-                    <li>
-                        Figma UI Design
-                        <span class="skill-meta">Design</span>
-                    </li>
-                </ul>
-            </section>
-
-            <!-- Reviews Section -->
-            <section class="profile-section">
-                <h2>Reviews</h2>
-                <div class="reviews-list">
-
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="review-rating">★★★★★</span>
-                            <span class="review-author">Sarah Johnson</span>
-                            <span class="review-date">Jan 8, 2025</span>
-                        </div>
-                        <p>Marcus is a fantastic guitar teacher! Very patient and explains everything clearly. Highly
-                            recommend!</p>
-                    </div>
-
-                    <div class="review-card">
-                        <div class="review-header">
-                            <span class="review-rating">★★★★☆</span>
-                            <span class="review-author">Priya Sharma</span>
-                            <span class="review-date">Dec 15, 2024</span>
-                        </div>
-                        <p>Great sessions with Marcus. He really knows his music theory and makes it easy to understand.
-                        </p>
-                    </div>
-
-                </div>
-
-                <!-- Leave a Review Form -->
-                <div class="leave-review">
-                    <h3>Leave a Review</h3>
-                    <form class="review-form">
-                        <input type="hidden" name="action" value="leave_review">
-                        <div class="form-group">
-                            <label for="rating">Rating</label>
-                            <select id="rating" name="rating" required>
-                                <option value="">Select rating</option>
-                                <option value="5">★★★★★ — Excellent</option>
-                                <option value="4">★★★★☆ — Good</option>
-                                <option value="3">★★★☆☆ — Average</option>
-                                <option value="2">★★☆☆☆ — Poor</option>
-                                <option value="1">★☆☆☆☆ — Terrible</option>
-                            </select>
-                        </div>
-                        <div class="form-group">
-                            <label for="comment">Comment</label>
-                            <textarea id="comment" name="comment" rows="3"
-                                placeholder="Share your experience..."></textarea>
-                        </div>
-                        <button type="submit" class="btn btn-primary">Submit Review</button>
-                    </form>
-                </div>
-            </section>
-
+      <!-- Profile card -->
+      <div class="profile-card fade-up">
+        <div class="avatar">M</div>
+        <div class="profile-name">Marcus Lee</div>
+        <div class="profile-location">📍 Delhi, India</div>
+        <div class="profile-rating">⭐ 4.8 · 14 reviews</div>
+        <div class="profile-stats">
+          <div class="pstat">
+            <div class="pstat-val">3</div>
+            <div class="pstat-lbl">Offering</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-val">2</div>
+            <div class="pstat-lbl">Wanting</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-val">14</div>
+            <div class="pstat-lbl">Swaps</div>
+          </div>
+          <div class="pstat">
+            <div class="pstat-val">8yr</div>
+            <div class="pstat-lbl">Exp.</div>
+          </div>
         </div>
-    </main>
-
-    <footer class="site-footer">
-        <div class="footer-container">
-            <p>&copy; 2025 SkillSwap. Exchange skills, not money.</p>
+        <div class="sidebar-actions">
+          <button class="btn-swap" onclick="window.location.href='swap-request.html'">🔥 Request a Swap</button>
+          <button class="btn-message" id="msgBtn">💬 Send Message</button>
         </div>
-    </footer>
+      </div>
 
-    <script src="../js/main.js"></script>
+      <!-- Bio -->
+      <div class="bio-card fade-up">
+        <div class="bio-card-title">About</div>
+        <div class="bio-text">Passionate guitarist with 8 years of experience. I love teaching beginners and helping them find their rhythm. Currently learning digital design and photography on the side.</div>
+      </div>
+
+    </aside>
+
+    <!-- ── CONTENT ── -->
+    <div class="content">
+
+      <!-- Skills Offered -->
+      <div class="section-card fade-up">
+        <div class="section-head">
+          <div class="section-head-title">🎵 Skills Offered</div>
+          <span class="section-count">3 skills</span>
+        </div>
+        <div class="skill-rows">
+          <div class="skill-row">
+            <div class="skill-row-icon">🎸</div>
+            <div class="skill-row-info">
+              <a href="skill-detail.html" class="skill-row-name">Guitar for Beginners</a>
+              <div class="skill-row-cat">Music</div>
+            </div>
+            <button class="btn-request" onclick="window.location.href='swap-request.html'">Swap →</button>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row-icon">🎼</div>
+            <div class="skill-row-info">
+              <a href="skill-detail.html" class="skill-row-name">Music Theory Basics</a>
+              <div class="skill-row-cat">Music</div>
+            </div>
+            <button class="btn-request" onclick="window.location.href='swap-request.html'">Swap →</button>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row-icon">🪕</div>
+            <div class="skill-row-info">
+              <a href="skill-detail.html" class="skill-row-name">Ukulele for Beginners</a>
+              <div class="skill-row-cat">Music</div>
+            </div>
+            <button class="btn-request" onclick="window.location.href='swap-request.html'">Swap →</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- Skills Wanted -->
+      <div class="section-card fade-up">
+        <div class="section-head">
+          <div class="section-head-title">✨ Skills Wanted</div>
+          <span class="section-count">2 skills</span>
+        </div>
+        <div class="skill-rows">
+          <div class="skill-row">
+            <div class="skill-row-icon">🖼️</div>
+            <div class="skill-row-info">
+              <div class="skill-row-name">Adobe Photoshop Basics</div>
+              <div class="skill-row-cat">Design</div>
+            </div>
+          </div>
+          <div class="skill-row">
+            <div class="skill-row-icon">✏️</div>
+            <div class="skill-row-info">
+              <div class="skill-row-name">Figma UI Design</div>
+              <div class="skill-row-cat">Design</div>
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <!-- Reviews + Leave a Review -->
+      <div class="section-card fade-up">
+        <div class="section-head">
+          <div class="section-head-title">⭐ Reviews</div>
+          <span class="section-count">2 reviews · 4.8 avg</span>
+        </div>
+
+        <div class="reviews-list" id="reviewsList">
+          <div class="review-card">
+            <div class="review-head">
+              <div class="review-avatar">SJ</div>
+              <div class="review-author">Sarah Johnson</div>
+              <div class="review-stars">★★★★★</div>
+              <div class="review-date">Jan 8, 2025</div>
+            </div>
+            <div class="review-text">Marcus is a fantastic guitar teacher! Very patient and explains everything clearly. Highly recommend!</div>
+          </div>
+          <div class="review-card">
+            <div class="review-head">
+              <div class="review-avatar">PS</div>
+              <div class="review-author">Priya Sharma</div>
+              <div class="review-stars">★★★★<span style="color:var(--ink4)">★</span></div>
+              <div class="review-date">Dec 15, 2024</div>
+            </div>
+            <div class="review-text">Great sessions with Marcus. He really knows his music theory and makes it easy to understand.</div>
+          </div>
+        </div>
+
+        <!-- Leave a Review -->
+        <div class="leave-review">
+          <div class="leave-review-title">Leave a Review</div>
+
+          <!-- Interactive star picker -->
+          <div class="star-picker" id="starPicker" aria-label="Star rating">
+            <button type="button" data-val="1">★</button>
+            <button type="button" data-val="2">★</button>
+            <button type="button" data-val="3">★</button>
+            <button type="button" data-val="4">★</button>
+            <button type="button" data-val="5">★</button>
+          </div>
+
+          <form id="reviewForm">
+            <input type="hidden" id="ratingVal" name="rating" value="">
+            <div class="review-form-row">
+              <div class="form-group">
+                <label for="comment">Your experience</label>
+                <textarea id="comment" name="comment" rows="3" placeholder="Share your experience with Marcus..."></textarea>
+              </div>
+            </div>
+            <div style="margin-top:10px">
+              <button type="submit" class="btn-submit-review">Submit Review →</button>
+            </div>
+          </form>
+        </div>
+      </div>
+
+    </div><!-- /content -->
+  </div><!-- /page-wrap -->
+</main>
+
+<!-- FOOTER -->
+<footer class="site-footer">
+  © 2025 SkillSwap. Exchange skills, not money.
+</footer>
+
+<script>
+  // Mobile nav
+  const navToggle = document.getElementById('navToggle');
+  const navLinks  = document.getElementById('navLinks');
+  navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
+  document.addEventListener('click', e => {
+    if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
+      navLinks.classList.remove('mob-open');
+  });
+  const s = document.createElement('style');
+  s.textContent = `@media(max-width:640px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
+  document.head.appendChild(s);
+
+  // Alerts helper
+  const successAlert = document.getElementById('formSuccess');
+  const errorAlert   = document.getElementById('formError');
+  function showAlert(type, msg) {
+    const el = type === 'success' ? successAlert : errorAlert;
+    const other = type === 'success' ? errorAlert : successAlert;
+    el.textContent = msg;
+    el.style.display = 'flex';
+    other.style.display = 'none';
+    setTimeout(() => { el.style.display = 'none'; }, 3500);
+  }
+
+  // Star picker
+  let selectedRating = 0;
+  const stars = document.querySelectorAll('#starPicker button');
+  stars.forEach(btn => {
+    btn.addEventListener('mouseenter', () => highlightStars(+btn.dataset.val));
+    btn.addEventListener('mouseleave', () => highlightStars(selectedRating));
+    btn.addEventListener('click', () => {
+      selectedRating = +btn.dataset.val;
+      document.getElementById('ratingVal').value = selectedRating;
+      highlightStars(selectedRating);
+    });
+  });
+  function highlightStars(n) {
+    stars.forEach(b => b.classList.toggle('lit', +b.dataset.val <= n));
+  }
+
+  // Submit review
+  document.getElementById('reviewForm').addEventListener('submit', function(e) {
+    e.preventDefault();
+    const rating  = selectedRating;
+    const comment = document.getElementById('comment').value.trim();
+
+    if (!rating) { showAlert('error', 'Please select a star rating.'); return; }
+    if (!comment) { showAlert('error', 'Please write a comment.'); return; }
+
+    // Build star string
+    const starStr = '★'.repeat(rating) + (rating < 5 ? '☆'.repeat(5 - rating) : '');
+
+    // Append new review
+    const list = document.getElementById('reviewsList');
+    const div  = document.createElement('div');
+    div.className = 'review-card';
+    div.style.opacity = '0';
+    div.innerHTML = `
+      <div class="review-head">
+        <div class="review-avatar" style="background:var(--glow-sm);color:var(--flame-lt);border-color:rgba(249,115,22,0.2)">You</div>
+        <div class="review-author">You</div>
+        <div class="review-stars">${starStr}</div>
+        <div class="review-date">Just now</div>
+      </div>
+      <div class="review-text">${comment}</div>`;
+    list.appendChild(div);
+    requestAnimationFrame(() => { div.style.transition = 'opacity 0.4s'; div.style.opacity = '1'; });
+
+    // Update count badge
+    const countEl = document.querySelector('.section-count:last-of-type');
+    const newCount = list.querySelectorAll('.review-card').length;
+    if (countEl) countEl.textContent = `${newCount} reviews`;
+
+    // Reset form
+    this.reset();
+    selectedRating = 0;
+    highlightStars(0);
+    document.getElementById('ratingVal').value = '';
+
+    showAlert('success', '✅ Your review has been submitted!');
+  });
+
+  // Message button
+  document.getElementById('msgBtn').addEventListener('click', () => {
+    showAlert('success', '💬 Message feature coming soon!');
+  });
+</script>
+
 </body>
-
 </html>
-<!-- ```
-
----
-
-**How it connects:**
-```
-pages/other-profile.html
-├── styles → ../css/main.css
-├── styles → ../css/components.css
-├── links → ../index.html
-├── links → explore.html
-├── links → dashboard.html
-├── links → profile.html
-├── links → skill-detail.html
-└── script → ../js/main.js -->
