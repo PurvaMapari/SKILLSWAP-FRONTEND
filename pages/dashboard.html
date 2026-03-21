@@ -7,30 +7,30 @@
   <title>Dashboard — SkillSwap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
-    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap"
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap"
     rel="stylesheet">
-
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
   <style>
+    /* ── DASHBOARD PAGE SPECIFIC ── */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
+
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
+
+    /* Status colors */
     :root {
-      --bg: #0E0E0E;
-      --bg2: #161616;
-      --bg3: #1E1E1E;
-      --bg4: #252525;
-      --border: rgba(255, 255, 255, 0.08);
-      --border2: rgba(255, 255, 255, 0.14);
-
-      --flame: #F97316;
-      --flame-dk: #EA6A0A;
-      --flame-lt: #FB923C;
-      --amber: #FBBF24;
-      --glow: rgba(249, 115, 22, 0.18);
-      --glow-sm: rgba(249, 115, 22, 0.10);
-
-      --ink: #FFFAF5;
-      --ink2: #D1CCBF;
-      --ink3: #8A857A;
-      --ink4: #4A4740;
-
       --c-pending: #fbbf24;
       --c-pending-bg: rgba(251, 191, 36, 0.10);
       --c-pending-br: rgba(251, 191, 36, 0.25);
@@ -40,114 +40,10 @@
       --c-reject: #f87171;
       --c-reject-bg: rgba(248, 113, 113, 0.10);
       --c-reject-br: rgba(248, 113, 113, 0.25);
-
-      --font-head: 'Syne', sans-serif;
-      --font-body: 'Instrument Sans', sans-serif;
-      --r-btn: 50px;
-      --r-card: 16px;
-    }
-
-    *,
-    *::before,
-    *::after {
-      box-sizing: border-box;
-      margin: 0;
-      padding: 0;
-    }
-
-    html {
-      scroll-behavior: smooth;
-    }
-
-    body {
-      font-family: var(--font-body);
-      background: var(--bg);
-      color: var(--ink);
-      min-height: 100vh;
-      display: flex;
-      flex-direction: column;
-    }
-
-    body::before {
-      content: '';
-      position: fixed;
-      inset: 0;
-      z-index: 0;
-      background-image:
-        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
-        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
-      background-size: 44px 44px;
-      pointer-events: none;
-    }
-
-    a {
-      text-decoration: none;
-      color: inherit;
-    }
-
-    ul {
-      list-style: none;
-    }
-
-    /* ── NAVBAR ── */
-    .navbar {
-      position: sticky;
-      top: 0;
-      z-index: 999;
-      background: rgba(14, 14, 14, 0.92);
-      backdrop-filter: blur(18px);
-      border-bottom: 1px solid var(--border);
-      padding: 0 3rem;
-      height: 66px;
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-    }
-
-    .logo-wrap {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-    }
-
-    .logo-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 10px;
-      background: var(--flame);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      flex-shrink: 0;
-    }
-
-    .logo-icon svg {
-      width: 20px;
-      height: 20px;
-    }
-
-    .logo-name {
-      font-family: var(--font-head);
-      font-weight: 800;
-      font-size: 1.2rem;
-      letter-spacing: -0.03em;
     }
 
     .nav-links {
-      display: flex;
-      align-items: center;
-      gap: 2rem;
-    }
-
-    .nav-links a {
-      font-size: 0.875rem;
-      font-weight: 500;
-      color: var(--ink3);
-      transition: color 0.2s;
-    }
-
-    .nav-links a:hover {
-      color: var(--ink);
+      list-style: none;
     }
 
     .nav-links a.active {
@@ -165,8 +61,8 @@
     }
 
     .btn-nav-logout:hover {
-      color: var(--c-reject);
-      border-color: var(--c-reject-br);
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.3);
     }
 
     .nav-toggle {
@@ -187,7 +83,7 @@
       border-radius: 2px;
     }
 
-    /* ── PAGE HEADER ── */
+    /* Page header */
     .page-header {
       background: var(--bg2);
       border-bottom: 1px solid var(--border);
@@ -225,7 +121,6 @@
       color: var(--ink3);
     }
 
-    /* ── MAIN LAYOUT ── */
     .main-content {
       flex: 1;
       position: relative;
@@ -238,7 +133,7 @@
       padding: 2.5rem 3rem;
     }
 
-    /* ── ALERTS ── */
+    /* Alerts */
     .alert {
       padding: 0.75rem 1rem;
       border-radius: 10px;
@@ -251,18 +146,18 @@
     }
 
     .alert-error {
-      background: var(--c-reject-bg);
-      color: var(--c-reject);
-      border: 1px solid var(--c-reject-br);
+      background: rgba(248, 113, 113, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.25);
     }
 
     .alert-success {
-      background: var(--c-accept-bg);
-      color: var(--c-accept);
-      border: 1px solid var(--c-accept-br);
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.25);
     }
 
-    /* ── TABS ── */
+    /* Tabs */
     .tabs-bar {
       display: flex;
       gap: 4px;
@@ -311,11 +206,6 @@
       color: inherit;
     }
 
-    .tab-btn.active .tab-badge {
-      background: rgba(0, 0, 0, 0.2);
-    }
-
-    /* ── TAB PANELS ── */
     .tab-panel {
       display: none;
       animation: fadeIn 0.25s ease;
@@ -337,14 +227,13 @@
       }
     }
 
-    /* ── SECTION LABEL ── */
     .section-note {
       font-size: 0.82rem;
       color: var(--ink3);
       margin-bottom: 1.2rem;
     }
 
-    /* ── REQUEST CARDS ── */
+    /* Request cards */
     .request-list {
       display: flex;
       flex-direction: column;
@@ -354,7 +243,7 @@
     .request-card {
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: var(--r-card);
+      border-radius: 16px;
       padding: 1.4rem 1.5rem;
       display: flex;
       align-items: flex-start;
@@ -375,15 +264,15 @@
     }
 
     .request-card.status-pending::before {
-      background: var(--c-pending);
+      background: #fbbf24;
     }
 
     .request-card.status-accepted::before {
-      background: var(--c-accept);
+      background: #4ade80;
     }
 
     .request-card.status-rejected::before {
-      background: var(--c-reject);
+      background: #f87171;
       opacity: 0.5;
     }
 
@@ -395,7 +284,6 @@
       opacity: 0.6;
     }
 
-    /* avatar */
     .req-avatar {
       width: 44px;
       height: 44px;
@@ -411,7 +299,6 @@
       border: 1px solid var(--border2);
     }
 
-    /* info block */
     .req-body {
       flex: 1;
       min-width: 0;
@@ -455,7 +342,6 @@
       margin-top: 5px;
     }
 
-    /* actions */
     .req-actions {
       display: flex;
       align-items: center;
@@ -464,7 +350,7 @@
       flex-wrap: wrap;
     }
 
-    /* status badge */
+    /* Status badges */
     .status-badge {
       display: inline-flex;
       align-items: center;
@@ -478,28 +364,28 @@
     }
 
     .badge-pending {
-      background: var(--c-pending-bg);
-      color: var(--c-pending);
-      border: 1px solid var(--c-pending-br);
+      background: rgba(251, 191, 36, 0.1);
+      color: #fbbf24;
+      border: 1px solid rgba(251, 191, 36, 0.25);
     }
 
     .badge-accepted {
-      background: var(--c-accept-bg);
-      color: var(--c-accept);
-      border: 1px solid var(--c-accept-br);
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.25);
     }
 
     .badge-rejected {
-      background: var(--c-reject-bg);
-      color: var(--c-reject);
-      border: 1px solid var(--c-reject-br);
+      background: rgba(248, 113, 113, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.25);
     }
 
-    /* ── BUTTONS ── */
+    /* Action buttons */
     .btn-accept {
-      background: var(--c-accept-bg);
-      color: var(--c-accept);
-      border: 1px solid var(--c-accept-br);
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.25);
       border-radius: var(--r-btn);
       padding: 7px 18px;
       font-size: 0.8rem;
@@ -515,9 +401,9 @@
     }
 
     .btn-reject {
-      background: var(--c-reject-bg);
-      color: var(--c-reject);
-      border: 1px solid var(--c-reject-br);
+      background: rgba(248, 113, 113, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.25);
       border-radius: var(--r-btn);
       padding: 7px 18px;
       font-size: 0.8rem;
@@ -555,7 +441,7 @@
       box-shadow: 0 0 22px rgba(249, 115, 22, 0.4);
     }
 
-    /* ── ACTIVE SWAPS ── */
+    /* Active swaps */
     .active-swaps-grid {
       display: grid;
       grid-template-columns: repeat(2, 1fr);
@@ -565,7 +451,7 @@
     .swap-tile {
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: var(--r-card);
+      border-radius: 16px;
       padding: 1.5rem;
       display: flex;
       flex-direction: column;
@@ -624,7 +510,7 @@
       font-weight: 700;
       text-transform: uppercase;
       letter-spacing: 0.06em;
-      color: var(--c-accept);
+      color: #4ade80;
       display: flex;
       align-items: center;
       gap: 4px;
@@ -635,17 +521,17 @@
       width: 6px;
       height: 6px;
       border-radius: 50%;
-      background: var(--c-accept);
+      background: #4ade80;
       box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
     }
 
-    /* ── EMPTY STATE ── */
+    /* Empty state */
     .empty-state {
       text-align: center;
       padding: 3rem 2rem;
       background: var(--bg2);
       border: 1px solid var(--border);
-      border-radius: var(--r-card);
+      border-radius: 16px;
     }
 
     .empty-icon {
@@ -666,7 +552,6 @@
       color: var(--ink3);
     }
 
-    /* ── FOOTER ── */
     .site-footer {
       position: relative;
       z-index: 1;
@@ -678,7 +563,6 @@
       background: var(--bg2);
     }
 
-    /* ── RESPONSIVE ── */
     @media (max-width: 768px) {
       .navbar {
         padding: 0 1.5rem;
@@ -718,7 +602,6 @@
       }
     }
 
-    /* ── FADE UP ── */
     .fade-up {
       opacity: 0;
       transform: translateY(14px);
@@ -748,7 +631,6 @@
 
 <body>
 
-  <!-- NAVBAR -->
   <nav class="navbar">
     <a href="../index.html" class="logo-wrap">
       <div class="logo-icon">
@@ -771,46 +653,31 @@
     <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
   </nav>
 
-  <!-- PAGE HEADER -->
   <div class="page-header">
     <div class="page-title">My <span>Dashboard</span></div>
     <div class="page-sub">Manage your swap requests and active exchanges</div>
   </div>
 
-  <!-- MAIN -->
   <main class="main-content">
     <div class="page-wrap">
-
-      <!-- Alerts -->
       <div class="alert alert-success" id="formSuccess"></div>
       <div class="alert alert-error" id="formError"></div>
-
-      <!-- Tabs -->
       <div class="tabs-bar">
-        <button class="tab-btn active" data-tab="incoming">
-          Incoming <span class="tab-badge" id="incomingBadge">3</span>
-        </button>
-        <button class="tab-btn" data-tab="outgoing">
-          Outgoing <span class="tab-badge" id="outgoingBadge">3</span>
-        </button>
-        <button class="tab-btn" data-tab="active">
-          Active Swaps <span class="tab-badge">2</span>
-        </button>
+        <button class="tab-btn active" data-tab="incoming">Incoming <span class="tab-badge"
+            id="incomingBadge">3</span></button>
+        <button class="tab-btn" data-tab="outgoing">Outgoing <span class="tab-badge"
+            id="outgoingBadge">3</span></button>
+        <button class="tab-btn" data-tab="active">Active Swaps <span class="tab-badge">2</span></button>
       </div>
 
-      <!-- ── INCOMING ── -->
+      <!-- INCOMING -->
       <div class="tab-panel active" id="tab-incoming">
         <div class="request-list">
-
-          <!-- Pending -->
           <div class="request-card status-pending fade-up" id="req-1">
             <div class="req-avatar" style="color:var(--flame-lt)">ML</div>
             <div class="req-body">
-              <div class="req-names">
-                <strong>Marcus Lee</strong> wants to swap
-                <em>Guitar for Beginners</em> for your
-                <em>Adobe Photoshop Basics</em>
-              </div>
+              <div class="req-names"><strong>Marcus Lee</strong> wants to swap <em>Guitar for Beginners</em> for your
+                <em>Adobe Photoshop Basics</em></div>
               <div class="req-message">"Hi Sarah! I've been wanting to learn Photoshop for a while. I can teach you
                 guitar in exchange!"</div>
               <div class="req-date">Jan 10, 2025</div>
@@ -821,16 +688,11 @@
               <button class="btn-reject" onclick="rejectReq('req-1')">✕ Reject</button>
             </div>
           </div>
-
-          <!-- Accepted -->
           <div class="request-card status-accepted fade-up" id="req-2">
-            <div class="req-avatar" style="color:var(--c-accept)">ET</div>
+            <div class="req-avatar" style="color:#4ade80">ET</div>
             <div class="req-body">
-              <div class="req-names">
-                <strong>Elena Torres</strong> wants to swap
-                <em>Conversational Spanish</em> for your
-                <em>Figma UI Design</em>
-              </div>
+              <div class="req-names"><strong>Elena Torres</strong> wants to swap <em>Conversational Spanish</em> for
+                your <em>Figma UI Design</em></div>
               <div class="req-message">"Hello! I'd love to learn Figma. I can teach you Spanish in return!"</div>
               <div class="req-date">Jan 5, 2025</div>
             </div>
@@ -839,54 +701,36 @@
               <a href="messages.html" class="btn-message">💬 Message</a>
             </div>
           </div>
-
-          <!-- Rejected -->
           <div class="request-card status-rejected fade-up" id="req-3">
             <div class="req-avatar" style="color:var(--ink3)">AM</div>
             <div class="req-body">
-              <div class="req-names">
-                <strong>Arjun Mehta</strong> wants to swap
-                <em>Python for Beginners</em> for your
-                <em>Adobe Photoshop Basics</em>
-              </div>
+              <div class="req-names"><strong>Arjun Mehta</strong> wants to swap <em>Python for Beginners</em> for your
+                <em>Adobe Photoshop Basics</em></div>
               <div class="req-message">"I can teach Python if you can help me with Photoshop basics."</div>
               <div class="req-date">Dec 28, 2024</div>
             </div>
-            <div class="req-actions">
-              <span class="status-badge badge-rejected">✕ Rejected</span>
-            </div>
+            <div class="req-actions"><span class="status-badge badge-rejected">✕ Rejected</span></div>
           </div>
-
         </div>
       </div>
 
-      <!-- ── OUTGOING ── -->
+      <!-- OUTGOING -->
       <div class="tab-panel" id="tab-outgoing">
         <div class="request-list">
-
           <div class="request-card status-pending fade-up">
-            <div class="req-avatar" style="color:var(--amber)">PS</div>
+            <div class="req-avatar" style="color:#fbbf24">PS</div>
             <div class="req-body">
-              <div class="req-names">
-                You requested <em>Mobile Photography Tips</em> from
-                <strong>Priya Sharma</strong> in exchange for
-                <em>Figma UI Design</em>
-              </div>
+              <div class="req-names">You requested <em>Mobile Photography Tips</em> from <strong>Priya Sharma</strong>
+                in exchange for <em>Figma UI Design</em></div>
               <div class="req-date">Jan 8, 2025</div>
             </div>
-            <div class="req-actions">
-              <span class="status-badge badge-pending">Pending</span>
-            </div>
+            <div class="req-actions"><span class="status-badge badge-pending">Pending</span></div>
           </div>
-
           <div class="request-card status-accepted fade-up">
-            <div class="req-avatar" style="color:var(--c-accept)">JC</div>
+            <div class="req-avatar" style="color:#4ade80">JC</div>
             <div class="req-body">
-              <div class="req-names">
-                You requested <em>Creative Writing Workshop</em> from
-                <strong>James Carter</strong> in exchange for
-                <em>Adobe Photoshop Basics</em>
-              </div>
+              <div class="req-names">You requested <em>Creative Writing Workshop</em> from <strong>James Carter</strong>
+                in exchange for <em>Adobe Photoshop Basics</em></div>
               <div class="req-date">Jan 3, 2025</div>
             </div>
             <div class="req-actions">
@@ -894,30 +738,22 @@
               <a href="messages.html" class="btn-message">💬 Message</a>
             </div>
           </div>
-
           <div class="request-card status-rejected fade-up">
             <div class="req-avatar" style="color:var(--ink3)">ML</div>
             <div class="req-body">
-              <div class="req-names">
-                You requested <em>Guitar for Beginners</em> from
-                <strong>Marcus Lee</strong> in exchange for
-                <em>Illustrator for Beginners</em>
-              </div>
+              <div class="req-names">You requested <em>Guitar for Beginners</em> from <strong>Marcus Lee</strong> in
+                exchange for <em>Illustrator for Beginners</em></div>
               <div class="req-date">Dec 20, 2024</div>
             </div>
-            <div class="req-actions">
-              <span class="status-badge badge-rejected">✕ Rejected</span>
-            </div>
+            <div class="req-actions"><span class="status-badge badge-rejected">✕ Rejected</span></div>
           </div>
-
         </div>
       </div>
 
-      <!-- ── ACTIVE SWAPS ── -->
+      <!-- ACTIVE SWAPS -->
       <div class="tab-panel" id="tab-active">
         <p class="section-note">These swaps have been accepted — start messaging to coordinate your sessions.</p>
         <div class="active-swaps-grid">
-
           <div class="swap-tile fade-up">
             <div class="swap-tile-top">
               <div class="swap-tile-avatar">ET</div>
@@ -931,10 +767,9 @@
               <a href="messages.html" class="btn-message">💬 Open Messages</a>
             </div>
           </div>
-
           <div class="swap-tile fade-up">
             <div class="swap-tile-top">
-              <div class="swap-tile-avatar" style="color:var(--c-accept)">JC</div>
+              <div class="swap-tile-avatar" style="color:#4ade80">JC</div>
               <div>
                 <div class="swap-tile-name">James Carter</div>
                 <div class="swap-tile-detail">Photoshop Basics ↔ Creative Writing</div>
@@ -945,32 +780,15 @@
               <a href="messages.html" class="btn-message">💬 Open Messages</a>
             </div>
           </div>
-
         </div>
       </div>
-
     </div>
   </main>
 
-  <!-- FOOTER -->
-  <footer class="site-footer">
-    © 2025 SkillSwap. Exchange skills, not money.
-  </footer>
+  <footer class="site-footer">© 2025 SkillSwap. Exchange skills, not money.</footer>
 
+  <script src="../js/main.js"></script>
   <script>
-    // Mobile nav
-    const navToggle = document.getElementById('navToggle');
-    const navLinks = document.getElementById('navLinks');
-    navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
-    document.addEventListener('click', e => {
-      if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
-        navLinks.classList.remove('mob-open');
-    });
-    const s = document.createElement('style');
-    s.textContent = `@media(max-width:768px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
-    document.head.appendChild(s);
-
-    // Tabs
     document.querySelectorAll('.tab-btn').forEach(btn => {
       btn.addEventListener('click', () => {
         document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
@@ -980,47 +798,33 @@
       });
     });
 
-    // Alerts helper
     const successAlert = document.getElementById('formSuccess');
     const errorAlert = document.getElementById('formError');
     function showAlert(type, msg) {
       const el = type === 'success' ? successAlert : errorAlert;
       const other = type === 'success' ? errorAlert : successAlert;
-      el.textContent = msg;
-      el.style.display = 'flex';
-      other.style.display = 'none';
+      el.textContent = msg; el.style.display = 'flex'; other.style.display = 'none';
       el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
       setTimeout(() => { el.style.display = 'none'; }, 3500);
     }
 
-    // Accept request
     function acceptReq(id, name) {
       const card = document.getElementById(id);
-      // swap classes
-      card.classList.remove('status-pending');
-      card.classList.add('status-accepted');
-      // update badge
+      card.classList.remove('status-pending'); card.classList.add('status-accepted');
       card.querySelector('.status-badge').className = 'status-badge badge-accepted';
       card.querySelector('.status-badge').textContent = '✓ Accepted';
-      // swap buttons → message button
       const actions = card.querySelector('.req-actions');
       actions.querySelectorAll('button').forEach(b => b.remove());
       const msgBtn = document.createElement('a');
-      msgBtn.href = 'messages.html';
-      msgBtn.className = 'btn-message';
-      msgBtn.innerHTML = '💬 Message';
+      msgBtn.href = 'messages.html'; msgBtn.className = 'btn-message'; msgBtn.innerHTML = '💬 Message';
       actions.appendChild(msgBtn);
-      // update incoming badge count
       updateIncomingBadge();
-      showAlert('success', `✅ Swap with ${name} accepted! You can now message each other.`);
+      showAlert('success', `✅ Swap with ${name} accepted!`);
     }
 
-    // Reject request
     function rejectReq(id) {
       const card = document.getElementById(id);
-      card.classList.remove('status-pending');
-      card.classList.add('status-rejected');
-      card.style.transition = 'opacity 0.4s';
+      card.classList.remove('status-pending'); card.classList.add('status-rejected');
       card.querySelector('.status-badge').className = 'status-badge badge-rejected';
       card.querySelector('.status-badge').textContent = '✕ Rejected';
       card.querySelectorAll('button').forEach(b => b.remove());
@@ -1035,7 +839,6 @@
       if (badge) badge.textContent = pending > 0 ? pending : '0';
     }
   </script>
-
 </body>
 
 </html>
