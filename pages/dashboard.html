@@ -1,602 +1,1041 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Dashboard — SkillSwap</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Dashboard — SkillSwap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap"
+    rel="stylesheet">
 
-<style>
-:root {
-  --bg:       #0E0E0E;
-  --bg2:      #161616;
-  --bg3:      #1E1E1E;
-  --bg4:      #252525;
-  --border:   rgba(255,255,255,0.08);
-  --border2:  rgba(255,255,255,0.14);
+  <style>
+    :root {
+      --bg: #0E0E0E;
+      --bg2: #161616;
+      --bg3: #1E1E1E;
+      --bg4: #252525;
+      --border: rgba(255, 255, 255, 0.08);
+      --border2: rgba(255, 255, 255, 0.14);
 
-  --flame:    #F97316;
-  --flame-dk: #EA6A0A;
-  --flame-lt: #FB923C;
-  --amber:    #FBBF24;
-  --glow:     rgba(249,115,22,0.18);
-  --glow-sm:  rgba(249,115,22,0.10);
+      --flame: #F97316;
+      --flame-dk: #EA6A0A;
+      --flame-lt: #FB923C;
+      --amber: #FBBF24;
+      --glow: rgba(249, 115, 22, 0.18);
+      --glow-sm: rgba(249, 115, 22, 0.10);
 
-  --ink:      #FFFAF5;
-  --ink2:     #D1CCBF;
-  --ink3:     #8A857A;
-  --ink4:     #4A4740;
+      --ink: #FFFAF5;
+      --ink2: #D1CCBF;
+      --ink3: #8A857A;
+      --ink4: #4A4740;
 
-  --c-pending:  #fbbf24;
-  --c-pending-bg: rgba(251,191,36,0.10);
-  --c-pending-br: rgba(251,191,36,0.25);
-  --c-accept:   #4ade80;
-  --c-accept-bg: rgba(74,222,128,0.10);
-  --c-accept-br: rgba(74,222,128,0.25);
-  --c-reject:   #f87171;
-  --c-reject-bg: rgba(248,113,113,0.10);
-  --c-reject-br: rgba(248,113,113,0.25);
+      --c-pending: #fbbf24;
+      --c-pending-bg: rgba(251, 191, 36, 0.10);
+      --c-pending-br: rgba(251, 191, 36, 0.25);
+      --c-accept: #4ade80;
+      --c-accept-bg: rgba(74, 222, 128, 0.10);
+      --c-accept-br: rgba(74, 222, 128, 0.25);
+      --c-reject: #f87171;
+      --c-reject-bg: rgba(248, 113, 113, 0.10);
+      --c-reject-br: rgba(248, 113, 113, 0.25);
 
-  --font-head: 'Syne', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
-  --r-btn: 50px;
-  --r-card: 16px;
-}
+      --font-head: 'Syne', sans-serif;
+      --font-body: 'Instrument Sans', sans-serif;
+      --r-btn: 50px;
+      --r-card: 16px;
+    }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+    *,
+    *::before,
+    *::after {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
 
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
-}
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
+    html {
+      scroll-behavior: smooth;
+    }
 
-/* ── NAVBAR ── */
-.navbar {
-  position: sticky; top: 0; z-index: 999;
-  background: rgba(14,14,14,0.92); backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 3rem; height: 66px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo-wrap { display: flex; align-items: center; gap: 10px; }
-.logo-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--flame); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.logo-icon svg { width: 20px; height: 20px; }
-.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; }
-.nav-links { display: flex; align-items: center; gap: 2rem; }
-.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-links a.active { color: var(--flame-lt); }
-.btn-nav-logout {
-  font-size: 0.875rem; font-weight: 500; color: var(--ink3);
-  border: 1px solid var(--border2); border-radius: var(--r-btn);
-  padding: 6px 16px; transition: all 0.2s;
-}
-.btn-nav-logout:hover { color: var(--c-reject); border-color: var(--c-reject-br); }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
+    body {
+      font-family: var(--font-body);
+      background: var(--bg);
+      color: var(--ink);
+      min-height: 100vh;
+      display: flex;
+      flex-direction: column;
+    }
 
-/* ── PAGE HEADER ── */
-.page-header {
-  background: var(--bg2); border-bottom: 1px solid var(--border);
-  padding: 2.2rem 3rem; position: relative; overflow: hidden;
-}
-.page-header::after {
-  content: '';
-  position: absolute; right: -80px; top: -80px;
-  width: 300px; height: 300px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 65%);
-  pointer-events: none;
-}
-.page-title {
-  font-family: var(--font-head); font-size: clamp(1.6rem, 3vw, 2.2rem);
-  font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px;
-}
-.page-title span { color: var(--flame); }
-.page-sub { font-size: 0.88rem; color: var(--ink3); }
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
 
-/* ── MAIN LAYOUT ── */
-.main-content { flex: 1; position: relative; z-index: 1; }
-.page-wrap { max-width: 1100px; margin: 0 auto; padding: 2.5rem 3rem; }
+    a {
+      text-decoration: none;
+      color: inherit;
+    }
 
-/* ── ALERTS ── */
-.alert {
-  padding: 0.75rem 1rem; border-radius: 10px;
-  font-size: 0.85rem; margin-bottom: 1.5rem;
-  display: none; align-items: center; gap: 8px; font-weight: 500;
-}
-.alert-error   { background: var(--c-reject-bg);  color: var(--c-reject);  border: 1px solid var(--c-reject-br); }
-.alert-success { background: var(--c-accept-bg);  color: var(--c-accept);  border: 1px solid var(--c-accept-br); }
+    ul {
+      list-style: none;
+    }
 
-/* ── TABS ── */
-.tabs-bar {
-  display: flex; gap: 4px;
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 12px; padding: 4px; margin-bottom: 2rem;
-  width: fit-content;
-}
-.tab-btn {
-  background: none; border: none; cursor: pointer;
-  font-family: var(--font-head); font-size: 0.82rem; font-weight: 700;
-  color: var(--ink3); padding: 8px 20px; border-radius: 9px;
-  transition: all 0.2s; display: flex; align-items: center; gap: 7px;
-  white-space: nowrap;
-}
-.tab-btn:hover { color: var(--ink); background: var(--bg3); }
-.tab-btn.active { background: var(--flame); color: #1a0a00; box-shadow: 0 0 16px rgba(249,115,22,0.3); }
-.tab-badge {
-  font-size: 0.68rem; font-weight: 700; padding: 1px 7px; border-radius: 50px;
-  background: rgba(0,0,0,0.2); color: inherit;
-}
-.tab-btn.active .tab-badge { background: rgba(0,0,0,0.2); }
+    /* ── NAVBAR ── */
+    .navbar {
+      position: sticky;
+      top: 0;
+      z-index: 999;
+      background: rgba(14, 14, 14, 0.92);
+      backdrop-filter: blur(18px);
+      border-bottom: 1px solid var(--border);
+      padding: 0 3rem;
+      height: 66px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
 
-/* ── TAB PANELS ── */
-.tab-panel { display: none; animation: fadeIn 0.25s ease; }
-.tab-panel.active { display: block; }
-@keyframes fadeIn { from{opacity:0;transform:translateY(6px)} to{opacity:1;transform:translateY(0)} }
+    .logo-wrap {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+    }
 
-/* ── SECTION LABEL ── */
-.section-note {
-  font-size: 0.82rem; color: var(--ink3); margin-bottom: 1.2rem;
-}
+    .logo-icon {
+      width: 36px;
+      height: 36px;
+      border-radius: 10px;
+      background: var(--flame);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+    }
 
-/* ── REQUEST CARDS ── */
-.request-list { display: flex; flex-direction: column; gap: 12px; }
+    .logo-icon svg {
+      width: 20px;
+      height: 20px;
+    }
 
-.request-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: 1.4rem 1.5rem;
-  display: flex; align-items: flex-start; gap: 1.2rem;
-  transition: border-color 0.2s;
-  position: relative; overflow: hidden;
-}
-.request-card::before {
-  content: ''; position: absolute; left: 0; top: 0; bottom: 0;
-  width: 3px; border-radius: 3px 0 0 3px;
-}
-.request-card.status-pending::before  { background: var(--c-pending); }
-.request-card.status-accepted::before { background: var(--c-accept); }
-.request-card.status-rejected::before { background: var(--c-reject); opacity: 0.5; }
-.request-card:hover { border-color: var(--border2); }
-.request-card.status-rejected { opacity: 0.6; }
+    .logo-name {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1.2rem;
+      letter-spacing: -0.03em;
+    }
 
-/* avatar */
-.req-avatar {
-  width: 44px; height: 44px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-head); font-size: 1rem; font-weight: 800;
-  background: var(--bg3); border: 1px solid var(--border2);
-}
+    .nav-links {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+    }
 
-/* info block */
-.req-body { flex: 1; min-width: 0; }
-.req-names {
-  font-size: 0.9rem; color: var(--ink2); line-height: 1.6; margin-bottom: 6px;
-}
-.req-names strong { color: var(--ink); font-weight: 600; }
-.req-names em {
-  font-style: normal; color: var(--flame-lt);
-  background: var(--glow-sm); border: 1px solid rgba(249,115,22,0.15);
-  border-radius: 4px; padding: 1px 6px; font-size: 0.82rem;
-}
-.req-message {
-  font-size: 0.82rem; color: var(--ink3); line-height: 1.55;
-  font-style: italic; margin-top: 4px;
-  border-left: 2px solid var(--border2); padding-left: 10px;
-}
-.req-date { font-size: 0.72rem; color: var(--ink4); margin-top: 5px; }
+    .nav-links a {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink3);
+      transition: color 0.2s;
+    }
 
-/* actions */
-.req-actions { display: flex; align-items: center; gap: 8px; flex-shrink: 0; flex-wrap: wrap; }
+    .nav-links a:hover {
+      color: var(--ink);
+    }
 
-/* status badge */
-.status-badge {
-  display: inline-flex; align-items: center; gap: 5px;
-  font-size: 0.72rem; font-weight: 700; text-transform: uppercase; letter-spacing: 0.05em;
-  padding: 4px 12px; border-radius: 50px;
-}
-.badge-pending  { background: var(--c-pending-bg);  color: var(--c-pending);  border: 1px solid var(--c-pending-br); }
-.badge-accepted { background: var(--c-accept-bg);   color: var(--c-accept);   border: 1px solid var(--c-accept-br); }
-.badge-rejected { background: var(--c-reject-bg);   color: var(--c-reject);   border: 1px solid var(--c-reject-br); }
+    .nav-links a.active {
+      color: var(--flame-lt);
+    }
 
-/* ── BUTTONS ── */
-.btn-accept {
-  background: var(--c-accept-bg); color: var(--c-accept);
-  border: 1px solid var(--c-accept-br); border-radius: var(--r-btn);
-  padding: 7px 18px; font-size: 0.8rem; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font-head);
-  white-space: nowrap;
-}
-.btn-accept:hover { background: rgba(74,222,128,0.2); }
+    .btn-nav-logout {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink3);
+      border: 1px solid var(--border2);
+      border-radius: var(--r-btn);
+      padding: 6px 16px;
+      transition: all 0.2s;
+    }
 
-.btn-reject {
-  background: var(--c-reject-bg); color: var(--c-reject);
-  border: 1px solid var(--c-reject-br); border-radius: var(--r-btn);
-  padding: 7px 18px; font-size: 0.8rem; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font-head);
-  white-space: nowrap;
-}
-.btn-reject:hover { background: rgba(248,113,113,0.2); }
+    .btn-nav-logout:hover {
+      color: var(--c-reject);
+      border-color: var(--c-reject-br);
+    }
 
-.btn-message {
-  background: var(--flame); color: #1a0a00;
-  border: none; border-radius: var(--r-btn);
-  padding: 8px 20px; font-size: 0.8rem; font-weight: 700;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font-head);
-  box-shadow: 0 0 14px rgba(249,115,22,0.25); white-space: nowrap;
-  display: inline-flex; align-items: center; gap: 5px;
-}
-.btn-message:hover { background: var(--flame-lt); box-shadow: 0 0 22px rgba(249,115,22,0.4); }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
 
-/* ── ACTIVE SWAPS ── */
-.active-swaps-grid { display: grid; grid-template-columns: repeat(2,1fr); gap: 12px; }
-.swap-tile {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: 1.5rem;
-  display: flex; flex-direction: column; gap: 12px;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.swap-tile:hover { border-color: rgba(249,115,22,0.3); transform: translateY(-2px); }
-.swap-tile-top { display: flex; align-items: center; gap: 12px; }
-.swap-tile-avatar {
-  width: 46px; height: 46px; border-radius: 50%;
-  background: var(--bg3); border: 2px solid rgba(249,115,22,0.25);
-  display: flex; align-items: center; justify-content: center;
-  font-family: var(--font-head); font-size: 1.1rem; font-weight: 800;
-  color: var(--flame-lt); flex-shrink: 0;
-}
-.swap-tile-name { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--ink); }
-.swap-tile-detail { font-size: 0.76rem; color: var(--ink3); margin-top: 2px; }
-.swap-tile-footer { display: flex; align-items: center; justify-content: space-between; }
-.swap-status {
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; color: var(--c-accept);
-  display: flex; align-items: center; gap: 4px;
-}
-.swap-status::before { content: ''; width: 6px; height: 6px; border-radius: 50%; background: var(--c-accept); box-shadow: 0 0 6px rgba(74,222,128,0.5); }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
 
-/* ── EMPTY STATE ── */
-.empty-state {
-  text-align: center; padding: 3rem 2rem;
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r-card);
-}
-.empty-icon { font-size: 2.5rem; margin-bottom: 10px; }
-.empty-title { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--ink2); margin-bottom: 6px; }
-.empty-sub { font-size: 0.82rem; color: var(--ink3); }
+    /* ── PAGE HEADER ── */
+    .page-header {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 2.2rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ── FOOTER ── */
-.site-footer {
-  position: relative; z-index: 1;
-  text-align: center; padding: 1.2rem;
-  font-size: 0.78rem; color: var(--ink4);
-  border-top: 1px solid var(--border); background: var(--bg2);
-}
+    .page-header::after {
+      content: '';
+      position: absolute;
+      right: -80px;
+      top: -80px;
+      width: 300px;
+      height: 300px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 65%);
+      pointer-events: none;
+    }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 768px) {
-  .navbar { padding: 0 1.5rem; }
-  .nav-links { display: none; }
-  .nav-toggle { display: flex; }
-  .page-header { padding: 1.8rem 1.5rem; }
-  .page-wrap { padding: 2rem 1.5rem; }
-  .tabs-bar { width: 100%; overflow-x: auto; }
-  .active-swaps-grid { grid-template-columns: 1fr; }
-  .request-card { flex-direction: column; }
-  .req-actions { width: 100%; }
-}
+    .page-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.6rem, 3vw, 2.2rem);
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      margin-bottom: 4px;
+    }
 
-/* ── FADE UP ── */
-.fade-up { opacity: 0; transform: translateY(14px); animation: fuAnim 0.5s ease forwards; }
-.fade-up:nth-child(1){animation-delay:.05s}
-.fade-up:nth-child(2){animation-delay:.13s}
-.fade-up:nth-child(3){animation-delay:.21s}
-@keyframes fuAnim { to { opacity:1; transform:translateY(0); } }
-</style>
+    .page-title span {
+      color: var(--flame);
+    }
+
+    .page-sub {
+      font-size: 0.88rem;
+      color: var(--ink3);
+    }
+
+    /* ── MAIN LAYOUT ── */
+    .main-content {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
+
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+    }
+
+    /* ── ALERTS ── */
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 1.5rem;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .alert-error {
+      background: var(--c-reject-bg);
+      color: var(--c-reject);
+      border: 1px solid var(--c-reject-br);
+    }
+
+    .alert-success {
+      background: var(--c-accept-bg);
+      color: var(--c-accept);
+      border: 1px solid var(--c-accept-br);
+    }
+
+    /* ── TABS ── */
+    .tabs-bar {
+      display: flex;
+      gap: 4px;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 12px;
+      padding: 4px;
+      margin-bottom: 2rem;
+      width: fit-content;
+    }
+
+    .tab-btn {
+      background: none;
+      border: none;
+      cursor: pointer;
+      font-family: var(--font-head);
+      font-size: 0.82rem;
+      font-weight: 700;
+      color: var(--ink3);
+      padding: 8px 20px;
+      border-radius: 9px;
+      transition: all 0.2s;
+      display: flex;
+      align-items: center;
+      gap: 7px;
+      white-space: nowrap;
+    }
+
+    .tab-btn:hover {
+      color: var(--ink);
+      background: var(--bg3);
+    }
+
+    .tab-btn.active {
+      background: var(--flame);
+      color: #1a0a00;
+      box-shadow: 0 0 16px rgba(249, 115, 22, 0.3);
+    }
+
+    .tab-badge {
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 1px 7px;
+      border-radius: 50px;
+      background: rgba(0, 0, 0, 0.2);
+      color: inherit;
+    }
+
+    .tab-btn.active .tab-badge {
+      background: rgba(0, 0, 0, 0.2);
+    }
+
+    /* ── TAB PANELS ── */
+    .tab-panel {
+      display: none;
+      animation: fadeIn 0.25s ease;
+    }
+
+    .tab-panel.active {
+      display: block;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(6px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    /* ── SECTION LABEL ── */
+    .section-note {
+      font-size: 0.82rem;
+      color: var(--ink3);
+      margin-bottom: 1.2rem;
+    }
+
+    /* ── REQUEST CARDS ── */
+    .request-list {
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+    }
+
+    .request-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 1.4rem 1.5rem;
+      display: flex;
+      align-items: flex-start;
+      gap: 1.2rem;
+      transition: border-color 0.2s;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .request-card::before {
+      content: '';
+      position: absolute;
+      left: 0;
+      top: 0;
+      bottom: 0;
+      width: 3px;
+      border-radius: 3px 0 0 3px;
+    }
+
+    .request-card.status-pending::before {
+      background: var(--c-pending);
+    }
+
+    .request-card.status-accepted::before {
+      background: var(--c-accept);
+    }
+
+    .request-card.status-rejected::before {
+      background: var(--c-reject);
+      opacity: 0.5;
+    }
+
+    .request-card:hover {
+      border-color: var(--border2);
+    }
+
+    .request-card.status-rejected {
+      opacity: 0.6;
+    }
+
+    /* avatar */
+    .req-avatar {
+      width: 44px;
+      height: 44px;
+      border-radius: 50%;
+      flex-shrink: 0;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 800;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+    }
+
+    /* info block */
+    .req-body {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .req-names {
+      font-size: 0.9rem;
+      color: var(--ink2);
+      line-height: 1.6;
+      margin-bottom: 6px;
+    }
+
+    .req-names strong {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .req-names em {
+      font-style: normal;
+      color: var(--flame-lt);
+      background: var(--glow-sm);
+      border: 1px solid rgba(249, 115, 22, 0.15);
+      border-radius: 4px;
+      padding: 1px 6px;
+      font-size: 0.82rem;
+    }
+
+    .req-message {
+      font-size: 0.82rem;
+      color: var(--ink3);
+      line-height: 1.55;
+      font-style: italic;
+      margin-top: 4px;
+      border-left: 2px solid var(--border2);
+      padding-left: 10px;
+    }
+
+    .req-date {
+      font-size: 0.72rem;
+      color: var(--ink4);
+      margin-top: 5px;
+    }
+
+    /* actions */
+    .req-actions {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-shrink: 0;
+      flex-wrap: wrap;
+    }
+
+    /* status badge */
+    .status-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 50px;
+    }
+
+    .badge-pending {
+      background: var(--c-pending-bg);
+      color: var(--c-pending);
+      border: 1px solid var(--c-pending-br);
+    }
+
+    .badge-accepted {
+      background: var(--c-accept-bg);
+      color: var(--c-accept);
+      border: 1px solid var(--c-accept-br);
+    }
+
+    .badge-rejected {
+      background: var(--c-reject-bg);
+      color: var(--c-reject);
+      border: 1px solid var(--c-reject-br);
+    }
+
+    /* ── BUTTONS ── */
+    .btn-accept {
+      background: var(--c-accept-bg);
+      color: var(--c-accept);
+      border: 1px solid var(--c-accept-br);
+      border-radius: var(--r-btn);
+      padding: 7px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-head);
+      white-space: nowrap;
+    }
+
+    .btn-accept:hover {
+      background: rgba(74, 222, 128, 0.2);
+    }
+
+    .btn-reject {
+      background: var(--c-reject-bg);
+      color: var(--c-reject);
+      border: 1px solid var(--c-reject-br);
+      border-radius: var(--r-btn);
+      padding: 7px 18px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-head);
+      white-space: nowrap;
+    }
+
+    .btn-reject:hover {
+      background: rgba(248, 113, 113, 0.2);
+    }
+
+    .btn-message {
+      background: var(--flame);
+      color: #1a0a00;
+      border: none;
+      border-radius: var(--r-btn);
+      padding: 8px 20px;
+      font-size: 0.8rem;
+      font-weight: 700;
+      cursor: pointer;
+      transition: all 0.2s;
+      font-family: var(--font-head);
+      box-shadow: 0 0 14px rgba(249, 115, 22, 0.25);
+      white-space: nowrap;
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+    }
+
+    .btn-message:hover {
+      background: var(--flame-lt);
+      box-shadow: 0 0 22px rgba(249, 115, 22, 0.4);
+    }
+
+    /* ── ACTIVE SWAPS ── */
+    .active-swaps-grid {
+      display: grid;
+      grid-template-columns: repeat(2, 1fr);
+      gap: 12px;
+    }
+
+    .swap-tile {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+      padding: 1.5rem;
+      display: flex;
+      flex-direction: column;
+      gap: 12px;
+      transition: border-color 0.2s, transform 0.2s;
+    }
+
+    .swap-tile:hover {
+      border-color: rgba(249, 115, 22, 0.3);
+      transform: translateY(-2px);
+    }
+
+    .swap-tile-top {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+    }
+
+    .swap-tile-avatar {
+      width: 46px;
+      height: 46px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 2px solid rgba(249, 115, 22, 0.25);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--flame-lt);
+      flex-shrink: 0;
+    }
+
+    .swap-tile-name {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .swap-tile-detail {
+      font-size: 0.76rem;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    .swap-tile-footer {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .swap-status {
+      font-size: 0.7rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      color: var(--c-accept);
+      display: flex;
+      align-items: center;
+      gap: 4px;
+    }
+
+    .swap-status::before {
+      content: '';
+      width: 6px;
+      height: 6px;
+      border-radius: 50%;
+      background: var(--c-accept);
+      box-shadow: 0 0 6px rgba(74, 222, 128, 0.5);
+    }
+
+    /* ── EMPTY STATE ── */
+    .empty-state {
+      text-align: center;
+      padding: 3rem 2rem;
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: var(--r-card);
+    }
+
+    .empty-icon {
+      font-size: 2.5rem;
+      margin-bottom: 10px;
+    }
+
+    .empty-title {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink2);
+      margin-bottom: 6px;
+    }
+
+    .empty-sub {
+      font-size: 0.82rem;
+      color: var(--ink3);
+    }
+
+    /* ── FOOTER ── */
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.78rem;
+      color: var(--ink4);
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    /* ── RESPONSIVE ── */
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .page-header {
+        padding: 1.8rem 1.5rem;
+      }
+
+      .page-wrap {
+        padding: 2rem 1.5rem;
+      }
+
+      .tabs-bar {
+        width: 100%;
+        overflow-x: auto;
+      }
+
+      .active-swaps-grid {
+        grid-template-columns: 1fr;
+      }
+
+      .request-card {
+        flex-direction: column;
+      }
+
+      .req-actions {
+        width: 100%;
+      }
+    }
+
+    /* ── FADE UP ── */
+    .fade-up {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fuAnim 0.5s ease forwards;
+    }
+
+    .fade-up:nth-child(1) {
+      animation-delay: .05s
+    }
+
+    .fade-up:nth-child(2) {
+      animation-delay: .13s
+    }
+
+    .fade-up:nth-child(3) {
+      animation-delay: .21s
+    }
+
+    @keyframes fuAnim {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="../index.html" class="logo-wrap">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
-        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
-      </svg>
-    </div>
-    <span class="logo-name">SkillSwap</span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="explore.html">Explore</a></li>
-    <li><a href="dashboard.html" class="active">Dashboard</a></li>
-    <li><a href="profile.html">Profile</a></li>
-    <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
-  </ul>
-  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
-</nav>
-
-<!-- PAGE HEADER -->
-<div class="page-header">
-  <div class="page-title">My <span>Dashboard</span></div>
-  <div class="page-sub">Manage your swap requests and active exchanges</div>
-</div>
-
-<!-- MAIN -->
-<main class="main-content">
-  <div class="page-wrap">
-
-    <!-- Alerts -->
-    <div class="alert alert-success" id="formSuccess"></div>
-    <div class="alert alert-error"   id="formError"></div>
-
-    <!-- Tabs -->
-    <div class="tabs-bar">
-      <button class="tab-btn active" data-tab="incoming">
-        Incoming <span class="tab-badge" id="incomingBadge">3</span>
-      </button>
-      <button class="tab-btn" data-tab="outgoing">
-        Outgoing <span class="tab-badge" id="outgoingBadge">3</span>
-      </button>
-      <button class="tab-btn" data-tab="active">
-        Active Swaps <span class="tab-badge">2</span>
-      </button>
-    </div>
-
-    <!-- ── INCOMING ── -->
-    <div class="tab-panel active" id="tab-incoming">
-      <div class="request-list">
-
-        <!-- Pending -->
-        <div class="request-card status-pending fade-up" id="req-1">
-          <div class="req-avatar" style="color:var(--flame-lt)">ML</div>
-          <div class="req-body">
-            <div class="req-names">
-              <strong>Marcus Lee</strong> wants to swap
-              <em>Guitar for Beginners</em> for your
-              <em>Adobe Photoshop Basics</em>
-            </div>
-            <div class="req-message">"Hi Sarah! I've been wanting to learn Photoshop for a while. I can teach you guitar in exchange!"</div>
-            <div class="req-date">Jan 10, 2025</div>
-          </div>
-          <div class="req-actions">
-            <span class="status-badge badge-pending">Pending</span>
-            <button class="btn-accept" onclick="acceptReq('req-1', 'Marcus Lee')">✓ Accept</button>
-            <button class="btn-reject" onclick="rejectReq('req-1')">✕ Reject</button>
-          </div>
-        </div>
-
-        <!-- Accepted -->
-        <div class="request-card status-accepted fade-up" id="req-2">
-          <div class="req-avatar" style="color:var(--c-accept)">ET</div>
-          <div class="req-body">
-            <div class="req-names">
-              <strong>Elena Torres</strong> wants to swap
-              <em>Conversational Spanish</em> for your
-              <em>Figma UI Design</em>
-            </div>
-            <div class="req-message">"Hello! I'd love to learn Figma. I can teach you Spanish in return!"</div>
-            <div class="req-date">Jan 5, 2025</div>
-          </div>
-          <div class="req-actions">
-            <span class="status-badge badge-accepted">✓ Accepted</span>
-            <a href="messages.html" class="btn-message">💬 Message</a>
-          </div>
-        </div>
-
-        <!-- Rejected -->
-        <div class="request-card status-rejected fade-up" id="req-3">
-          <div class="req-avatar" style="color:var(--ink3)">AM</div>
-          <div class="req-body">
-            <div class="req-names">
-              <strong>Arjun Mehta</strong> wants to swap
-              <em>Python for Beginners</em> for your
-              <em>Adobe Photoshop Basics</em>
-            </div>
-            <div class="req-message">"I can teach Python if you can help me with Photoshop basics."</div>
-            <div class="req-date">Dec 28, 2024</div>
-          </div>
-          <div class="req-actions">
-            <span class="status-badge badge-rejected">✕ Rejected</span>
-          </div>
-        </div>
-
+  <!-- NAVBAR -->
+  <nav class="navbar">
+    <a href="../index.html" class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+            stroke="#1a0a00" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
+            fill="#1a0a00" />
+        </svg>
       </div>
-    </div>
+      <span class="logo-name">SkillSwap</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="explore.html">Explore</a></li>
+      <li><a href="dashboard.html" class="active">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </nav>
 
-    <!-- ── OUTGOING ── -->
-    <div class="tab-panel" id="tab-outgoing">
-      <div class="request-list">
-
-        <div class="request-card status-pending fade-up">
-          <div class="req-avatar" style="color:var(--amber)">PS</div>
-          <div class="req-body">
-            <div class="req-names">
-              You requested <em>Mobile Photography Tips</em> from
-              <strong>Priya Sharma</strong> in exchange for
-              <em>Figma UI Design</em>
-            </div>
-            <div class="req-date">Jan 8, 2025</div>
-          </div>
-          <div class="req-actions">
-            <span class="status-badge badge-pending">Pending</span>
-          </div>
-        </div>
-
-        <div class="request-card status-accepted fade-up">
-          <div class="req-avatar" style="color:var(--c-accept)">JC</div>
-          <div class="req-body">
-            <div class="req-names">
-              You requested <em>Creative Writing Workshop</em> from
-              <strong>James Carter</strong> in exchange for
-              <em>Adobe Photoshop Basics</em>
-            </div>
-            <div class="req-date">Jan 3, 2025</div>
-          </div>
-          <div class="req-actions">
-            <span class="status-badge badge-accepted">✓ Accepted</span>
-            <a href="messages.html" class="btn-message">💬 Message</a>
-          </div>
-        </div>
-
-        <div class="request-card status-rejected fade-up">
-          <div class="req-avatar" style="color:var(--ink3)">ML</div>
-          <div class="req-body">
-            <div class="req-names">
-              You requested <em>Guitar for Beginners</em> from
-              <strong>Marcus Lee</strong> in exchange for
-              <em>Illustrator for Beginners</em>
-            </div>
-            <div class="req-date">Dec 20, 2024</div>
-          </div>
-          <div class="req-actions">
-            <span class="status-badge badge-rejected">✕ Rejected</span>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
-    <!-- ── ACTIVE SWAPS ── -->
-    <div class="tab-panel" id="tab-active">
-      <p class="section-note">These swaps have been accepted — start messaging to coordinate your sessions.</p>
-      <div class="active-swaps-grid">
-
-        <div class="swap-tile fade-up">
-          <div class="swap-tile-top">
-            <div class="swap-tile-avatar">ET</div>
-            <div>
-              <div class="swap-tile-name">Elena Torres</div>
-              <div class="swap-tile-detail">Figma UI Design ↔ Conversational Spanish</div>
-            </div>
-          </div>
-          <div class="swap-tile-footer">
-            <div class="swap-status">Active</div>
-            <a href="messages.html" class="btn-message">💬 Open Messages</a>
-          </div>
-        </div>
-
-        <div class="swap-tile fade-up">
-          <div class="swap-tile-top">
-            <div class="swap-tile-avatar" style="color:var(--c-accept)">JC</div>
-            <div>
-              <div class="swap-tile-name">James Carter</div>
-              <div class="swap-tile-detail">Photoshop Basics ↔ Creative Writing</div>
-            </div>
-          </div>
-          <div class="swap-tile-footer">
-            <div class="swap-status">Active</div>
-            <a href="messages.html" class="btn-message">💬 Open Messages</a>
-          </div>
-        </div>
-
-      </div>
-    </div>
-
+  <!-- PAGE HEADER -->
+  <div class="page-header">
+    <div class="page-title">My <span>Dashboard</span></div>
+    <div class="page-sub">Manage your swap requests and active exchanges</div>
   </div>
-</main>
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  © 2025 SkillSwap. Exchange skills, not money.
-</footer>
+  <!-- MAIN -->
+  <main class="main-content">
+    <div class="page-wrap">
 
-<script>
-  // Mobile nav
-  const navToggle = document.getElementById('navToggle');
-  const navLinks  = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
-  document.addEventListener('click', e => {
-    if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
-      navLinks.classList.remove('mob-open');
-  });
-  const s = document.createElement('style');
-  s.textContent = `@media(max-width:768px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
-  document.head.appendChild(s);
+      <!-- Alerts -->
+      <div class="alert alert-success" id="formSuccess"></div>
+      <div class="alert alert-error" id="formError"></div>
 
-  // Tabs
-  document.querySelectorAll('.tab-btn').forEach(btn => {
-    btn.addEventListener('click', () => {
-      document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
-      document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
-      btn.classList.add('active');
-      document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      <!-- Tabs -->
+      <div class="tabs-bar">
+        <button class="tab-btn active" data-tab="incoming">
+          Incoming <span class="tab-badge" id="incomingBadge">3</span>
+        </button>
+        <button class="tab-btn" data-tab="outgoing">
+          Outgoing <span class="tab-badge" id="outgoingBadge">3</span>
+        </button>
+        <button class="tab-btn" data-tab="active">
+          Active Swaps <span class="tab-badge">2</span>
+        </button>
+      </div>
+
+      <!-- ── INCOMING ── -->
+      <div class="tab-panel active" id="tab-incoming">
+        <div class="request-list">
+
+          <!-- Pending -->
+          <div class="request-card status-pending fade-up" id="req-1">
+            <div class="req-avatar" style="color:var(--flame-lt)">ML</div>
+            <div class="req-body">
+              <div class="req-names">
+                <strong>Marcus Lee</strong> wants to swap
+                <em>Guitar for Beginners</em> for your
+                <em>Adobe Photoshop Basics</em>
+              </div>
+              <div class="req-message">"Hi Sarah! I've been wanting to learn Photoshop for a while. I can teach you
+                guitar in exchange!"</div>
+              <div class="req-date">Jan 10, 2025</div>
+            </div>
+            <div class="req-actions">
+              <span class="status-badge badge-pending">Pending</span>
+              <button class="btn-accept" onclick="acceptReq('req-1', 'Marcus Lee')">✓ Accept</button>
+              <button class="btn-reject" onclick="rejectReq('req-1')">✕ Reject</button>
+            </div>
+          </div>
+
+          <!-- Accepted -->
+          <div class="request-card status-accepted fade-up" id="req-2">
+            <div class="req-avatar" style="color:var(--c-accept)">ET</div>
+            <div class="req-body">
+              <div class="req-names">
+                <strong>Elena Torres</strong> wants to swap
+                <em>Conversational Spanish</em> for your
+                <em>Figma UI Design</em>
+              </div>
+              <div class="req-message">"Hello! I'd love to learn Figma. I can teach you Spanish in return!"</div>
+              <div class="req-date">Jan 5, 2025</div>
+            </div>
+            <div class="req-actions">
+              <span class="status-badge badge-accepted">✓ Accepted</span>
+              <a href="messages.html" class="btn-message">💬 Message</a>
+            </div>
+          </div>
+
+          <!-- Rejected -->
+          <div class="request-card status-rejected fade-up" id="req-3">
+            <div class="req-avatar" style="color:var(--ink3)">AM</div>
+            <div class="req-body">
+              <div class="req-names">
+                <strong>Arjun Mehta</strong> wants to swap
+                <em>Python for Beginners</em> for your
+                <em>Adobe Photoshop Basics</em>
+              </div>
+              <div class="req-message">"I can teach Python if you can help me with Photoshop basics."</div>
+              <div class="req-date">Dec 28, 2024</div>
+            </div>
+            <div class="req-actions">
+              <span class="status-badge badge-rejected">✕ Rejected</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── OUTGOING ── -->
+      <div class="tab-panel" id="tab-outgoing">
+        <div class="request-list">
+
+          <div class="request-card status-pending fade-up">
+            <div class="req-avatar" style="color:var(--amber)">PS</div>
+            <div class="req-body">
+              <div class="req-names">
+                You requested <em>Mobile Photography Tips</em> from
+                <strong>Priya Sharma</strong> in exchange for
+                <em>Figma UI Design</em>
+              </div>
+              <div class="req-date">Jan 8, 2025</div>
+            </div>
+            <div class="req-actions">
+              <span class="status-badge badge-pending">Pending</span>
+            </div>
+          </div>
+
+          <div class="request-card status-accepted fade-up">
+            <div class="req-avatar" style="color:var(--c-accept)">JC</div>
+            <div class="req-body">
+              <div class="req-names">
+                You requested <em>Creative Writing Workshop</em> from
+                <strong>James Carter</strong> in exchange for
+                <em>Adobe Photoshop Basics</em>
+              </div>
+              <div class="req-date">Jan 3, 2025</div>
+            </div>
+            <div class="req-actions">
+              <span class="status-badge badge-accepted">✓ Accepted</span>
+              <a href="messages.html" class="btn-message">💬 Message</a>
+            </div>
+          </div>
+
+          <div class="request-card status-rejected fade-up">
+            <div class="req-avatar" style="color:var(--ink3)">ML</div>
+            <div class="req-body">
+              <div class="req-names">
+                You requested <em>Guitar for Beginners</em> from
+                <strong>Marcus Lee</strong> in exchange for
+                <em>Illustrator for Beginners</em>
+              </div>
+              <div class="req-date">Dec 20, 2024</div>
+            </div>
+            <div class="req-actions">
+              <span class="status-badge badge-rejected">✕ Rejected</span>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+      <!-- ── ACTIVE SWAPS ── -->
+      <div class="tab-panel" id="tab-active">
+        <p class="section-note">These swaps have been accepted — start messaging to coordinate your sessions.</p>
+        <div class="active-swaps-grid">
+
+          <div class="swap-tile fade-up">
+            <div class="swap-tile-top">
+              <div class="swap-tile-avatar">ET</div>
+              <div>
+                <div class="swap-tile-name">Elena Torres</div>
+                <div class="swap-tile-detail">Figma UI Design ↔ Conversational Spanish</div>
+              </div>
+            </div>
+            <div class="swap-tile-footer">
+              <div class="swap-status">Active</div>
+              <a href="messages.html" class="btn-message">💬 Open Messages</a>
+            </div>
+          </div>
+
+          <div class="swap-tile fade-up">
+            <div class="swap-tile-top">
+              <div class="swap-tile-avatar" style="color:var(--c-accept)">JC</div>
+              <div>
+                <div class="swap-tile-name">James Carter</div>
+                <div class="swap-tile-detail">Photoshop Basics ↔ Creative Writing</div>
+              </div>
+            </div>
+            <div class="swap-tile-footer">
+              <div class="swap-status">Active</div>
+              <a href="messages.html" class="btn-message">💬 Open Messages</a>
+            </div>
+          </div>
+
+        </div>
+      </div>
+
+    </div>
+  </main>
+
+  <!-- FOOTER -->
+  <footer class="site-footer">
+    © 2025 SkillSwap. Exchange skills, not money.
+  </footer>
+
+  <script>
+    // Mobile nav
+    const navToggle = document.getElementById('navToggle');
+    const navLinks = document.getElementById('navLinks');
+    navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
+    document.addEventListener('click', e => {
+      if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
+        navLinks.classList.remove('mob-open');
     });
-  });
+    const s = document.createElement('style');
+    s.textContent = `@media(max-width:768px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
+    document.head.appendChild(s);
 
-  // Alerts helper
-  const successAlert = document.getElementById('formSuccess');
-  const errorAlert   = document.getElementById('formError');
-  function showAlert(type, msg) {
-    const el    = type === 'success' ? successAlert : errorAlert;
-    const other = type === 'success' ? errorAlert   : successAlert;
-    el.textContent = msg;
-    el.style.display = 'flex';
-    other.style.display = 'none';
-    el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
-    setTimeout(() => { el.style.display = 'none'; }, 3500);
-  }
+    // Tabs
+    document.querySelectorAll('.tab-btn').forEach(btn => {
+      btn.addEventListener('click', () => {
+        document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+        document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+        btn.classList.add('active');
+        document.getElementById('tab-' + btn.dataset.tab).classList.add('active');
+      });
+    });
 
-  // Accept request
-  function acceptReq(id, name) {
-    const card = document.getElementById(id);
-    // swap classes
-    card.classList.remove('status-pending');
-    card.classList.add('status-accepted');
-    // update badge
-    card.querySelector('.status-badge').className = 'status-badge badge-accepted';
-    card.querySelector('.status-badge').textContent = '✓ Accepted';
-    // swap buttons → message button
-    const actions = card.querySelector('.req-actions');
-    actions.querySelectorAll('button').forEach(b => b.remove());
-    const msgBtn = document.createElement('a');
-    msgBtn.href = 'messages.html';
-    msgBtn.className = 'btn-message';
-    msgBtn.innerHTML = '💬 Message';
-    actions.appendChild(msgBtn);
-    // update incoming badge count
-    updateIncomingBadge();
-    showAlert('success', `✅ Swap with ${name} accepted! You can now message each other.`);
-  }
+    // Alerts helper
+    const successAlert = document.getElementById('formSuccess');
+    const errorAlert = document.getElementById('formError');
+    function showAlert(type, msg) {
+      const el = type === 'success' ? successAlert : errorAlert;
+      const other = type === 'success' ? errorAlert : successAlert;
+      el.textContent = msg;
+      el.style.display = 'flex';
+      other.style.display = 'none';
+      el.scrollIntoView({ behavior: 'smooth', block: 'nearest' });
+      setTimeout(() => { el.style.display = 'none'; }, 3500);
+    }
 
-  // Reject request
-  function rejectReq(id) {
-    const card = document.getElementById(id);
-    card.classList.remove('status-pending');
-    card.classList.add('status-rejected');
-    card.style.transition = 'opacity 0.4s';
-    card.querySelector('.status-badge').className = 'status-badge badge-rejected';
-    card.querySelector('.status-badge').textContent = '✕ Rejected';
-    card.querySelectorAll('button').forEach(b => b.remove());
-    card.style.opacity = '0.6';
-    updateIncomingBadge();
-    showAlert('error', '✕ Request rejected.');
-  }
+    // Accept request
+    function acceptReq(id, name) {
+      const card = document.getElementById(id);
+      // swap classes
+      card.classList.remove('status-pending');
+      card.classList.add('status-accepted');
+      // update badge
+      card.querySelector('.status-badge').className = 'status-badge badge-accepted';
+      card.querySelector('.status-badge').textContent = '✓ Accepted';
+      // swap buttons → message button
+      const actions = card.querySelector('.req-actions');
+      actions.querySelectorAll('button').forEach(b => b.remove());
+      const msgBtn = document.createElement('a');
+      msgBtn.href = 'messages.html';
+      msgBtn.className = 'btn-message';
+      msgBtn.innerHTML = '💬 Message';
+      actions.appendChild(msgBtn);
+      // update incoming badge count
+      updateIncomingBadge();
+      showAlert('success', `✅ Swap with ${name} accepted! You can now message each other.`);
+    }
 
-  function updateIncomingBadge() {
-    const pending = document.querySelectorAll('#tab-incoming .status-pending').length;
-    const badge = document.getElementById('incomingBadge');
-    if (badge) badge.textContent = pending > 0 ? pending : '0';
-  }
-</script>
+    // Reject request
+    function rejectReq(id) {
+      const card = document.getElementById(id);
+      card.classList.remove('status-pending');
+      card.classList.add('status-rejected');
+      card.style.transition = 'opacity 0.4s';
+      card.querySelector('.status-badge').className = 'status-badge badge-rejected';
+      card.querySelector('.status-badge').textContent = '✕ Rejected';
+      card.querySelectorAll('button').forEach(b => b.remove());
+      card.style.opacity = '0.6';
+      updateIncomingBadge();
+      showAlert('error', '✕ Request rejected.');
+    }
+
+    function updateIncomingBadge() {
+      const pending = document.querySelectorAll('#tab-incoming .status-pending').length;
+      const badge = document.getElementById('incomingBadge');
+      if (badge) badge.textContent = pending > 0 ? pending : '0';
+    }
+  </script>
 
 </body>
+
 </html>

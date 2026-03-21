@@ -1,428 +1,539 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Request Swap — SkillSwap</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Request Swap — SkillSwap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    /* ── SWAP REQUEST PAGE SPECIFIC ── */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-<style>
-:root {
-  --bg:       #0E0E0E;
-  --bg2:      #161616;
-  --bg3:      #1E1E1E;
-  --bg4:      #252525;
-  --border:   rgba(255,255,255,0.08);
-  --border2:  rgba(255,255,255,0.14);
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
 
-  --flame:    #F97316;
-  --flame-dk: #EA6A0A;
-  --flame-lt: #FB923C;
-  --glow:     rgba(249,115,22,0.18);
-  --glow-sm:  rgba(249,115,22,0.10);
+    .navbar {
+      position: relative;
+      z-index: 10;
+    }
 
-  --ink:      #FFFAF5;
-  --ink2:     #D1CCBF;
-  --ink3:     #8A857A;
-  --ink4:     #4A4740;
+    .nav-links {
+      list-style: none;
+    }
 
-  --error:      #f87171;
-  --error-bg:   rgba(248,113,113,0.1);
-  --error-br:   rgba(248,113,113,0.25);
-  --success:    #4ade80;
-  --success-bg: rgba(74,222,128,0.1);
-  --success-br: rgba(74,222,128,0.25);
+    .btn-nav-logout {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink3);
+      border: 1px solid var(--border2);
+      border-radius: var(--r-btn);
+      padding: 6px 16px;
+      transition: all 0.2s;
+    }
 
-  --font-head: 'Syne', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
-  --r-btn: 50px;
-  --r-card: 22px;
-}
+    .btn-nav-logout:hover {
+      color: #f87171;
+      border-color: #f87171;
+    }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
 
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
-}
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
 
-a { text-decoration: none; color: inherit; }
+    .main-content {
+      flex: 1;
+      display: flex;
+      align-items: flex-start;
+      justify-content: center;
+      padding: 4rem 1.5rem;
+      position: relative;
+      z-index: 1;
+    }
 
-/* ── NAVBAR ── */
-.navbar {
-  position: relative; z-index: 10;
-  background: rgba(14,14,14,0.92); backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 3rem; height: 66px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo-wrap { display: flex; align-items: center; gap: 10px; }
-.logo-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--flame); display: flex; align-items: center; justify-content: center;
-  flex-shrink: 0;
-}
-.logo-icon svg { width: 20px; height: 20px; }
-.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; color: var(--ink); }
-.nav-links { display: flex; align-items: center; gap: 2rem; list-style: none; }
-.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-links .active { color: var(--flame-lt); }
-.btn-nav-logout {
-  font-size: 0.875rem; font-weight: 500; color: var(--ink3);
-  border: 1px solid var(--border2); border-radius: var(--r-btn);
-  padding: 6px 16px; transition: all 0.2s;
-}
-.btn-nav-logout:hover { color: var(--error); border-color: var(--error); }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
+    .main-content::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.07) 0%, transparent 65%);
+      top: 40%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
 
-/* ── MAIN ── */
-.main-content {
-  flex: 1; display: flex; align-items: flex-start; justify-content: center;
-  padding: 4rem 1.5rem; position: relative; z-index: 1;
-}
-.main-content::before {
-  content: '';
-  position: absolute;
-  width: 600px; height: 600px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 65%);
-  top: 40%; left: 50%; transform: translate(-50%, -50%);
-  pointer-events: none;
-}
+    /* Swap card */
+    .swap-card {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 22px;
+      padding: 3rem 2.8rem;
+      width: 100%;
+      max-width: 520px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(249, 115, 22, 0.05);
+      position: relative;
+      overflow: hidden;
+      animation: cardIn 0.5s ease forwards;
+    }
 
-/* ── PAGE CARD ── */
-.swap-card {
-  background: var(--bg2);
-  border: 1px solid var(--border2);
-  border-radius: var(--r-card);
-  padding: 3rem 2.8rem;
-  width: 100%; max-width: 520px;
-  box-shadow: 0 24px 80px rgba(0,0,0,0.5), 0 0 0 1px rgba(249,115,22,0.05);
-  position: relative; overflow: hidden;
-  animation: cardIn 0.5s ease forwards;
-}
-@keyframes cardIn {
-  from { opacity: 0; transform: translateY(20px); }
-  to   { opacity: 1; transform: translateY(0); }
-}
-.swap-card::before {
-  content: '';
-  position: absolute; top: -80px; right: -80px;
-  width: 240px; height: 240px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 70%);
-  pointer-events: none;
-}
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
 
-/* breadcrumb */
-.breadcrumb {
-  display: flex; align-items: center; gap: 6px;
-  font-size: 0.75rem; color: var(--ink3); margin-bottom: 1.8rem;
-}
-.breadcrumb a { color: var(--ink3); transition: color 0.2s; }
-.breadcrumb a:hover { color: var(--flame-lt); }
-.breadcrumb span { color: var(--ink4); }
-.breadcrumb .current { color: var(--ink2); }
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
 
-/* heading */
-.page-heading {
-  font-family: var(--font-head); font-size: 1.9rem; font-weight: 800;
-  letter-spacing: -0.03em; color: var(--ink); margin-bottom: 6px;
-}
-.page-heading span { color: var(--flame); }
+    .swap-card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
 
-/* skill target badge */
-.skill-target {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--glow-sm); border: 1px solid rgba(249,115,22,0.2);
-  border-radius: 10px; padding: 10px 16px; margin-bottom: 2rem;
-}
-.skill-target-label { font-size: 0.72rem; text-transform: uppercase; letter-spacing: 0.08em; color: var(--ink3); font-weight: 600; }
-.skill-target-name { font-family: var(--font-head); font-weight: 700; font-size: 1rem; color: var(--ink); margin-top: 1px; }
-.skill-target-icon { font-size: 1.4rem; flex-shrink: 0; }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--ink3);
+      margin-bottom: 1.8rem;
+    }
 
-/* divider */
-.form-divider { border: none; border-top: 1px solid var(--border); margin-bottom: 1.8rem; }
+    .breadcrumb a {
+      color: var(--ink3);
+      transition: color 0.2s;
+    }
 
-/* ── ALERTS ── */
-.alert {
-  padding: 0.75rem 1rem; border-radius: 10px;
-  font-size: 0.85rem; margin-bottom: 1.2rem;
-  display: none; align-items: center; gap: 8px; font-weight: 500;
-}
-.alert-error   { background: var(--error-bg);   color: var(--error);   border: 1px solid var(--error-br); }
-.alert-success { background: var(--success-bg); color: var(--success); border: 1px solid var(--success-br); }
+    .breadcrumb a:hover {
+      color: var(--flame-lt);
+    }
 
-/* ── FORM ── */
-.form-group { margin-bottom: 1.4rem; }
-.form-group label {
-  display: block; font-size: 0.82rem; font-weight: 600;
-  color: var(--ink2); margin-bottom: 7px; letter-spacing: 0.02em;
-}
-.form-group label .optional {
-  font-weight: 400; color: var(--ink3); font-size: 0.75rem; margin-left: 4px;
-}
+    .breadcrumb span {
+      color: var(--ink4);
+    }
 
-.form-group select,
-.form-group textarea {
-  width: 100%;
-  border: 1px solid var(--border2); border-radius: 10px;
-  font-size: 0.9rem; font-family: var(--font-body);
-  background: var(--bg3); color: var(--ink);
-  outline: none; transition: border-color 0.2s, box-shadow 0.2s;
-}
-.form-group select {
-  padding: 0.75rem 1rem;
-  appearance: none; -webkit-appearance: none;
-  background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A857A' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-  background-repeat: no-repeat;
-  background-position: right 14px center;
-  padding-right: 38px; cursor: pointer;
-}
-.form-group select option { background: var(--bg3); color: var(--ink); }
-.form-group textarea {
-  padding: 0.75rem 1rem; resize: vertical; min-height: 120px; line-height: 1.6;
-}
-.form-group select:focus,
-.form-group textarea:focus {
-  border-color: var(--flame);
-  box-shadow: 0 0 0 3px rgba(249,115,22,0.12);
-}
-.form-group select::placeholder,
-.form-group textarea::placeholder { color: var(--ink4); }
+    .breadcrumb .current {
+      color: var(--ink2);
+    }
 
-/* char counter */
-.char-row { display: flex; justify-content: flex-end; margin-top: 5px; }
-.char-count { font-size: 0.72rem; color: var(--ink4); }
+    .page-heading {
+      font-family: var(--font-head);
+      font-size: 1.9rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 6px;
+    }
 
-/* skill preview chip */
-.skill-preview {
-  display: none; margin-top: 10px;
-  background: var(--bg4); border: 1px solid var(--border2);
-  border-radius: 8px; padding: 10px 14px;
-  font-size: 0.82rem; color: var(--ink2);
-  animation: fadeIn 0.2s ease;
-}
-@keyframes fadeIn { from{opacity:0;transform:translateY(-4px)} to{opacity:1;transform:translateY(0)} }
-.skill-preview strong { color: var(--flame-lt); }
+    .page-heading span {
+      color: var(--flame);
+    }
 
-/* ── BUTTONS ── */
-.btn-row { display: flex; gap: 12px; margin-top: 0.5rem; }
-.btn-submit {
-  flex: 1; padding: 0.88rem;
-  background: var(--flame); color: #1a0a00;
-  font-family: var(--font-head); font-size: 0.95rem; font-weight: 700;
-  border: none; border-radius: var(--r-btn); cursor: pointer;
-  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-  box-shadow: 0 0 24px rgba(249,115,22,0.35); letter-spacing: -0.01em;
-}
-.btn-submit:hover { background: var(--flame-lt); box-shadow: 0 0 36px rgba(249,115,22,0.5); transform: translateY(-1px); }
-.btn-submit:active { transform: scale(0.98); }
-.btn-cancel {
-  padding: 0.88rem 1.6rem;
-  background: transparent; color: var(--ink3);
-  font-family: var(--font-body); font-size: 0.9rem; font-weight: 500;
-  border: 1px solid var(--border2); border-radius: var(--r-btn); cursor: pointer;
-  transition: all 0.2s; white-space: nowrap;
-}
-.btn-cancel:hover { background: var(--bg3); color: var(--ink); border-color: var(--border2); }
+    .skill-target {
+      display: inline-flex;
+      align-items: center;
+      gap: 8px;
+      background: var(--glow-sm);
+      border: 1px solid rgba(249, 115, 22, 0.2);
+      border-radius: 10px;
+      padding: 10px 16px;
+      margin-bottom: 2rem;
+    }
 
-/* ── FOOTER ── */
-.site-footer {
-  position: relative; z-index: 1;
-  text-align: center; padding: 1.2rem;
-  font-size: 0.78rem; color: var(--ink4);
-  border-top: 1px solid var(--border); background: var(--bg2);
-}
+    .skill-target-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.08em;
+      color: var(--ink3);
+      font-weight: 600;
+    }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 640px) {
-  .navbar { padding: 0 1.5rem; }
-  .nav-links { display: none; }
-  .nav-toggle { display: flex; }
-  .swap-card { padding: 2rem 1.5rem; }
-  .btn-row { flex-direction: column; }
-  .btn-cancel { text-align: center; }
-}
-</style>
+    .skill-target-name {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 1rem;
+      color: var(--ink);
+      margin-top: 1px;
+    }
+
+    .skill-target-icon {
+      font-size: 1.4rem;
+      flex-shrink: 0;
+    }
+
+    .form-divider {
+      border: none;
+      border-top: 1px solid var(--border);
+      margin-bottom: 1.8rem;
+    }
+
+    .alert {
+      padding: 0.75rem 1rem;
+      border-radius: 10px;
+      font-size: 0.85rem;
+      margin-bottom: 1.2rem;
+      display: none;
+      align-items: center;
+      gap: 8px;
+      font-weight: 500;
+    }
+
+    .alert-error {
+      background: rgba(248, 113, 113, 0.1);
+      color: #f87171;
+      border: 1px solid rgba(248, 113, 113, 0.25);
+    }
+
+    .alert-success {
+      background: rgba(74, 222, 128, 0.1);
+      color: #4ade80;
+      border: 1px solid rgba(74, 222, 128, 0.25);
+    }
+
+    .form-group {
+      margin-bottom: 1.4rem;
+    }
+
+    .form-group label {
+      display: block;
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink2);
+      margin-bottom: 7px;
+      letter-spacing: 0.02em;
+    }
+
+    .form-group label .optional {
+      font-weight: 400;
+      color: var(--ink3);
+      font-size: 0.75rem;
+      margin-left: 4px;
+    }
+
+    .form-group select,
+    .form-group textarea {
+      width: 100%;
+      border: 1px solid var(--border2);
+      border-radius: 10px;
+      font-size: 0.9rem;
+      font-family: var(--font-body);
+      background: var(--bg3);
+      color: var(--ink);
+      outline: none;
+      transition: border-color 0.2s, box-shadow 0.2s;
+    }
+
+    .form-group select {
+      padding: 0.75rem 1rem;
+      appearance: none;
+      -webkit-appearance: none;
+      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A857A' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
+      background-repeat: no-repeat;
+      background-position: right 14px center;
+      padding-right: 38px;
+      cursor: pointer;
+    }
+
+    .form-group select option {
+      background: var(--bg3);
+      color: var(--ink);
+    }
+
+    .form-group textarea {
+      padding: 0.75rem 1rem;
+      resize: vertical;
+      min-height: 120px;
+      line-height: 1.6;
+    }
+
+    .form-group select:focus,
+    .form-group textarea:focus {
+      border-color: var(--flame);
+      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
+    }
+
+    .form-group textarea::placeholder {
+      color: var(--ink4);
+    }
+
+    .char-row {
+      display: flex;
+      justify-content: flex-end;
+      margin-top: 5px;
+    }
+
+    .char-count {
+      font-size: 0.72rem;
+      color: var(--ink4);
+    }
+
+    .skill-preview {
+      display: none;
+      margin-top: 10px;
+      background: var(--bg4);
+      border: 1px solid var(--border2);
+      border-radius: 8px;
+      padding: 10px 14px;
+      font-size: 0.82rem;
+      color: var(--ink2);
+      animation: fadeIn 0.2s ease;
+    }
+
+    @keyframes fadeIn {
+      from {
+        opacity: 0;
+        transform: translateY(-4px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .skill-preview strong {
+      color: var(--flame-lt);
+    }
+
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      margin-top: 0.5rem;
+    }
+
+    .btn-submit {
+      flex: 1;
+      padding: 0.88rem;
+      background: var(--flame);
+      color: #1a0a00;
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--r-btn);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(249, 115, 22, 0.35);
+      letter-spacing: -0.01em;
+    }
+
+    .btn-submit:hover {
+      background: var(--flame-lt);
+      box-shadow: 0 0 36px rgba(249, 115, 22, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-submit:active {
+      transform: scale(0.98);
+    }
+
+    .btn-cancel {
+      padding: 0.88rem 1.6rem;
+      background: transparent;
+      color: var(--ink3);
+      font-family: var(--font-body);
+      font-size: 0.9rem;
+      font-weight: 500;
+      border: 1px solid var(--border2);
+      border-radius: var(--r-btn);
+      cursor: pointer;
+      transition: all 0.2s;
+      white-space: nowrap;
+    }
+
+    .btn-cancel:hover {
+      background: var(--bg3);
+      color: var(--ink);
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.78rem;
+      color: var(--ink4);
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    @media (max-width: 640px) {
+      .navbar {
+        padding: 0 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .swap-card {
+        padding: 2rem 1.5rem;
+      }
+
+      .btn-row {
+        flex-direction: column;
+      }
+
+      .btn-cancel {
+        text-align: center;
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="../index.html" class="logo-wrap">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
-        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
-      </svg>
-    </div>
-    <span class="logo-name">SkillSwap</span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="explore.html">Explore</a></li>
-    <li><a href="dashboard.html">Dashboard</a></li>
-    <li><a href="profile.html">Profile</a></li>
-    <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
-  </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
-
-<!-- MAIN -->
-<main class="main-content">
-  <div class="swap-card">
-
-    <!-- Breadcrumb -->
-    <div class="breadcrumb">
-      <a href="explore.html">Explore</a>
-      <span>›</span>
-      <a href="skill-detail.html">Skill Detail</a>
-      <span>›</span>
-      <span class="current">Request Swap</span>
-    </div>
-
-    <h1 class="page-heading">Request <span>Swap</span></h1>
-
-    <!-- Target skill badge -->
-    <div class="skill-target">
-      <div class="skill-target-icon">🎨</div>
-      <div>
-        <div class="skill-target-label">You're requesting</div>
-        <div class="skill-target-name">Adobe Photoshop Basics</div>
+  <nav class="navbar">
+    <a href="../index.html" class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+            stroke="#1a0a00" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
+            fill="#1a0a00" />
+        </svg>
       </div>
-    </div>
+      <span class="logo-name">SkillSwap</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="explore.html">Explore</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </nav>
 
-    <hr class="form-divider">
-
-    <!-- Alerts -->
-    <div class="alert alert-error"   id="formError"></div>
-    <div class="alert alert-success" id="formSuccess"></div>
-
-    <form id="swapForm">
-
-      <div class="form-group">
-        <label for="skill_offered_id">Your skill to exchange</label>
-        <select id="skill_offered_id" name="skill_offered_id" required>
-          <option value="">Select a skill you can offer</option>
-          <option value="1">🐍 Python for Beginners</option>
-          <option value="2">🌐 HTML &amp; CSS Basics</option>
-          <option value="3">🎵 Music Production Basics</option>
-          <option value="4">📸 Photography Fundamentals</option>
-          <option value="5">✏️ Graphic Design Essentials</option>
-        </select>
-        <div class="skill-preview" id="skillPreview">
-          You'll offer <strong id="skillPreviewName"></strong> in exchange for Adobe Photoshop Basics.
+  <main class="main-content">
+    <div class="swap-card">
+      <div class="breadcrumb">
+        <a href="explore.html">Explore</a><span>›</span>
+        <a href="skill-detail.html">Skill Detail</a><span>›</span>
+        <span class="current">Request Swap</span>
+      </div>
+      <h1 class="page-heading">Request <span>Swap</span></h1>
+      <div class="skill-target">
+        <div class="skill-target-icon">🎨</div>
+        <div>
+          <div class="skill-target-label">You're requesting</div>
+          <div class="skill-target-name">Adobe Photoshop Basics</div>
         </div>
       </div>
-
-      <div class="form-group">
-        <label for="message">Message <span class="optional">(optional)</span></label>
-        <textarea
-          id="message"
-          name="message"
-          rows="4"
-          maxlength="400"
-          placeholder="Introduce yourself and why you'd like to swap..."></textarea>
-        <div class="char-row">
-          <span class="char-count" id="charCount">0 / 400</span>
+      <hr class="form-divider">
+      <div class="alert alert-error" id="formError"></div>
+      <div class="alert alert-success" id="formSuccess"></div>
+      <form id="swapForm">
+        <div class="form-group">
+          <label for="skill_offered_id">Your skill to exchange</label>
+          <select id="skill_offered_id" name="skill_offered_id" required>
+            <option value="">Select a skill you can offer</option>
+            <option value="1">🐍 Python for Beginners</option>
+            <option value="2">🌐 HTML &amp; CSS Basics</option>
+            <option value="3">🎵 Music Production Basics</option>
+            <option value="4">📸 Photography Fundamentals</option>
+            <option value="5">✏️ Graphic Design Essentials</option>
+          </select>
+          <div class="skill-preview" id="skillPreview">
+            You'll offer <strong id="skillPreviewName"></strong> in exchange for Adobe Photoshop Basics.
+          </div>
         </div>
-      </div>
+        <div class="form-group">
+          <label for="message">Message <span class="optional">(optional)</span></label>
+          <textarea id="message" name="message" rows="4" maxlength="400"
+            placeholder="Introduce yourself and why you'd like to swap..."></textarea>
+          <div class="char-row"><span class="char-count" id="charCount">0 / 400</span></div>
+        </div>
+        <div class="btn-row">
+          <button type="submit" class="btn-submit">Send Request →</button>
+          <a href="skill-detail.html" class="btn-cancel">Cancel</a>
+        </div>
+      </form>
+    </div>
+  </main>
 
-      <div class="btn-row">
-        <button type="submit" class="btn-submit">Send Request →</button>
-        <a href="skill-detail.html" class="btn-cancel">Cancel</a>
-      </div>
+  <footer class="site-footer">© 2025 SkillSwap. Exchange skills, not money.</footer>
 
-    </form>
+  <script src="../js/main.js"></script>
+  <script>
+    const select = document.getElementById('skill_offered_id');
+    const preview = document.getElementById('skillPreview');
+    const previewName = document.getElementById('skillPreviewName');
+    select.addEventListener('change', () => {
+      if (select.value) {
+        previewName.textContent = select.options[select.selectedIndex].text.replace(/^.\s/, '');
+        preview.style.display = 'block';
+      } else { preview.style.display = 'none'; }
+    });
 
-  </div>
-</main>
+    const textarea = document.getElementById('message');
+    const charCount = document.getElementById('charCount');
+    textarea.addEventListener('input', () => {
+      const len = textarea.value.length;
+      charCount.textContent = `${len} / 400`;
+      charCount.style.color = len > 360 ? '#f87171' : 'var(--ink4)';
+    });
 
-<!-- FOOTER -->
-<footer class="site-footer">
-  © 2025 SkillSwap. Exchange skills, not money.
-</footer>
-
-<script>
-  // Mobile nav
-  const navToggle = document.getElementById('navToggle');
-  const navLinks  = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
-  document.addEventListener('click', e => {
-    if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
-      navLinks.classList.remove('mob-open');
-  });
-  const s = document.createElement('style');
-  s.textContent = `@media(max-width:640px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
-  document.head.appendChild(s);
-
-  // Skill preview chip
-  const select       = document.getElementById('skill_offered_id');
-  const preview      = document.getElementById('skillPreview');
-  const previewName  = document.getElementById('skillPreviewName');
-  select.addEventListener('change', () => {
-    if (select.value) {
-      const txt = select.options[select.selectedIndex].text.replace(/^.\s/, '');
-      previewName.textContent = txt;
-      preview.style.display = 'block';
-    } else {
-      preview.style.display = 'none';
-    }
-  });
-
-  // Char counter
-  const textarea  = document.getElementById('message');
-  const charCount = document.getElementById('charCount');
-  textarea.addEventListener('input', () => {
-    const len = textarea.value.length;
-    charCount.textContent = `${len} / 400`;
-    charCount.style.color = len > 360 ? '#f87171' : 'var(--ink4)';
-  });
-
-  // Form submit
-  const swapForm    = document.getElementById('swapForm');
-  const formError   = document.getElementById('formError');
-  const formSuccess = document.getElementById('formSuccess');
-
-  swapForm.addEventListener('submit', function(e) {
-    e.preventDefault();
-    formError.style.display   = 'none';
-    formSuccess.style.display = 'none';
-
-    if (!select.value) {
-      formError.textContent   = 'Please select a skill you can offer.';
-      formError.style.display = 'flex';
-      select.focus();
-      return;
-    }
-
-    const skillName = select.options[select.selectedIndex].text.replace(/^.\s/, '');
-    formSuccess.textContent   = `🔥 Swap request sent! Offering ${skillName}.`;
-    formSuccess.style.display = 'flex';
-    swapForm.style.opacity    = '0.5';
-    swapForm.style.pointerEvents = 'none';
-
-    setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
-  });
-
-  select.addEventListener('change', () => { formError.style.display = 'none'; });
-</script>
-
+    const formError = document.getElementById('formError');
+    const formSuccess = document.getElementById('formSuccess');
+    document.getElementById('swapForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      formError.style.display = 'none'; formSuccess.style.display = 'none';
+      if (!select.value) { formError.textContent = 'Please select a skill you can offer.'; formError.style.display = 'flex'; select.focus(); return; }
+      const skillName = select.options[select.selectedIndex].text.replace(/^.\s/, '');
+      formSuccess.textContent = `🔥 Swap request sent! Offering ${skillName}.`;
+      formSuccess.style.display = 'flex';
+      this.style.opacity = '0.5'; this.style.pointerEvents = 'none';
+      setTimeout(() => { window.location.href = 'dashboard.html'; }, 1200);
+    });
+    select.addEventListener('change', () => { formError.style.display = 'none'; });
+  </script>
 </body>
+
 </html>

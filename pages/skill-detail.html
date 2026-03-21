@@ -1,607 +1,1239 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Home — SkillSwap</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:wght@400;500;600&display=swap" rel="stylesheet">
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Adobe Photoshop Basics — SkillSwap</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link
+    href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap"
+    rel="stylesheet">
+  <link rel="stylesheet" href="../css/main.css">
+  <link rel="stylesheet" href="../css/components.css">
+  <style>
+    /* ── SKILL DETAIL PAGE SPECIFIC ── */
+    body {
+      display: flex;
+      flex-direction: column;
+      min-height: 100vh;
+    }
 
-<style>
-:root {
-  --bg:       #0E0E0E;
-  --bg2:      #161616;
-  --bg3:      #1E1E1E;
-  --bg4:      #252525;
-  --border:   rgba(255,255,255,0.08);
-  --border2:  rgba(255,255,255,0.14);
+    body::before {
+      content: '';
+      position: fixed;
+      inset: 0;
+      z-index: 0;
+      background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-size: 44px 44px;
+      pointer-events: none;
+    }
 
-  --flame:    #F97316;
-  --flame-dk: #EA6A0A;
-  --flame-lt: #FB923C;
-  --amber:    #FBBF24;
-  --glow:     rgba(249,115,22,0.18);
-  --glow-sm:  rgba(249,115,22,0.10);
+    .nav-links {
+      list-style: none;
+    }
 
-  --ink:      #FFFAF5;
-  --ink2:     #D1CCBF;
-  --ink3:     #8A857A;
-  --ink4:     #4A4740;
+    .nav-links a.active {
+      color: var(--flame-lt);
+    }
 
-  --font-head: 'Syne', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
-  --r-btn: 50px;
-  --r-card: 18px;
-}
+    .btn-nav-logout {
+      font-size: 0.875rem;
+      font-weight: 500;
+      color: var(--ink3);
+      border: 1px solid var(--border2);
+      border-radius: var(--r-btn);
+      padding: 6px 16px;
+      transition: all 0.2s;
+    }
 
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
+    .btn-nav-logout:hover {
+      color: #f87171;
+      border-color: rgba(248, 113, 113, 0.3);
+    }
 
-body {
-  font-family: var(--font-body);
-  background: var(--bg);
-  color: var(--ink);
-  min-height: 100vh;
-  display: flex; flex-direction: column;
-}
-body::before {
-  content: '';
-  position: fixed; inset: 0; z-index: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.015) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.015) 1px, transparent 1px);
-  background-size: 44px 44px;
-  pointer-events: none;
-}
-a { text-decoration: none; color: inherit; }
-ul { list-style: none; }
+    .nav-toggle {
+      display: none;
+      flex-direction: column;
+      gap: 5px;
+      background: none;
+      border: none;
+      cursor: pointer;
+      padding: 4px;
+    }
 
-/* ── NAVBAR ── */
-.navbar {
-  position: sticky; top: 0; z-index: 999;
-  background: rgba(14,14,14,0.92); backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 3rem; height: 66px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo-wrap { display: flex; align-items: center; gap: 10px; }
-.logo-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--flame); display: flex; align-items: center; justify-content: center; flex-shrink: 0;
-}
-.logo-icon svg { width: 20px; height: 20px; }
-.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; color: var(--ink); }
-.nav-links { display: flex; align-items: center; gap: 2rem; }
-.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-links a.active { color: var(--flame-lt); }
-.btn-signup {
-  background: var(--flame); color: #1a0a00;
-  padding: 7px 20px; border-radius: var(--r-btn);
-  font-weight: 600; font-size: 0.875rem; font-family: var(--font-body);
-  transition: background 0.2s, box-shadow 0.2s;
-  box-shadow: 0 0 16px rgba(249,115,22,0.3);
-}
-.btn-signup:hover { background: var(--flame-lt); box-shadow: 0 0 24px rgba(249,115,22,0.45); color: #1a0a00; }
-.btn-login {
-  font-size: 0.875rem; font-weight: 500; color: var(--ink3);
-  border: 1px solid var(--border2); border-radius: var(--r-btn);
-  padding: 6px 18px; transition: all 0.2s;
-}
-.btn-login:hover { color: var(--ink); border-color: var(--border2); background: var(--bg3); }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
+    .nav-toggle span {
+      display: block;
+      width: 22px;
+      height: 2px;
+      background: var(--ink);
+      border-radius: 2px;
+    }
 
-/* ── MAIN ── */
-.main-content { flex: 1; position: relative; z-index: 1; }
+    .main-content {
+      flex: 1;
+      position: relative;
+      z-index: 1;
+    }
 
-/* ── WELCOME BANNER ── */
-.welcome-banner {
-  background: var(--bg2); border-bottom: 1px solid var(--border);
-  padding: 2.5rem 3rem;
-  display: flex; align-items: center; justify-content: space-between; gap: 2rem;
-  flex-wrap: wrap;
-  position: relative; overflow: hidden;
-}
-.welcome-banner::after {
-  content: '';
-  position: absolute; right: -80px; top: -80px;
-  width: 320px; height: 320px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.1) 0%, transparent 65%);
-  pointer-events: none;
-}
-.welcome-text
-.welcome-greeting {
-  font-family: var(--font-head); font-size: clamp(1.5rem, 2.5vw, 2rem);
-  font-weight: 800; letter-spacing: -0.03em; margin-bottom: 4px;
-}
-.welcome-greeting span { color: var(--flame); }
-.welcome-sub { font-size: 0.9rem; color: var(--ink3); }
-.welcome-actions { display: flex; gap: 10px; flex-wrap: wrap; }
-.btn-primary {
-  background: var(--flame); color: #1a0a00; padding: 10px 24px;
-  border-radius: var(--r-btn); font-family: var(--font-head); font-weight: 700;
-  font-size: 0.88rem; border: none; cursor: pointer;
-  transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-  box-shadow: 0 0 20px rgba(249,115,22,0.3);
-}
-.btn-primary:hover { background: var(--flame-lt); transform: translateY(-1px); box-shadow: 0 0 32px rgba(249,115,22,0.45); }
-.btn-secondary {
-  background: transparent; color: var(--ink2); padding: 9px 24px;
-  border-radius: var(--r-btn); font-family: var(--font-body); font-weight: 500;
-  font-size: 0.88rem; border: 1px solid var(--border2); cursor: pointer;
-  transition: all 0.2s;
-}
-.btn-secondary:hover { background: var(--bg3); color: var(--ink); }
+    /* ── SKILL HERO ── */
+    .skill-hero {
+      background: var(--bg2);
+      border-bottom: 1px solid var(--border);
+      padding: 2.5rem 3rem;
+      position: relative;
+      overflow: hidden;
+    }
 
-/* ── PAGE CONTAINER ── */
-.page-container { max-width: 1200px; margin: 0 auto; padding: 3rem; }
+    .skill-hero::after {
+      content: '';
+      position: absolute;
+      right: -100px;
+      top: -100px;
+      width: 400px;
+      height: 400px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 65%);
+      pointer-events: none;
+    }
 
-/* ── STATS ROW ── */
-.stats-row {
-  display: grid; grid-template-columns: repeat(4, 1fr); gap: 1rem;
-  margin-bottom: 3rem;
-}
-.stat-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: 1.5rem;
-  transition: border-color 0.2s, transform 0.2s;
-}
-.stat-card:hover { border-color: rgba(249,115,22,0.25); transform: translateY(-2px); }
-.stat-card:nth-child(1) .stat-icon { color: var(--flame); }
-.stat-card:nth-child(2) .stat-icon { color: var(--amber); }
-.stat-card:nth-child(3) .stat-icon { color: #4ade80; }
-.stat-card:nth-child(4) .stat-icon { color: #60a5fa; }
-.stat-icon { font-size: 1.4rem; margin-bottom: 10px; }
-.stat-val { font-family: var(--font-head); font-size: 1.8rem; font-weight: 800; letter-spacing: -1px; color: var(--ink); line-height: 1; margin-bottom: 4px; }
-.stat-lbl { font-size: 0.75rem; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.06em; }
+    .skill-hero-inner {
+      max-width: 1100px;
+      margin: 0 auto;
+      position: relative;
+      z-index: 1;
+    }
 
-/* ── SECTION HEADER ── */
-.section-header {
-  display: flex; align-items: center; justify-content: space-between;
-  margin-bottom: 1.2rem;
-}
-.section-title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 800; letter-spacing: -0.02em; }
-.section-link { font-size: 0.82rem; color: var(--flame-lt); transition: color 0.2s; }
-.section-link:hover { color: var(--flame); }
+    .breadcrumb {
+      display: flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.75rem;
+      color: var(--ink3);
+      margin-bottom: 1.5rem;
+    }
 
-/* ── TWO COL LAYOUT ── */
-.two-col { display: grid; grid-template-columns: 1fr 1fr; gap: 2rem; margin-bottom: 3rem; }
+    .breadcrumb a {
+      color: var(--ink3);
+      transition: color 0.2s;
+    }
 
-/* ── SKILL CARDS ── */
-.skill-list { display: flex; flex-direction: column; gap: 10px; }
-.skill-item {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 14px; padding: 14px 16px;
-  display: flex; align-items: center; gap: 14px;
-  transition: all 0.2s; cursor: pointer;
-}
-.skill-item:hover { border-color: rgba(249,115,22,0.3); background: var(--bg3); transform: translateX(4px); }
-.skill-item-icon {
-  width: 42px; height: 42px; border-radius: 10px; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center; font-size: 1.3rem;
-  background: var(--bg3);
-}
-.skill-item-info { flex: 1; min-width: 0; }
-.skill-item-name { font-family: var(--font-head); font-weight: 700; font-size: 0.9rem; color: var(--ink); margin-bottom: 2px; white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.skill-item-meta { font-size: 0.75rem; color: var(--ink3); }
-.skill-item-badge {
-  font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
-  padding: 3px 9px; border-radius: 50px; flex-shrink: 0;
-}
-.badge-active   { background: rgba(74,222,128,0.12); color: #4ade80; border: 1px solid rgba(74,222,128,0.25); }
-.badge-pending  { background: rgba(251,191,36,0.12); color: var(--amber); border: 1px solid rgba(251,191,36,0.25); }
-.badge-new      { background: var(--glow-sm); color: var(--flame-lt); border: 1px solid rgba(249,115,22,0.25); }
+    .breadcrumb a:hover {
+      color: var(--flame-lt);
+    }
 
-/* ── SWAP REQUESTS ── */
-.request-list { display: flex; flex-direction: column; gap: 10px; }
-.request-item {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 14px; padding: 14px 16px;
-  display: flex; align-items: center; gap: 14px; transition: border-color 0.2s;
-}
-.request-item:hover { border-color: var(--border2); }
-.req-avatar {
-  width: 42px; height: 42px; border-radius: 50%; flex-shrink: 0;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; font-weight: 800; font-family: var(--font-head);
-  background: var(--bg4); border: 1px solid var(--border2);
-}
-.req-info { flex: 1; min-width: 0; }
-.req-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--ink); margin-bottom: 2px; }
-.req-detail { font-size: 0.75rem; color: var(--ink3); white-space: nowrap; overflow: hidden; text-overflow: ellipsis; }
-.req-actions { display: flex; gap: 6px; flex-shrink: 0; }
-.btn-accept {
-  background: rgba(74,222,128,0.12); color: #4ade80;
-  border: 1px solid rgba(74,222,128,0.25); border-radius: 50px;
-  padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
-}
-.btn-accept:hover { background: rgba(74,222,128,0.22); }
-.btn-decline {
-  background: rgba(248,113,113,0.08); color: #f87171;
-  border: 1px solid rgba(248,113,113,0.2); border-radius: 50px;
-  padding: 5px 14px; font-size: 0.75rem; font-weight: 600;
-  cursor: pointer; transition: all 0.2s; font-family: var(--font-body);
-}
-.btn-decline:hover { background: rgba(248,113,113,0.18); }
+    .breadcrumb span {
+      color: var(--ink4);
+    }
 
-/* ── EXPLORE GRID ── */
-.explore-grid {
-  display: grid; grid-template-columns: repeat(3, 1fr); gap: 1rem;
-  margin-bottom: 3rem;
-}
-.explore-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: var(--r-card); padding: 1.5rem;
-  transition: all 0.2s; cursor: pointer; position: relative; overflow: hidden;
-}
-.explore-card::before {
-  content: ''; position: absolute; inset: 0; opacity: 0;
-  transition: opacity 0.2s;
-  background: radial-gradient(circle at top right, rgba(249,115,22,0.08), transparent 60%);
-}
-.explore-card:hover { border-color: rgba(249,115,22,0.3); transform: translateY(-3px); box-shadow: 0 8px 30px rgba(0,0,0,0.3); }
-.explore-card:hover::before { opacity: 1; }
-.ec-icon { font-size: 2rem; margin-bottom: 12px; }
-.ec-name { font-family: var(--font-head); font-weight: 800; font-size: 1rem; color: var(--ink); margin-bottom: 4px; letter-spacing: -0.02em; }
-.ec-teacher { font-size: 0.78rem; color: var(--ink3); margin-bottom: 12px; }
-.ec-footer { display: flex; align-items: center; justify-content: space-between; }
-.ec-tag {
-  font-size: 0.68rem; font-weight: 600; text-transform: uppercase; letter-spacing: 0.05em;
-  padding: 3px 10px; border-radius: 50px;
-  background: var(--glow-sm); color: var(--flame-lt); border: 1px solid rgba(249,115,22,0.2);
-}
-.ec-swap-btn {
-  font-size: 0.75rem; font-weight: 600; color: var(--flame-lt);
-  background: none; border: none; cursor: pointer; transition: color 0.2s;
-  font-family: var(--font-body);
-}
-.ec-swap-btn:hover { color: var(--flame); }
+    .breadcrumb .current {
+      color: var(--ink2);
+    }
 
-/* ── ACTIVITY FEED ── */
-.activity-feed { display: flex; flex-direction: column; gap: 0; }
-.activity-item {
-  display: flex; align-items: flex-start; gap: 12px;
-  padding: 14px 0; border-bottom: 1px solid var(--border);
-}
-.activity-item:last-child { border-bottom: none; }
-.activity-dot {
-  width: 8px; height: 8px; border-radius: 50%; flex-shrink: 0; margin-top: 6px;
-}
-.dot-flame  { background: var(--flame); box-shadow: 0 0 6px rgba(249,115,22,0.5); }
-.dot-green  { background: #4ade80; box-shadow: 0 0 6px rgba(74,222,128,0.4); }
-.dot-amber  { background: var(--amber); box-shadow: 0 0 6px rgba(251,191,36,0.4); }
-.dot-blue   { background: #60a5fa; box-shadow: 0 0 6px rgba(96,165,250,0.4); }
-.activity-text { flex: 1; font-size: 0.84rem; color: var(--ink2); line-height: 1.5; }
-.activity-text strong { color: var(--ink); font-weight: 600; }
-.activity-time { font-size: 0.72rem; color: var(--ink4); flex-shrink: 0; margin-top: 2px; }
+    .skill-hero-body {
+      display: flex;
+      align-items: flex-start;
+      justify-content: space-between;
+      gap: 2rem;
+      flex-wrap: wrap;
+    }
 
-/* ── FOOTER ── */
-.site-footer {
-  position: relative; z-index: 1;
-  text-align: center; padding: 1.2rem;
-  font-size: 0.78rem; color: var(--ink4);
-  border-top: 1px solid var(--border); background: var(--bg2);
-}
+    .skill-hero-left {
+      flex: 1;
+      min-width: 0;
+    }
 
-/* ── RESPONSIVE ── */
-@media (max-width: 1024px) {
-  .stats-row { grid-template-columns: repeat(2,1fr); }
-  .explore-grid { grid-template-columns: repeat(2,1fr); }
-}
-@media (max-width: 768px) {
-  .navbar { padding: 0 1.5rem; }
-  .nav-links { display: none; }
-  .nav-toggle { display: flex; }
-  .welcome-banner { padding: 2rem 1.5rem; }
-  .page-container { padding: 2rem 1.5rem; }
-  .two-col { grid-template-columns: 1fr; }
-  .stats-row { grid-template-columns: repeat(2,1fr); }
-  .explore-grid { grid-template-columns: 1fr; }
-}
-@media (max-width: 480px) {
-  .stats-row { grid-template-columns: 1fr 1fr; }
-}
+    .skill-category-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      padding: 4px 14px;
+      border-radius: 50px;
+      margin-bottom: 1rem;
+      background: var(--glow-sm);
+      color: var(--flame-lt);
+      border: 1px solid rgba(249, 115, 22, 0.25);
+    }
 
-/* ── FADE-IN ── */
-.fade-up { opacity: 0; transform: translateY(16px); animation: fuAnim 0.5s ease forwards; }
-.fade-up:nth-child(1){animation-delay:.05s}
-.fade-up:nth-child(2){animation-delay:.12s}
-.fade-up:nth-child(3){animation-delay:.19s}
-.fade-up:nth-child(4){animation-delay:.26s}
-@keyframes fuAnim { to { opacity:1; transform:translateY(0); } }
-</style>
+    .skill-title {
+      font-family: var(--font-head);
+      font-size: clamp(1.8rem, 3.5vw, 2.8rem);
+      font-weight: 800;
+      letter-spacing: -0.04em;
+      color: var(--ink);
+      line-height: 1.1;
+      margin-bottom: 1rem;
+    }
+
+    .skill-title span {
+      color: var(--flame);
+    }
+
+    .skill-meta-row {
+      display: flex;
+      align-items: center;
+      gap: 1.2rem;
+      flex-wrap: wrap;
+      margin-bottom: 1.2rem;
+    }
+
+    .skill-rating {
+      display: flex;
+      align-items: center;
+      gap: 5px;
+      font-size: 0.88rem;
+      font-weight: 600;
+      color: #fbbf24;
+    }
+
+    .skill-rating-count {
+      color: var(--ink3);
+      font-weight: 400;
+      font-size: 0.82rem;
+    }
+
+    .skill-swaps {
+      font-size: 0.82rem;
+      color: var(--ink3);
+    }
+
+    .skill-swaps::before {
+      content: '·';
+      margin-right: 6px;
+      color: var(--ink4);
+    }
+
+    .skill-level {
+      font-size: 0.72rem;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      padding: 3px 10px;
+      border-radius: 50px;
+      background: rgba(96, 165, 250, 0.1);
+      color: #60a5fa;
+      border: 1px solid rgba(96, 165, 250, 0.25);
+    }
+
+    .skill-desc {
+      font-size: 0.92rem;
+      color: var(--ink2);
+      line-height: 1.75;
+      max-width: 580px;
+    }
+
+    /* CTA card */
+    .skill-hero-cta {
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      border-radius: 20px;
+      padding: 1.8rem;
+      width: 300px;
+      flex-shrink: 0;
+      box-shadow: 0 8px 40px rgba(0, 0, 0, 0.3);
+    }
+
+    .cta-price-label {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink3);
+      font-weight: 600;
+      margin-bottom: 4px;
+    }
+
+    .cta-price {
+      font-family: var(--font-head);
+      font-size: 1.5rem;
+      font-weight: 800;
+      color: var(--flame-lt);
+      letter-spacing: -0.03em;
+      margin-bottom: 1.2rem;
+      line-height: 1.2;
+    }
+
+    .cta-price span {
+      font-size: 0.82rem;
+      color: var(--ink3);
+      font-weight: 400;
+      font-family: var(--font-body);
+      display: block;
+      margin-top: 2px;
+    }
+
+    .btn-cta {
+      width: 100%;
+      padding: 0.9rem;
+      background: var(--flame);
+      color: #1a0a00;
+      font-family: var(--font-head);
+      font-size: 0.95rem;
+      font-weight: 700;
+      border: none;
+      border-radius: var(--r-btn);
+      cursor: pointer;
+      transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
+      box-shadow: 0 0 24px rgba(249, 115, 22, 0.35);
+      margin-bottom: 10px;
+      display: block;
+      text-align: center;
+    }
+
+    .btn-cta:hover {
+      background: var(--flame-lt);
+      box-shadow: 0 0 36px rgba(249, 115, 22, 0.5);
+      transform: translateY(-1px);
+    }
+
+    .btn-cta-secondary {
+      width: 100%;
+      padding: 0.82rem;
+      background: transparent;
+      color: var(--ink2);
+      font-family: var(--font-body);
+      font-size: 0.875rem;
+      font-weight: 500;
+      border: 1px solid var(--border2);
+      border-radius: var(--r-btn);
+      cursor: pointer;
+      transition: all 0.2s;
+      display: block;
+      text-align: center;
+    }
+
+    .btn-cta-secondary:hover {
+      background: var(--bg4);
+      color: var(--ink);
+    }
+
+    .cta-note {
+      font-size: 0.72rem;
+      color: var(--ink4);
+      text-align: center;
+      margin-top: 10px;
+    }
+
+    /* ── PAGE WRAP ── */
+    .page-wrap {
+      max-width: 1100px;
+      margin: 0 auto;
+      padding: 2.5rem 3rem;
+      display: grid;
+      grid-template-columns: 1fr 320px;
+      gap: 2.5rem;
+      align-items: start;
+    }
+
+    .content {
+      display: flex;
+      flex-direction: column;
+      gap: 2rem;
+    }
+
+    .section-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .section-head {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+    }
+
+    .section-head-title {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 800;
+      letter-spacing: -0.02em;
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .section-body {
+      padding: 1.5rem;
+    }
+
+    /* What you'll learn */
+    .learn-grid {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 10px;
+    }
+
+    .learn-item {
+      display: flex;
+      align-items: flex-start;
+      gap: 10px;
+      font-size: 0.875rem;
+      color: var(--ink2);
+      line-height: 1.55;
+    }
+
+    .learn-item::before {
+      content: '✓';
+      color: var(--flame);
+      font-weight: 700;
+      flex-shrink: 0;
+      margin-top: 1px;
+    }
+
+    /* Curriculum */
+    .curriculum-list {
+      display: flex;
+      flex-direction: column;
+    }
+
+    .curriculum-item {
+      display: flex;
+      align-items: center;
+      gap: 14px;
+      padding: 12px 1.5rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+
+    .curriculum-item:last-child {
+      border-bottom: none;
+    }
+
+    .curriculum-item:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .curriculum-num {
+      width: 28px;
+      height: 28px;
+      border-radius: 50%;
+      background: var(--bg3);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 0.72rem;
+      font-weight: 700;
+      color: var(--ink3);
+      flex-shrink: 0;
+    }
+
+    .curriculum-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .curriculum-title {
+      font-size: 0.875rem;
+      font-weight: 600;
+      color: var(--ink);
+    }
+
+    .curriculum-duration {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    .curriculum-icon {
+      font-size: 0.75rem;
+      color: var(--ink4);
+      flex-shrink: 0;
+    }
+
+    /* Reviews */
+    .reviews-summary {
+      display: flex;
+      align-items: center;
+      gap: 2rem;
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      flex-wrap: wrap;
+    }
+
+    .reviews-big-num {
+      font-family: var(--font-head);
+      font-size: 3.5rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1;
+      letter-spacing: -0.04em;
+    }
+
+    .reviews-big-stars {
+      color: #fbbf24;
+      font-size: 1.1rem;
+      letter-spacing: 2px;
+      margin: 4px 0;
+    }
+
+    .reviews-big-count {
+      font-size: 0.75rem;
+      color: var(--ink3);
+    }
+
+    .reviews-bars {
+      flex: 1;
+      display: flex;
+      flex-direction: column;
+      gap: 6px;
+      min-width: 160px;
+    }
+
+    .rating-bar-row {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
+    .rating-bar-label {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      width: 10px;
+      text-align: right;
+      flex-shrink: 0;
+    }
+
+    .rating-bar-track {
+      flex: 1;
+      height: 6px;
+      background: var(--bg4);
+      border-radius: 3px;
+      overflow: hidden;
+    }
+
+    .rating-bar-fill {
+      height: 100%;
+      background: #fbbf24;
+      border-radius: 3px;
+    }
+
+    .rating-bar-pct {
+      font-size: 0.68rem;
+      color: var(--ink4);
+      width: 28px;
+      flex-shrink: 0;
+    }
+
+    .reviews-list {
+      padding: 0.5rem 0;
+    }
+
+    .review-card {
+      padding: 1.2rem 1.5rem;
+      border-bottom: 1px solid var(--border);
+      transition: background 0.15s;
+    }
+
+    .review-card:last-child {
+      border-bottom: none;
+    }
+
+    .review-card:hover {
+      background: rgba(255, 255, 255, 0.015);
+    }
+
+    .review-head {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 8px;
+      flex-wrap: wrap;
+    }
+
+    .review-avatar {
+      width: 32px;
+      height: 32px;
+      border-radius: 50%;
+      background: var(--bg4);
+      border: 1px solid var(--border2);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-family: var(--font-head);
+      font-size: 0.75rem;
+      font-weight: 700;
+      color: var(--ink2);
+      flex-shrink: 0;
+    }
+
+    .review-author {
+      font-family: var(--font-head);
+      font-weight: 700;
+      font-size: 0.88rem;
+      color: var(--ink);
+    }
+
+    .review-stars {
+      color: #fbbf24;
+      font-size: 0.82rem;
+      letter-spacing: 1px;
+    }
+
+    .review-date {
+      font-size: 0.72rem;
+      color: var(--ink3);
+      margin-left: auto;
+    }
+
+    .review-text {
+      font-size: 0.85rem;
+      color: var(--ink2);
+      line-height: 1.65;
+    }
+
+    /* ── SIDEBAR ── */
+    .sidebar {
+      display: flex;
+      flex-direction: column;
+      gap: 1.5rem;
+    }
+
+    .teacher-card {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 18px;
+      padding: 1.5rem;
+      position: relative;
+      overflow: hidden;
+    }
+
+    .teacher-card::before {
+      content: '';
+      position: absolute;
+      top: -50px;
+      right: -50px;
+      width: 160px;
+      height: 160px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .teacher-card-title {
+      font-size: 0.72rem;
+      text-transform: uppercase;
+      letter-spacing: 0.1em;
+      color: var(--ink3);
+      font-weight: 600;
+      margin-bottom: 1rem;
+    }
+
+    .teacher-info {
+      display: flex;
+      align-items: center;
+      gap: 12px;
+      margin-bottom: 1rem;
+    }
+
+    .teacher-avatar {
+      width: 52px;
+      height: 52px;
+      border-radius: 50%;
+      background: var(--flame);
+      color: #1a0a00;
+      font-family: var(--font-head);
+      font-size: 1.3rem;
+      font-weight: 800;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      flex-shrink: 0;
+      border: 2px solid rgba(249, 115, 22, 0.3);
+      box-shadow: 0 0 20px rgba(249, 115, 22, 0.2);
+    }
+
+    .teacher-name {
+      font-family: var(--font-head);
+      font-size: 1rem;
+      font-weight: 800;
+      color: var(--ink);
+      letter-spacing: -0.02em;
+    }
+
+    .teacher-handle {
+      font-size: 0.78rem;
+      color: var(--ink3);
+      margin-top: 2px;
+    }
+
+    .teacher-stats {
+      display: grid;
+      grid-template-columns: 1fr 1fr;
+      gap: 1px;
+      background: var(--border);
+      border-radius: 10px;
+      overflow: hidden;
+      margin-bottom: 1rem;
+    }
+
+    .tstat {
+      background: var(--bg3);
+      padding: 10px 8px;
+      text-align: center;
+    }
+
+    .tstat-val {
+      font-family: var(--font-head);
+      font-size: 1.1rem;
+      font-weight: 800;
+      color: var(--ink);
+      line-height: 1;
+    }
+
+    .tstat-lbl {
+      font-size: 0.65rem;
+      color: var(--ink3);
+      text-transform: uppercase;
+      letter-spacing: 0.06em;
+      margin-top: 2px;
+    }
+
+    .teacher-bio {
+      font-size: 0.82rem;
+      color: var(--ink2);
+      line-height: 1.65;
+    }
+
+    .btn-view-profile {
+      width: 100%;
+      margin-top: 1rem;
+      padding: 0.75rem;
+      background: transparent;
+      color: var(--flame-lt);
+      font-family: var(--font-head);
+      font-size: 0.85rem;
+      font-weight: 700;
+      border: 1px solid rgba(249, 115, 22, 0.3);
+      border-radius: var(--r-btn);
+      cursor: pointer;
+      transition: all 0.2s;
+      text-align: center;
+      display: block;
+    }
+
+    .btn-view-profile:hover {
+      background: var(--glow-sm);
+      border-color: rgba(249, 115, 22, 0.5);
+    }
+
+    .info-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      padding: 1.4rem;
+    }
+
+    .info-card-title {
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 800;
+      letter-spacing: -0.01em;
+      color: var(--ink);
+      margin-bottom: 1rem;
+    }
+
+    .info-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      padding: 8px 0;
+      border-bottom: 1px solid var(--border);
+      font-size: 0.82rem;
+    }
+
+    .info-row:last-child {
+      border-bottom: none;
+    }
+
+    .info-row-label {
+      color: var(--ink3);
+    }
+
+    .info-row-val {
+      color: var(--ink);
+      font-weight: 600;
+    }
+
+    .related-card {
+      background: var(--bg2);
+      border: 1px solid var(--border);
+      border-radius: 18px;
+      overflow: hidden;
+    }
+
+    .related-head {
+      padding: 1rem 1.4rem;
+      border-bottom: 1px solid var(--border);
+      font-family: var(--font-head);
+      font-size: 0.88rem;
+      font-weight: 800;
+    }
+
+    .related-list {
+      padding: 0.4rem 0;
+    }
+
+    .related-item {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      padding: 10px 1.4rem;
+      transition: background 0.15s;
+      cursor: pointer;
+    }
+
+    .related-item:hover {
+      background: rgba(255, 255, 255, 0.02);
+    }
+
+    .related-icon {
+      width: 34px;
+      height: 34px;
+      border-radius: 8px;
+      background: var(--bg3);
+      border: 1px solid var(--border);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      font-size: 0.95rem;
+      flex-shrink: 0;
+    }
+
+    .related-info {
+      flex: 1;
+      min-width: 0;
+    }
+
+    .related-name {
+      font-size: 0.82rem;
+      font-weight: 600;
+      color: var(--ink);
+      white-space: nowrap;
+      overflow: hidden;
+      text-overflow: ellipsis;
+    }
+
+    .related-teacher {
+      font-size: 0.7rem;
+      color: var(--ink3);
+      margin-top: 1px;
+    }
+
+    .related-arrow {
+      color: var(--ink4);
+      font-size: 0.75rem;
+      transition: color 0.2s;
+    }
+
+    .related-item:hover .related-arrow {
+      color: var(--flame-lt);
+    }
+
+    .site-footer {
+      position: relative;
+      z-index: 1;
+      text-align: center;
+      padding: 1.2rem;
+      font-size: 0.78rem;
+      color: var(--ink4);
+      border-top: 1px solid var(--border);
+      background: var(--bg2);
+    }
+
+    @media (max-width: 1024px) {
+      .page-wrap {
+        grid-template-columns: 1fr;
+      }
+
+      .skill-hero-cta {
+        width: 100%;
+        max-width: 420px;
+      }
+    }
+
+    @media (max-width: 768px) {
+      .navbar {
+        padding: 0 1.5rem;
+      }
+
+      .nav-links {
+        display: none;
+      }
+
+      .nav-toggle {
+        display: flex;
+      }
+
+      .skill-hero {
+        padding: 2rem 1.5rem;
+      }
+
+      .skill-hero-body {
+        flex-direction: column;
+      }
+
+      .skill-hero-cta {
+        width: 100%;
+      }
+
+      .page-wrap {
+        padding: 2rem 1.5rem;
+      }
+
+      .learn-grid {
+        grid-template-columns: 1fr;
+      }
+    }
+
+    .fade-up {
+      opacity: 0;
+      transform: translateY(14px);
+      animation: fuAnim 0.5s ease forwards;
+    }
+
+    .fade-up:nth-child(1) {
+      animation-delay: .05s
+    }
+
+    .fade-up:nth-child(2) {
+      animation-delay: .13s
+    }
+
+    .fade-up:nth-child(3) {
+      animation-delay: .21s
+    }
+
+    @keyframes fuAnim {
+      to {
+        opacity: 1;
+        transform: translateY(0);
+      }
+    }
+  </style>
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <a href="index.html" class="logo-wrap">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
-        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
-      </svg>
-    </div>
-    <span class="logo-name">SkillSwap</span>
-  </a>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="pages/explore.html">Explore</a></li>
-    <li><a href="pages/dashboard.html" class="active">Dashboard</a></li>
-    <li><a href="pages/profile.html">Profile</a></li>
-    <li><a href="login.html" class="btn-login">Login</a></li>
-    <li><a href="signup.html" class="btn-signup">Sign Up</a></li>
-  </ul>
-  <button class="nav-toggle" id="navToggle" aria-label="Toggle menu">
-    <span></span><span></span><span></span>
-  </button>
-</nav>
+  <nav class="navbar">
+    <a href="../index.html" class="logo-wrap">
+      <div class="logo-icon">
+        <svg viewBox="0 0 24 24" fill="none">
+          <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+            stroke="#1a0a00" stroke-width="2" stroke-linecap="round" />
+          <path
+            d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
+            fill="#1a0a00" />
+        </svg>
+      </div>
+      <span class="logo-name">SkillSwap</span>
+    </a>
+    <ul class="nav-links" id="navLinks">
+      <li><a href="explore.html" class="active">Explore</a></li>
+      <li><a href="dashboard.html">Dashboard</a></li>
+      <li><a href="profile.html">Profile</a></li>
+      <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
+    </ul>
+    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+  </nav>
 
-<!-- MAIN -->
-<main class="main-content">
-
-  <!-- Welcome Banner -->
-  <div class="welcome-banner">
-    <div class="welcome-text">
-      <div class="welcome-greeting">Welcome back, <span>Alex 👋</span></div>
-      <div class="welcome-sub">You have 3 pending swap requests and 2 active swaps.</div>
-    </div>
-    <div class="welcome-actions">
-      <button class="btn-primary" onclick="window.location.href='pages/explore.html'">Browse Skills →</button>
-      <button class="btn-secondary" onclick="window.location.href='pages/profile.html'">My Profile</button>
+  <!-- SKILL HERO -->
+  <div class="skill-hero">
+    <div class="skill-hero-inner">
+      <div class="breadcrumb">
+        <a href="explore.html">Explore</a><span>›</span>
+        <a href="explore.html">Design</a><span>›</span>
+        <span class="current">Adobe Photoshop Basics</span>
+      </div>
+      <div class="skill-hero-body">
+        <div class="skill-hero-left fade-up">
+          <div class="skill-category-badge">🎨 Design</div>
+          <h1 class="skill-title">Adobe Photoshop <span>Basics</span></h1>
+          <div class="skill-meta-row">
+            <div class="skill-rating">★★★★★ <span class="skill-rating-count">(28 reviews)</span></div>
+            <span class="skill-swaps">142 swaps completed</span>
+            <span class="skill-level">Beginner</span>
+          </div>
+          <p class="skill-desc">Learn the fundamentals of Adobe Photoshop — layers, masks, selections, photo retouching
+            and basic compositing. Perfect for beginners who want to start their design journey with one of the world's
+            most powerful creative tools.</p>
+        </div>
+        <div class="skill-hero-cta fade-up">
+          <div class="cta-price-label">Exchange for</div>
+          <div class="cta-price">Your Skill <span>in return — no money exchanged</span></div>
+          <a href="swap-request.html" class="btn-cta">🔥 Request a Swap</a>
+          <button class="btn-cta-secondary" id="saveBtn">♡ Save to Wishlist</button>
+          <p class="cta-note">Free to swap · Connect &amp; learn together</p>
+        </div>
+      </div>
     </div>
   </div>
 
-  <div class="page-container">
+  <main class="main-content">
+    <div class="page-wrap">
 
-    <!-- Stats -->
-    <div class="stats-row">
-      <div class="stat-card fade-up">
-        <div class="stat-icon">🔥</div>
-        <div class="stat-val">5</div>
-        <div class="stat-lbl">Active Swaps</div>
+      <div class="content">
+
+        <!-- What you'll learn -->
+        <div class="section-card fade-up">
+          <div class="section-head">
+            <div class="section-head-title">📚 What You'll Learn</div>
+          </div>
+          <div class="section-body">
+            <div class="learn-grid">
+              <div class="learn-item">Navigate the Photoshop interface confidently</div>
+              <div class="learn-item">Work with layers, groups and blend modes</div>
+              <div class="learn-item">Use selection tools and masks effectively</div>
+              <div class="learn-item">Retouch and enhance photos professionally</div>
+              <div class="learn-item">Apply filters, effects and adjustments</div>
+              <div class="learn-item">Export files for web and print</div>
+              <div class="learn-item">Create basic compositions and layouts</div>
+              <div class="learn-item">Understand colour modes and resolution</div>
+            </div>
+          </div>
+        </div>
+
+        <!-- Curriculum -->
+        <div class="section-card fade-up">
+          <div class="section-head">
+            <div class="section-head-title">🗂 Curriculum · 4 Sessions</div>
+          </div>
+          <div class="curriculum-list">
+            <div class="curriculum-item">
+              <div class="curriculum-num">1</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Introduction &amp; Interface Overview</div>
+                <div class="curriculum-duration">~30 min · Session 1</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-num">2</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Working with Layers &amp; Groups</div>
+                <div class="curriculum-duration">~45 min · Session 1</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-num">3</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Selection Tools — Lasso, Magic Wand &amp; More</div>
+                <div class="curriculum-duration">~40 min · Session 2</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-num">4</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Masks &amp; Non-Destructive Editing</div>
+                <div class="curriculum-duration">~50 min · Session 2</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-num">5</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Photo Retouching &amp; Healing Tools</div>
+                <div class="curriculum-duration">~60 min · Session 3</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-num">6</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Colours, Adjustments &amp; Filters</div>
+                <div class="curriculum-duration">~40 min · Session 3</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+            <div class="curriculum-item">
+              <div class="curriculum-num">7</div>
+              <div class="curriculum-info">
+                <div class="curriculum-title">Exporting &amp; Final Project</div>
+                <div class="curriculum-duration">~30 min · Session 4</div>
+              </div><span class="curriculum-icon">▶</span>
+            </div>
+          </div>
+        </div>
+
+        <!-- Reviews -->
+        <div class="section-card fade-up">
+          <div class="section-head">
+            <div class="section-head-title">⭐ Reviews</div>
+          </div>
+          <div class="reviews-summary">
+            <div>
+              <div class="reviews-big-num">4.9</div>
+              <div class="reviews-big-stars">★★★★★</div>
+              <div class="reviews-big-count">28 reviews</div>
+            </div>
+            <div class="reviews-bars">
+              <div class="rating-bar-row"><span class="rating-bar-label">5</span>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" style="width:88%"></div>
+                </div><span class="rating-bar-pct">88%</span>
+              </div>
+              <div class="rating-bar-row"><span class="rating-bar-label">4</span>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" style="width:9%"></div>
+                </div><span class="rating-bar-pct">9%</span>
+              </div>
+              <div class="rating-bar-row"><span class="rating-bar-label">3</span>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" style="width:3%"></div>
+                </div><span class="rating-bar-pct">3%</span>
+              </div>
+              <div class="rating-bar-row"><span class="rating-bar-label">2</span>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" style="width:0%"></div>
+                </div><span class="rating-bar-pct">0%</span>
+              </div>
+              <div class="rating-bar-row"><span class="rating-bar-label">1</span>
+                <div class="rating-bar-track">
+                  <div class="rating-bar-fill" style="width:0%"></div>
+                </div><span class="rating-bar-pct">0%</span>
+              </div>
+            </div>
+          </div>
+          <div class="reviews-list">
+            <div class="review-card">
+              <div class="review-head">
+                <div class="review-avatar"
+                  style="background:var(--glow-sm);color:var(--flame-lt);border-color:rgba(249,115,22,0.2)">ML</div>
+                <div class="review-author">Marcus Lee</div>
+                <div class="review-stars">★★★★★</div>
+                <div class="review-date">Jan 10, 2025</div>
+              </div>
+              <div class="review-text">Sarah is an incredible teacher! She explained layers and masks so clearly — I
+                finally understand how Photoshop actually works. Can't wait for Session 2.</div>
+            </div>
+            <div class="review-card">
+              <div class="review-head">
+                <div class="review-avatar">ET</div>
+                <div class="review-author">Elena Torres</div>
+                <div class="review-stars">★★★★★</div>
+                <div class="review-date">Dec 28, 2024</div>
+              </div>
+              <div class="review-text">Super patient and well-organised. She prepared a proper curriculum and shared
+                resources beforehand. Highly recommend to any beginner.</div>
+            </div>
+            <div class="review-card">
+              <div class="review-head">
+                <div class="review-avatar">PS</div>
+                <div class="review-author">Priya Sharma</div>
+                <div class="review-stars">★★★★<span style="color:var(--ink4)">★</span></div>
+                <div class="review-date">Dec 15, 2024</div>
+              </div>
+              <div class="review-text">Great session overall. Learned so much about selections and retouching. Would
+                love a follow-up on compositing!</div>
+            </div>
+          </div>
+        </div>
+
       </div>
-      <div class="stat-card fade-up">
-        <div class="stat-icon">⭐</div>
-        <div class="stat-val">12</div>
-        <div class="stat-lbl">Skills Offered</div>
-      </div>
-      <div class="stat-card fade-up">
-        <div class="stat-icon">✅</div>
-        <div class="stat-val">28</div>
-        <div class="stat-lbl">Swaps Completed</div>
-      </div>
-      <div class="stat-card fade-up">
-        <div class="stat-icon">💬</div>
-        <div class="stat-val">4.9</div>
-        <div class="stat-lbl">Avg. Rating</div>
-      </div>
+
+      <!-- SIDEBAR -->
+      <aside class="sidebar">
+        <div class="teacher-card fade-up">
+          <div class="teacher-card-title">Taught by</div>
+          <div class="teacher-info">
+            <div class="teacher-avatar">S</div>
+            <div>
+              <div class="teacher-name">Sarah Johnson</div>
+              <div class="teacher-handle">📍 Mumbai, India</div>
+            </div>
+          </div>
+          <div class="teacher-stats">
+            <div class="tstat">
+              <div class="tstat-val">4.9</div>
+              <div class="tstat-lbl">Rating</div>
+            </div>
+            <div class="tstat">
+              <div class="tstat-val">28</div>
+              <div class="tstat-lbl">Swaps</div>
+            </div>
+            <div class="tstat">
+              <div class="tstat-val">3</div>
+              <div class="tstat-lbl">Skills</div>
+            </div>
+            <div class="tstat">
+              <div class="tstat-val">5yr</div>
+              <div class="tstat-lbl">Exp.</div>
+            </div>
+          </div>
+          <p class="teacher-bio">Passionate designer with 5 years of experience in Photoshop, Illustrator and Figma.
+            Love teaching beginners and helping them discover their creative side.</p>
+          <a href="profile.html" class="btn-view-profile">View Profile →</a>
+        </div>
+
+        <div class="info-card fade-up">
+          <div class="info-card-title">Skill Details</div>
+          <div class="info-row"><span class="info-row-label">Category</span><span class="info-row-val">🎨 Design</span>
+          </div>
+          <div class="info-row"><span class="info-row-label">Level</span><span class="info-row-val">Beginner</span>
+          </div>
+          <div class="info-row"><span class="info-row-label">Sessions</span><span class="info-row-val">4 sessions</span>
+          </div>
+          <div class="info-row"><span class="info-row-label">Duration</span><span class="info-row-val">~4 hours
+              total</span></div>
+          <div class="info-row"><span class="info-row-label">Format</span><span class="info-row-val">1-on-1
+              online</span></div>
+          <div class="info-row"><span class="info-row-label">Language</span><span class="info-row-val">English</span>
+          </div>
+        </div>
+
+        <div class="related-card fade-up">
+          <div class="related-head">Related Skills</div>
+          <div class="related-list">
+            <a href="skill-detail.html" class="related-item">
+              <div class="related-icon">✏️</div>
+              <div class="related-info">
+                <div class="related-name">Figma UI Design</div>
+                <div class="related-teacher">Sarah Johnson</div>
+              </div><span class="related-arrow">→</span>
+            </a>
+            <a href="skill-detail.html" class="related-item">
+              <div class="related-icon">🎭</div>
+              <div class="related-info">
+                <div class="related-name">Illustrator for Beginners</div>
+                <div class="related-teacher">Sarah Johnson</div>
+              </div><span class="related-arrow">→</span>
+            </a>
+            <a href="skill-detail.html" class="related-item">
+              <div class="related-icon">📸</div>
+              <div class="related-info">
+                <div class="related-name">Mobile Photography Tips</div>
+                <div class="related-teacher">Priya Sharma</div>
+              </div><span class="related-arrow">→</span>
+            </a>
+            <a href="skill-detail.html" class="related-item">
+              <div class="related-icon">🖼️</div>
+              <div class="related-info">
+                <div class="related-name">Canva for Beginners</div>
+                <div class="related-teacher">Nina Patel</div>
+              </div><span class="related-arrow">→</span>
+            </a>
+          </div>
+        </div>
+      </aside>
+
     </div>
+  </main>
 
-    <!-- My Skills + Incoming Requests -->
-    <div class="two-col">
-      <div>
-        <div class="section-header">
-          <div class="section-title">My Skills</div>
-          <a href="pages/profile.html" class="section-link">Manage →</a>
-        </div>
-        <div class="skill-list">
-          <div class="skill-item">
-            <div class="skill-item-icon">🐍</div>
-            <div class="skill-item-info">
-              <div class="skill-item-name">Python for Beginners</div>
-              <div class="skill-item-meta">3 swap requests</div>
-            </div>
-            <span class="skill-item-badge badge-active">Active</span>
-          </div>
-          <div class="skill-item">
-            <div class="skill-item-icon">🌐</div>
-            <div class="skill-item-info">
-              <div class="skill-item-name">HTML &amp; CSS Basics</div>
-              <div class="skill-item-meta">1 swap request</div>
-            </div>
-            <span class="skill-item-badge badge-active">Active</span>
-          </div>
-          <div class="skill-item">
-            <div class="skill-item-icon">🎵</div>
-            <div class="skill-item-info">
-              <div class="skill-item-name">Music Production</div>
-              <div class="skill-item-meta">Awaiting approval</div>
-            </div>
-            <span class="skill-item-badge badge-pending">Pending</span>
-          </div>
-          <div class="skill-item">
-            <div class="skill-item-icon">📊</div>
-            <div class="skill-item-info">
-              <div class="skill-item-name">Data Analysis</div>
-              <div class="skill-item-meta">Just added</div>
-            </div>
-            <span class="skill-item-badge badge-new">New</span>
-          </div>
-        </div>
-      </div>
+  <footer class="site-footer">© 2025 SkillSwap. Exchange skills, not money.</footer>
 
-      <div>
-        <div class="section-header">
-          <div class="section-title">Incoming Requests</div>
-          <a href="pages/dashboard.html" class="section-link">View all →</a>
-        </div>
-        <div class="request-list">
-          <div class="request-item">
-            <div class="req-avatar" style="color:var(--flame)">S</div>
-            <div class="req-info">
-              <div class="req-name">Sara K.</div>
-              <div class="req-detail">Wants Python · Offers UI/UX Design</div>
-            </div>
-            <div class="req-actions">
-              <button class="btn-accept">✓</button>
-              <button class="btn-decline">✕</button>
-            </div>
-          </div>
-          <div class="request-item">
-            <div class="req-avatar" style="color:var(--amber)">A</div>
-            <div class="req-info">
-              <div class="req-name">Arjun M.</div>
-              <div class="req-detail">Wants HTML/CSS · Offers Photography</div>
-            </div>
-            <div class="req-actions">
-              <button class="btn-accept">✓</button>
-              <button class="btn-decline">✕</button>
-            </div>
-          </div>
-          <div class="request-item">
-            <div class="req-avatar" style="color:#4ade80">L</div>
-            <div class="req-info">
-              <div class="req-name">Leo T.</div>
-              <div class="req-detail">Wants Python · Offers Guitar Lessons</div>
-            </div>
-            <div class="req-actions">
-              <button class="btn-accept">✓</button>
-              <button class="btn-decline">✕</button>
-            </div>
-          </div>
-        </div>
-      </div>
-    </div>
-
-    <!-- Explore Skills -->
-    <div class="section-header">
-      <div class="section-title">Skills You Might Like</div>
-      <a href="pages/explore.html" class="section-link">Browse all →</a>
-    </div>
-    <div class="explore-grid">
-      <div class="explore-card">
-        <div class="ec-icon">🎨</div>
-        <div class="ec-name">Adobe Photoshop Basics</div>
-        <div class="ec-teacher">by Sara K. · 4.9 ★</div>
-        <div class="ec-footer">
-          <span class="ec-tag">Design</span>
-          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
-        </div>
-      </div>
-      <div class="explore-card">
-        <div class="ec-icon">📸</div>
-        <div class="ec-name">Photography Fundamentals</div>
-        <div class="ec-teacher">by Mei L. · 4.7 ★</div>
-        <div class="ec-footer">
-          <span class="ec-tag">Creative</span>
-          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
-        </div>
-      </div>
-      <div class="explore-card">
-        <div class="ec-icon">🎸</div>
-        <div class="ec-name">Guitar for Beginners</div>
-        <div class="ec-teacher">by Leo T. · 5.0 ★</div>
-        <div class="ec-footer">
-          <span class="ec-tag">Music</span>
-          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
-        </div>
-      </div>
-      <div class="explore-card">
-        <div class="ec-icon">🗣️</div>
-        <div class="ec-name">Spanish Conversation</div>
-        <div class="ec-teacher">by Carlos R. · 4.8 ★</div>
-        <div class="ec-footer">
-          <span class="ec-tag">Language</span>
-          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
-        </div>
-      </div>
-      <div class="explore-card">
-        <div class="ec-icon">🍳</div>
-        <div class="ec-name">Cooking Masterclass</div>
-        <div class="ec-teacher">by Aiko S. · 4.6 ★</div>
-        <div class="ec-footer">
-          <span class="ec-tag">Lifestyle</span>
-          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
-        </div>
-      </div>
-      <div class="explore-card">
-        <div class="ec-icon">📈</div>
-        <div class="ec-name">Excel &amp; Data Basics</div>
-        <div class="ec-teacher">by Priya N. · 4.9 ★</div>
-        <div class="ec-footer">
-          <span class="ec-tag">Tech</span>
-          <button class="ec-swap-btn" onclick="window.location.href='pages/swap-request.html'">Request Swap →</button>
-        </div>
-      </div>
-    </div>
-
-    <!-- Activity Feed -->
-    <div class="section-header">
-      <div class="section-title">Recent Activity</div>
-    </div>
-    <div style="background:var(--bg2); border:1px solid var(--border); border-radius:var(--r-card); padding:1.2rem 1.5rem; margin-bottom:3rem;">
-      <div class="activity-feed">
-        <div class="activity-item">
-          <div class="activity-dot dot-green"></div>
-          <div class="activity-text"><strong>Sara K.</strong> accepted your swap request for UI/UX Design.</div>
-          <div class="activity-time">2m ago</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot dot-flame"></div>
-          <div class="activity-text"><strong>Arjun M.</strong> sent you a new swap request — Photography for HTML/CSS.</div>
-          <div class="activity-time">18m ago</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot dot-amber"></div>
-          <div class="activity-text">Your skill <strong>Music Production</strong> is pending admin review.</div>
-          <div class="activity-time">1h ago</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot dot-blue"></div>
-          <div class="activity-text"><strong>Leo T.</strong> left a 5★ review on your Python session.</div>
-          <div class="activity-time">3h ago</div>
-        </div>
-        <div class="activity-item">
-          <div class="activity-dot dot-green"></div>
-          <div class="activity-text">Swap with <strong>Mei L.</strong> marked as completed. 🎉</div>
-          <div class="activity-time">Yesterday</div>
-        </div>
-      </div>
-    </div>
-
-  </div><!-- /page-container -->
-</main>
-
-<!-- FOOTER -->
-<footer class="site-footer">
-  © 2025 SkillSwap. Exchange skills, not money.
-</footer>
-
-<script>
-  // Mobile nav
-  const navToggle = document.getElementById('navToggle');
-  const navLinks  = document.getElementById('navLinks');
-  navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
-  document.addEventListener('click', e => {
-    if (!navToggle.contains(e.target) && !navLinks.contains(e.target))
-      navLinks.classList.remove('mob-open');
-  });
-  const s = document.createElement('style');
-  s.textContent = `@media(max-width:768px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
-  document.head.appendChild(s);
-
-  // Accept / Decline buttons
-  document.querySelectorAll('.btn-accept').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.request-item');
-      item.style.opacity = '0.4';
-      item.style.pointerEvents = 'none';
-      btn.textContent = '✓ Accepted';
+  <script src="../js/main.js"></script>
+  <script>
+    const saveBtn = document.getElementById('saveBtn');
+    let saved = false;
+    saveBtn.addEventListener('click', () => {
+      saved = !saved;
+      saveBtn.textContent = saved ? '♥ Saved to Wishlist' : '♡ Save to Wishlist';
+      saveBtn.style.color = saved ? 'var(--flame-lt)' : '';
+      saveBtn.style.borderColor = saved ? 'rgba(249,115,22,0.4)' : '';
     });
-  });
-  document.querySelectorAll('.btn-decline').forEach(btn => {
-    btn.addEventListener('click', () => {
-      const item = btn.closest('.request-item');
-      item.style.transition = 'all 0.3s';
-      item.style.opacity = '0';
-      item.style.height = item.offsetHeight + 'px';
-      setTimeout(() => { item.style.height = '0'; item.style.padding = '0'; item.style.marginBottom = '0'; }, 50);
-      setTimeout(() => item.remove(), 350);
-    });
-  });
-</script>
-
+  </script>
 </body>
+
 </html>

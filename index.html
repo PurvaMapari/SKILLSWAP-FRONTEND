@@ -1,902 +1,573 @@
 <!DOCTYPE html>
 <html lang="en">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>SkillSwap — Exchange Skills, Not Money</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap" rel="stylesheet">
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>SkillSwap — Exchange Skills, Not Money</title>
 
-<style>
-:root {
-  /* Obsidian & Flame palette */
-  --bg:        #0E0E0E;
-  --bg2:       #161616;
-  --bg3:       #1E1E1E;
-  --bg4:       #252525;
-  --border:    rgba(255,255,255,0.08);
-  --border2:   rgba(255,255,255,0.14);
+    <!-- Google Fonts -->
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link
+        href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap"
+        rel="stylesheet">
 
-  --flame:     #F97316;
-  --flame-dk:  #EA6A0A;
-  --flame-lt:  #FB923C;
-  --amber:     #FBBF24;
-  --amber-lt:  #FDE68A;
-  --glow:      rgba(249,115,22,0.18);
-  --glow-sm:   rgba(249,115,22,0.10);
-
-  --ink:       #FFFAF5;
-  --ink2:      #D1CCBF;
-  --ink3:      #8A857A;
-  --ink4:      #4A4740;
-
-  --font-head: 'Syne', sans-serif;
-  --font-body: 'Instrument Sans', sans-serif;
-  --font-cur:  'Caveat', cursive;
-  --r: 18px;
-  --r-btn: 50px;
-}
-
-*, *::before, *::after { box-sizing: border-box; margin: 0; padding: 0; }
-html { scroll-behavior: smooth; }
-body { font-family: var(--font-body); background: var(--bg); color: var(--ink); overflow-x: hidden; line-height: 1.6; }
-a { text-decoration: none; color: inherit; }
-img { max-width: 100%; display: block; }
-ul { list-style: none; }
-
-/* ── BUTTONS ── */
-.btn {
-  display: inline-flex; align-items: center; justify-content: center; gap: 8px;
-  font-family: var(--font-body); font-weight: 600; font-size: 0.9rem;
-  border: none; cursor: pointer; border-radius: var(--r-btn);
-  transition: all 0.22s ease; white-space: nowrap;
-}
-.btn-flame {
-  background: var(--flame); color: #1a0a00; padding: 0.75rem 2rem;
-  box-shadow: 0 0 28px rgba(249,115,22,0.35);
-}
-.btn-flame:hover { background: var(--flame-lt); transform: translateY(-2px); box-shadow: 0 0 40px rgba(249,115,22,0.5); }
-.btn-ghost {
-  background: transparent; color: var(--ink); padding: 0.72rem 2rem;
-  border: 1px solid var(--border2);
-}
-.btn-ghost:hover { background: var(--bg3); border-color: var(--flame); color: var(--flame-lt); }
-
-/* ── NAVBAR ── */
-.navbar {
-  position: sticky; top: 0; z-index: 999;
-  background: rgba(14,14,14,0.88); backdrop-filter: blur(18px);
-  border-bottom: 1px solid var(--border);
-  padding: 0 3rem; height: 66px;
-  display: flex; align-items: center; justify-content: space-between;
-}
-.logo-wrap { display: flex; align-items: center; gap: 10px; }
-.logo-icon {
-  width: 36px; height: 36px; border-radius: 10px;
-  background: var(--flame); display: flex; align-items: center; justify-content: center;
-}
-.logo-icon svg { width: 20px; height: 20px; }
-.logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; letter-spacing: -0.03em; color: var(--ink); }
-.nav-links { display: flex; align-items: center; gap: 2rem; }
-.nav-links a { font-size: 0.875rem; font-weight: 500; color: var(--ink3); transition: color 0.2s; }
-.nav-links a:hover { color: var(--ink); }
-.nav-actions { display: flex; align-items: center; gap: 0.75rem; }
-.nav-toggle { display: none; flex-direction: column; gap: 5px; background: none; border: none; cursor: pointer; padding: 4px; }
-.nav-toggle span { display: block; width: 22px; height: 2px; background: var(--ink); border-radius: 2px; }
-
-/* ── HERO ── */
-.hero { display: grid; grid-template-columns: 1fr 1fr; min-height: calc(100vh - 66px); }
-
-.hero-left {
-  display: flex; flex-direction: column; justify-content: center;
-  padding: 5rem 4rem 5rem 3rem; position: relative;
-}
-/* subtle grid texture */
-.hero-left::before {
-  content: '';
-  position: absolute; inset: 0;
-  background-image:
-    linear-gradient(rgba(255,255,255,0.02) 1px, transparent 1px),
-    linear-gradient(90deg, rgba(255,255,255,0.02) 1px, transparent 1px);
-  background-size: 40px 40px;
-  pointer-events: none;
-}
-
-.eyebrow-pill {
-  display: inline-flex; align-items: center; gap: 8px;
-  background: var(--glow-sm); border: 1px solid rgba(249,115,22,0.25);
-  color: var(--flame-lt); border-radius: 50px;
-  font-size: 0.72rem; font-weight: 600; padding: 6px 16px;
-  letter-spacing: 0.06em; text-transform: uppercase;
-  margin-bottom: 28px;
-}
-.eyebrow-dot { width: 6px; height: 6px; border-radius: 50%; background: var(--flame); }
-
-.hero-heading {
-  font-family: var(--font-head); font-size: clamp(3rem, 4.8vw, 5rem);
-  font-weight: 800; line-height: 1.0; letter-spacing: -0.04em;
-  color: var(--ink); margin-bottom: 20px;
-}
-.hero-heading .acc { color: var(--flame); }
-
-.hero-sub { font-size: 1rem; color: var(--ink3); line-height: 1.7; max-width: 380px; margin-bottom: 40px; }
-
-.hero-btns { display: flex; gap: 12px; flex-wrap: wrap; }
-
-.hero-stats {
-  display: flex; gap: 36px; margin-top: 56px; padding-top: 32px;
-  border-top: 1px solid var(--border);
-}
-.stat-val { font-family: var(--font-head); font-size: 2rem; font-weight: 800; letter-spacing: -1px; line-height: 1; color: var(--ink); }
-.stat-lbl { font-size: 0.72rem; color: var(--ink3); text-transform: uppercase; letter-spacing: 0.08em; margin-top: 4px; }
-
-/* Hero right */
-.hero-right {
-  background: var(--bg2);
-  border-left: 1px solid var(--border);
-  position: relative; overflow: hidden;
-  display: flex; align-items: center; justify-content: center;
-}
-/* flame glow orb */
-.hero-right::before {
-  content: ''; position: absolute;
-  width: 400px; height: 400px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.15) 0%, transparent 70%);
-  top: 50%; left: 50%; transform: translate(-50%, -50%);
-  pointer-events: none;
-}
-
-.bg-words {
-  position: absolute; top: 8%; right: 0; padding-right: 5%;
-  display: flex; flex-direction: column; align-items: flex-end;
-  gap: 0.05em; pointer-events: none;
-}
-.bg-word {
-  font-family: var(--font-head); font-size: clamp(3.5rem, 6vw, 6rem);
-  font-weight: 800; letter-spacing: 0.22em; text-transform: uppercase;
-  color: rgba(255,255,255,0.04); line-height: 1;
-}
-.bg-word.hi { color: rgba(249,115,22,0.18); }
-
-.float-pills { position: absolute; top: 22px; left: 22px; display: flex; flex-direction: column; gap: 10px; }
-.fpill {
-  background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: 50px; padding: 8px 16px;
-  font-size: 0.8rem; font-weight: 600; color: var(--ink2);
-  animation: floatY 3s ease-in-out infinite;
-}
-.fpill:nth-child(2) { animation-delay: 1s; }
-.fpill:nth-child(3) { animation-delay: 2s; }
-@keyframes floatY { 0%,100%{transform:translateY(0)} 50%{transform:translateY(-8px)} }
-
-.card-stack { position: relative; width: 260px; height: 320px; }
-.hcard {
-  position: absolute; width: 230px;
-  background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: 18px; padding: 22px 26px;
-  box-shadow: 0 16px 48px rgba(0,0,0,0.5);
-}
-.hcard:nth-child(1) { top: 30px; left: 50px; transform: rotate(-8deg); opacity: 0.5; }
-.hcard:nth-child(2) { top: 12px; left: 24px; transform: rotate(3deg); opacity: 0.75; }
-.hcard:nth-child(3) { top: 0; left: 0; transform: rotate(-1deg); z-index: 3; border-color: rgba(249,115,22,0.3); }
-.hcard-suit { font-size: 1.4rem; margin-bottom: 8px; color: var(--flame); }
-.hcard-lbl { font-size: 0.65rem; text-transform: uppercase; letter-spacing: 0.1em; color: var(--ink3); font-weight: 600; }
-.hcard-skill { font-family: var(--font-head); font-weight: 800; font-size: 1.45rem; letter-spacing: -0.03em; color: var(--ink); }
-.hcard-want { margin-top: 14px; padding-top: 14px; border-top: 1px solid var(--border); }
-
-.hero-arr {
-  position: absolute; bottom: 28px; right: 28px;
-  width: 48px; height: 48px; border-radius: 50%;
-  background: var(--flame); border: none; cursor: pointer;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 1.2rem; color: #1a0a00; transition: transform 0.2s, box-shadow 0.2s;
-  box-shadow: 0 0 20px rgba(249,115,22,0.4);
-}
-.hero-arr:hover { transform: scale(1.08); box-shadow: 0 0 32px rgba(249,115,22,0.6); }
-
-/* ── TAGLINE BAR ── */
-.tagline-bar {
-  background: var(--bg2); padding: 2rem 3rem;
-  text-align: center; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-}
-.tagline-bar p { font-family: var(--font-cur); font-size: clamp(1.4rem, 2.5vw, 2.2rem); color: var(--ink3); }
-.tagline-bar hr { width: 60%; margin: 1rem auto 0; border: none; border-top: 1px solid var(--border); }
-
-/* ── THOUGHT SECTION ── */
-.thought-section { padding: 6rem 3rem; background: var(--bg); }
-.thought-card {
-  background: var(--bg2); border: 1px solid var(--border);
-  border-radius: 28px; padding: 4rem;
-  max-width: 1200px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 320px; gap: 4rem; align-items: center;
-  position: relative; overflow: hidden;
-}
-.thought-card::after {
-  content: '';
-  position: absolute; bottom: -60px; right: -60px;
-  width: 300px; height: 300px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.08) 0%, transparent 70%);
-  pointer-events: none;
-}
-.thought-heading {
-  font-family: var(--font-head); font-size: clamp(2rem, 3.5vw, 3rem);
-  font-weight: 800; letter-spacing: -0.03em; line-height: 1.05;
-  color: var(--ink3); margin-bottom: 1.5rem;
-}
-.thought-heading span { color: var(--flame); }
-.thought-body { font-size: 1.05rem; line-height: 1.85; color: var(--ink2); }
-.thought-graphic {
-  background: var(--bg3); border: 1px solid var(--border2);
-  border-radius: 20px; padding: 2rem;
-  display: flex; flex-direction: column; align-items: center; gap: 14px; min-height: 200px;
-  justify-content: center;
-  box-shadow: inset 0 0 40px rgba(249,115,22,0.04);
-}
-.tg-icon { font-size: 3rem; }
-.tg-title { font-family: var(--font-head); font-weight: 700; font-size: 1.1rem; text-align: center; color: var(--ink); }
-.tg-sub { font-size: 0.82rem; color: var(--ink3); text-align: center; line-height: 1.5; }
-
-/* ── WHY SECTION ── */
-.why-section { padding: 6rem 3rem; background: var(--bg2); text-align: center; }
-.why-heading { font-family: var(--font-head); font-size: clamp(2rem, 3.5vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 0.8rem; }
-.why-sub { font-size: 1rem; color: var(--ink3); line-height: 1.7; margin-bottom: 3.5rem; }
-.why-cards { display: grid; grid-template-columns: repeat(3,1fr); gap: 1.5rem; max-width: 1100px; margin: 0 auto; }
-.wcard {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 2.5rem 2rem; text-align: left;
-  transition: transform 0.2s, border-color 0.2s;
-}
-.wcard:hover { transform: translateY(-4px); border-color: rgba(249,115,22,0.3); }
-.wcard:nth-child(2) { background: var(--flame); border-color: var(--flame); }
-.wcard:nth-child(2) .wcard-title { color: #1a0a00; }
-.wcard:nth-child(2) .wcard-body { color: rgba(26,10,0,0.7); }
-.wcard:nth-child(2) .wcard-num { color: rgba(26,10,0,0.08); }
-.wcard:nth-child(2) .wcard-tag { background: rgba(26,10,0,0.15); color: #1a0a00; border-color: rgba(26,10,0,0.2); }
-.wcard-num { font-family: var(--font-head); font-size: 5rem; font-weight: 800; letter-spacing: -4px; color: rgba(255,255,255,0.04); line-height: 1; margin-bottom: 6px; }
-.wcard-emoji { font-size: 1.8rem; margin-bottom: 14px; }
-.wcard-title { font-family: var(--font-head); font-weight: 800; font-size: 1.25rem; letter-spacing: -0.02em; margin-bottom: 10px; color: var(--ink); }
-.wcard-body { font-size: 0.88rem; color: var(--ink3); line-height: 1.65; }
-.wcard-tag {
-  display: inline-block; margin-top: 16px;
-  background: var(--glow-sm); color: var(--flame-lt);
-  border: 1px solid rgba(249,115,22,0.2);
-  font-size: 0.7rem; font-weight: 700; text-transform: uppercase;
-  letter-spacing: 0.06em; padding: 4px 12px; border-radius: 50px;
-}
-
-/* ── INTERFACE SECTION ── */
-.iface-wrap { background: var(--bg); padding: 2rem 0; }
-.iface-section {
-  padding: 6rem 3rem; max-width: 1300px; margin: 0 auto;
-  display: grid; grid-template-columns: 1fr 1.3fr; gap: 5rem; align-items: center;
-}
-.iface-heading { font-family: var(--font-head); font-size: clamp(2rem, 3vw, 3rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 2rem; }
-.ilines { display: flex; flex-direction: column; gap: 6px; margin-bottom: 1.5rem; }
-.iline { font-family: var(--font-head); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 600; color: var(--ink4); line-height: 1.3; }
-.iline.hi { color: var(--ink2); }
-.ikeywords { font-family: var(--font-head); font-size: clamp(1.1rem, 1.8vw, 1.45rem); font-weight: 700; color: var(--flame); letter-spacing: -0.01em; }
-.mockup {
-  background: var(--bg2); border-radius: 24px; border: 1px solid var(--border);
-  overflow: hidden; box-shadow: 0 20px 60px rgba(0,0,0,0.5);
-}
-.mockup-bar {
-  background: var(--bg3); padding: 13px 18px;
-  display: flex; align-items: center; gap: 7px; border-bottom: 1px solid var(--border);
-}
-.mdot { width: 10px; height: 10px; border-radius: 50%; }
-.mgrid { display: grid; grid-template-columns: repeat(3,1fr); }
-.mtile {
-  border-right: 1px solid var(--border); border-bottom: 1px solid var(--border);
-  padding: 20px 16px; cursor: pointer; transition: background 0.15s;
-}
-.mtile:nth-child(3n) { border-right: none; }
-.mtile:nth-child(n+4) { border-bottom: none; }
-.mtile:hover { background: var(--glow-sm); }
-.mtile.active { background: var(--glow); border-color: rgba(249,115,22,0.2); }
-.mtile-icon { font-size: 1.5rem; margin-bottom: 7px; }
-.mtile-name { font-family: var(--font-head); font-weight: 700; font-size: 0.88rem; color: var(--ink); }
-.mtile-sub { font-size: 0.72rem; color: var(--ink3); margin-top: 2px; }
-.mockup-foot {
-  padding: 14px 18px; border-top: 1px solid var(--border);
-  display: flex; align-items: center; justify-content: space-between;
-}
-.mockup-foot-txt { font-size: 0.78rem; color: var(--ink3); }
-.mswap-btn {
-  background: var(--flame); border: none; border-radius: 50px;
-  padding: 8px 22px; font-family: var(--font-head); font-weight: 700;
-  font-size: 0.82rem; color: #1a0a00; cursor: pointer; transition: background 0.2s;
-  box-shadow: 0 0 16px rgba(249,115,22,0.3);
-}
-.mswap-btn:hover { background: var(--flame-lt); }
-
-/* ── MATCH INTRO ── */
-.match-intro { padding: 5rem 3rem 2rem; background: var(--bg); max-width: 900px; }
-.match-h { font-family: var(--font-head); font-size: clamp(2.2rem, 3.5vw, 3.2rem); font-weight: 800; letter-spacing: -0.03em; margin-bottom: 14px; }
-.match-badge { display: inline-block; background: var(--flame); padding: 5px 16px; border-radius: 6px; margin-bottom: 14px; }
-.match-badge span { font-family: var(--font-head); font-size: 1.1rem; font-weight: 800; color: #1a0a00; }
-.match-sub { font-size: 0.95rem; color: var(--ink3); line-height: 1.7; }
-
-/* ── CAROUSEL ── */
-.carousel-section {
-  background: var(--bg2); padding: 5rem 0 6rem;
-  position: relative; overflow: hidden; border-top: 1px solid var(--border); border-bottom: 1px solid var(--border);
-}
-.carousel-section::before {
-  content: ''; position: absolute;
-  width: 700px; height: 700px; border-radius: 50%;
-  background: radial-gradient(circle, rgba(249,115,22,0.07) 0%, transparent 65%);
-  top: 50%; left: 50%; transform: translate(-50%,-50%);
-  pointer-events: none;
-}
-.c-wrap { display: flex; align-items: center; justify-content: center; gap: 1.5rem; padding: 2rem 3rem; position: relative; z-index: 2; }
-.c-btn {
-  width: 52px; height: 52px; border-radius: 50%;
-  background: var(--bg3); border: 1px solid var(--border2);
-  cursor: pointer; display: flex; align-items: center; justify-content: center;
-  font-size: 1.1rem; color: var(--ink2); transition: all 0.2s; flex-shrink: 0;
-}
-.c-btn:hover { background: var(--flame); color: #1a0a00; border-color: var(--flame); box-shadow: 0 0 20px rgba(249,115,22,0.35); }
-.c-cards { display: flex; align-items: center; justify-content: center; gap: 1.5rem; }
-.sc-wrap { position: relative; transition: all 0.4s cubic-bezier(.25,.8,.25,1); }
-.sc-wrap.side { transform: scale(0.8) translateY(24px); opacity: 0.5; }
-.sc-wrap.side-far { transform: scale(0.67) translateY(36px); opacity: 0.25; }
-.sc-wrap.center { transform: scale(1); z-index: 5; }
-.sc {
-  width: 255px; height: 370px; border-radius: 22px; overflow: hidden;
-  position: relative; background: var(--bg3);
-  border: 1px solid var(--border); box-shadow: 0 8px 32px rgba(0,0,0,0.4);
-}
-.sc-wrap.center .sc {
-  width: 295px; height: 435px;
-  border: 1px solid rgba(249,115,22,0.35);
-  box-shadow: 0 20px 60px rgba(0,0,0,0.6), 0 0 40px rgba(249,115,22,0.1);
-}
-.sc-graphic {
-  width: 100%; height: 100%;
-  display: flex; flex-direction: column; align-items: center; justify-content: center;
-  padding: 24px; position: relative;
-}
-.sc-glow {
-  position: absolute; inset: 0; border-radius: 22px; opacity: 0.1;
-}
-.sc-emoji { font-size: 3.2rem; margin-bottom: 12px; position: relative; z-index: 1; }
-.sc-wrap.center .sc-emoji { font-size: 4rem; }
-.sc-title { font-family: var(--font-head); font-size: 1.1rem; font-weight: 800; color: var(--ink); position: relative; z-index: 1; text-align: center; letter-spacing: -0.02em; }
-.sc-wrap.center .sc-title { font-size: 1.3rem; }
-.sc-pill { margin-top: 10px; background: rgba(255,255,255,0.06); border: 1px solid var(--border2); border-radius: 50px; padding: 5px 14px; font-size: 0.75rem; font-weight: 600; color: var(--ink3); position: relative; z-index: 1; text-align: center; }
-.sc-overlay {
-  position: absolute; bottom: 0; left: 0; right: 0; padding: 18px 16px 14px;
-  background: linear-gradient(to top, rgba(0,0,0,0.8) 0%, transparent 100%); z-index: 2;
-}
-.sc-otitle { font-size: 0.78rem; color: rgba(255,255,255,0.6); margin-bottom: 5px; }
-.sc-opill {
-  display: inline-block; background: rgba(249,115,22,0.2); border: 1px solid rgba(249,115,22,0.4);
-  color: var(--flame-lt); font-size: 0.8rem; font-weight: 600; padding: 5px 14px; border-radius: 50px;
-}
-.req-tag { text-align: center; margin-top: 14px; }
-.req-tag a {
-  background: var(--flame); color: #1a0a00; font-size: 0.88rem; font-weight: 700;
-  padding: 10px 28px; border-radius: 50px; display: inline-block; transition: all 0.2s;
-  box-shadow: 0 0 20px rgba(249,115,22,0.35);
-}
-.req-tag a:hover { background: var(--flame-lt); box-shadow: 0 0 32px rgba(249,115,22,0.5); }
-
-/* ── SKILL LOOP ── */
-.loop-section { padding: 7rem 3rem; background: var(--bg); }
-.loop-inner { max-width: 1100px; margin: 0 auto; }
-.loop-badge { display: inline-flex; align-items: center; gap: 0; margin-bottom: 12px; }
-.lb-dark { background: var(--flame); padding: 5px 12px; border-radius: 6px 0 0 6px; font-family: var(--font-head); font-size: 1.2rem; font-weight: 800; color: #1a0a00; }
-.lb-txt { font-family: var(--font-head); font-size: 1.2rem; font-weight: 800; color: var(--ink); padding: 5px 8px; }
-.loop-sub { font-size: 0.9rem; color: var(--ink3); margin-bottom: 4rem; line-height: 1.6; }
-.loop-graphic { max-width: 840px; margin: 0 auto; display: flex; align-items: center; justify-content: center; gap: 0; }
-.loop-node { display: flex; flex-direction: column; align-items: center; gap: 12px; flex: 1; }
-.loop-av {
-  width: 110px; height: 110px; border-radius: 50%;
-  display: flex; align-items: center; justify-content: center;
-  font-size: 2.8rem;
-  background: var(--bg2); border: 1px solid var(--border2);
-  transition: transform 0.3s;
-}
-.loop-av:hover { transform: scale(1.06); }
-.loop-av.flame { background: var(--flame); border-color: var(--flame); }
-.loop-av.dark-av { background: var(--bg3); border-color: var(--border2); box-shadow: 0 0 20px rgba(249,115,22,0.1); }
-.loop-name { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; color: var(--ink); }
-.loop-skill-lbl { font-size: 0.75rem; color: var(--ink3); }
-.loop-arr { flex: 0; display: flex; flex-direction: column; align-items: center; gap: 5px; padding: 0 6px; }
-.arr-line { height: 2px; width: 70px; background: linear-gradient(90deg, var(--flame-dk), var(--amber)); position: relative; }
-.arr-line::after { content: '▶'; position: absolute; right: -4px; top: -7px; color: var(--amber); font-size: 0.65rem; }
-.arr-lbl { font-size: 0.68rem; color: var(--ink3); text-align: center; max-width: 72px; }
-
-/* ── PROFILES ── */
-.profiles-section { padding: 5rem 3rem; background: var(--bg2); border-top: 1px solid var(--border); }
-.profiles-inner { max-width: 1200px; margin: 0 auto; }
-
-.profiles-content { display: grid; grid-template-columns: auto 1fr auto; align-items: center; gap: 2.5rem; }
-.profiles-title { font-family: var(--font-head); font-size: clamp(2rem, 3vw, 2.8rem); font-weight: 900; letter-spacing: -0.03em; }
-.profiles-quote { font-size: 0.88rem; color: var(--ink3); text-align: center; line-height: 1.7; }
-.profiles-see { text-align: right; }
-.profiles-see a { font-family: var(--font-head); font-size: 0.95rem; font-weight: 700; color: var(--flame); display: flex; flex-direction: column; align-items: flex-end; gap: 4px; transition: color 0.2s; }
-.profiles-see a:hover { color: var(--flame-lt); }
-
-.pcard-row { display: grid; grid-template-columns: repeat(4,1fr); gap: 1rem; margin-top: 2.5rem; }
-.pcard {
-  background: var(--bg3); border: 1px solid var(--border);
-  border-radius: var(--r); padding: 1.5rem; text-align: center;
-  transition: all 0.2s; cursor: pointer;
-}
-.pcard:hover { transform: translateY(-3px); border-color: rgba(249,115,22,0.3); box-shadow: 0 8px 30px rgba(249,115,22,0.08); }
-.pcard-av {
-  width: 68px; height: 68px; border-radius: 50%; margin: 0 auto 12px;
-  display: flex; align-items: center; justify-content: center; font-size: 2rem;
-  background: var(--bg4); border: 1px solid var(--border);
-}
-.pcard-name { font-family: var(--font-head); font-weight: 700; font-size: 0.95rem; color: var(--ink); margin-bottom: 3px; }
-.pcard-skill { font-size: 0.76rem; color: var(--ink3); margin-bottom: 10px; }
-.pcard-tag {
-  display: inline-block; background: var(--glow-sm); color: var(--flame-lt);
-  border: 1px solid rgba(249,115,22,0.2); border-radius: 50px;
-  font-size: 0.68rem; font-weight: 600; padding: 3px 10px; text-transform: uppercase; letter-spacing: 0.05em;
-}
-
-/* ── FOOTER ── */
-.footer-section { padding: 3.5rem 3rem 2rem; background: var(--bg); }
-.footer-card {
-  max-width: 1200px; margin: 0 auto;
-  border: 1px solid rgba(249,115,22,0.25); border-radius: 28px;
-  padding: 3.5rem; display: grid;
-  grid-template-columns: 1.4fr 1fr 1fr 1fr; gap: 3rem;
-  background: var(--bg2);
-  box-shadow: 0 0 60px rgba(249,115,22,0.04);
-}
-.f-logo-row { display: flex; align-items: center; gap: 10px; margin-bottom: 12px; }
-.f-logo-icon { width: 30px; height: 30px; }
-.f-logo-name { font-family: var(--font-head); font-weight: 800; font-size: 1.2rem; color: var(--ink); }
-.f-sub { font-size: 0.83rem; color: var(--ink3); line-height: 1.6; margin-bottom: 16px; }
-.f-email-row { display: flex; gap: 8px; margin-bottom: 8px; }
-.f-email {
-  flex: 1; padding: 9px 14px; border: 1px solid var(--border2); border-radius: 8px;
-  font-size: 0.83rem; font-family: var(--font-body); background: var(--bg3);
-  color: var(--ink); outline: none; transition: border-color 0.2s;
-}
-.f-email:focus { border-color: var(--flame); }
-.f-email::placeholder { color: var(--ink3); }
-.f-join {
-  padding: 9px 16px; border: 1px solid var(--border2); border-radius: 8px;
-  background: var(--bg3); font-family: var(--font-head); font-size: 0.83rem;
-  font-weight: 700; cursor: pointer; transition: all 0.2s; color: var(--ink);
-}
-.f-join:hover { background: var(--flame); color: #1a0a00; border-color: var(--flame); }
-.f-privacy { font-size: 0.71rem; color: var(--ink4); line-height: 1.4; }
-.f-col-title { font-family: var(--font-head); font-size: 0.88rem; font-weight: 800; letter-spacing: 0.01em; margin-bottom: 14px; color: var(--ink); }
-.f-links { display: flex; flex-direction: column; gap: 8px; }
-.f-links a { font-size: 0.83rem; color: var(--ink3); transition: color 0.2s; }
-.f-links a:hover { color: var(--flame-lt); }
-.soc-link { display: flex; align-items: center; gap: 8px; font-size: 0.83rem; color: var(--ink3); transition: color 0.2s; }
-.soc-link:hover { color: var(--flame-lt); }
-.soc-link svg { width: 16px; height: 16px; fill: currentColor; flex-shrink: 0; }
-.footer-bot { max-width: 1200px; margin: 1.5rem auto 0; text-align: center; padding-top: 1.2rem; border-top: 1px solid var(--border); }
-.footer-copy { font-size: 0.79rem; color: var(--ink3); margin-bottom: 8px; }
-.footer-bot-links { display: flex; justify-content: center; gap: 1.5rem; }
-.footer-bot-links a { font-size: 0.79rem; color: var(--ink3); text-decoration: underline; transition: color 0.2s; }
-.footer-bot-links a:hover { color: var(--flame-lt); }
-
-/* ── RESPONSIVE ── */
-@media (max-width: 900px) {
-  .navbar { padding: 0 1.5rem; }
-  .nav-links, .nav-actions { display: none; }
-  .nav-toggle { display: flex; }
-  .hero { grid-template-columns: 1fr; }
-  .hero-left { padding: 3rem 1.5rem; }
-  .hero-right { height: 65vw; min-height: 280px; }
-  .card-stack { width: 200px; height: 240px; }
-  .hcard { width: 175px; padding: 16px 18px; }
-  .hero-stats { gap: 20px; }
-  .thought-card { grid-template-columns: 1fr; padding: 2.5rem 2rem; }
-  .why-cards { grid-template-columns: 1fr; max-width: 460px; margin: 0 auto; }
-  .iface-section { grid-template-columns: 1fr; padding: 4rem 1.5rem; }
-  .match-intro { padding: 3.5rem 1.5rem 2rem; }
-  .c-cards { gap: 0.5rem; }
-  .sc { width: 190px; height: 275px; }
-  .sc-wrap.center .sc { width: 220px; height: 320px; }
-  .loop-section { padding: 5rem 1.5rem; }
-  .loop-graphic { flex-direction: column; }
-  .loop-arr { transform: rotate(90deg); }
-  .profiles-content { grid-template-columns: 1fr; }
-  .pcard-row { grid-template-columns: repeat(2,1fr); }
-  .profiles-section { padding: 3.5rem 1.5rem; }
-  .footer-card { grid-template-columns: 1fr; gap: 2.5rem; padding: 2.5rem; }
-  .footer-section { padding: 2.5rem 1.5rem; }
-  .thought-section { padding: 4rem 1.5rem; }
-  .why-section { padding: 4rem 1.5rem; }
-  .tagline-bar { padding: 1.8rem 1.5rem; }
-}
-
-/* ── ANIMATIONS ── */
-.fade-up { opacity: 0; transform: translateY(22px); animation: fuAnim 0.65s ease forwards; }
-.fade-up:nth-child(1){animation-delay:.05s}
-.fade-up:nth-child(2){animation-delay:.15s}
-.fade-up:nth-child(3){animation-delay:.25s}
-.fade-up:nth-child(4){animation-delay:.35s}
-.fade-up:nth-child(5){animation-delay:.45s}
-@keyframes fuAnim { to { opacity:1; transform:translateY(0); } }
-</style>
+    <!-- Stylesheets -->
+    <link rel="stylesheet" href="css/main.css">
+    <link rel="stylesheet" href="css/components.css">
 </head>
+
 <body>
 
-<!-- NAVBAR -->
-<nav class="navbar">
-  <div class="logo-wrap">
-    <div class="logo-icon">
-      <svg viewBox="0 0 24 24" fill="none">
-        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#1a0a00" stroke-width="2" stroke-linecap="round"/>
-        <path d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z" fill="#1a0a00"/>
-      </svg>
-    </div>
-    <span class="logo-name">SkillSwap</span>
-  </div>
-  <ul class="nav-links" id="navLinks">
-    <li><a href="#">Home</a></li>
-    <li><a href="#">About</a></li>
-    <li><a href="#">Explore</a></li>
-    <li><a href="#">How it Works</a></li>
-    <li><a href="#">Contact</a></li>
-  </ul>
-  <div class="nav-actions">
-    <a href="login.html" class="btn btn-ghost">Log In</a>
-    <a href="signup.html" class="btn btn-flame">Sign Up</a>
-  </div>
-  <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
-</nav>
-
-<!-- HERO -->
-<section class="hero">
-  <div class="hero-left">
-    <div class="eyebrow-pill fade-up"><span class="eyebrow-dot"></span>No money. No barrier. Just skills.</div>
-    <h1 class="hero-heading fade-up">Exchange<br><span class="acc">Skills,</span><br>Not Money</h1>
-    <p class="hero-sub fade-up">Teach what you know. Learn what you love. Connect with people who have exactly what you need.</p>
-    <div class="hero-btns fade-up">
-      <a href="pages/home.html" class="btn btn-flame">Swap a Skill →</a>
-      <a href="pages/explore.html" class="btn btn-ghost">Browse Talents</a>
-    </div>
-    <div class="hero-stats fade-up">
-      <div><div class="stat-val">12k+</div><div class="stat-lbl">Swappers</div></div>
-      <div><div class="stat-val">340+</div><div class="stat-lbl">Categories</div></div>
-      <div><div class="stat-val">98%</div><div class="stat-lbl">Match rate</div></div>
-    </div>
-  </div>
-  <div class="hero-right">
-    <div class="bg-words">
-      <span class="bg-word">LEARN</span>
-      <span class="bg-word hi">SHARE</span>
-      <span class="bg-word">EVOLVE</span>
-    </div>
-    <div class="float-pills">
-      <div class="fpill">🎸 Guitar</div>
-      <div class="fpill">💻 Coding</div>
-      <div class="fpill">🍳 Cooking</div>
-    </div>
-    <div class="card-stack">
-      <div class="hcard">
-        <div class="hcard-suit">♠</div>
-        <div class="hcard-lbl">I know</div>
-        <div class="hcard-skill">Guitar</div>
-        <div class="hcard-want"><div class="hcard-lbl">Teach me</div><div class="hcard-skill" style="font-size:1.2rem">Design</div></div>
-      </div>
-      <div class="hcard">
-        <div class="hcard-suit">♣</div>
-        <div class="hcard-lbl">I know</div>
-        <div class="hcard-skill">Coding</div>
-        <div class="hcard-want"><div class="hcard-lbl">Teach me</div><div class="hcard-skill" style="font-size:1.2rem">Cooking</div></div>
-      </div>
-      <div class="hcard">
-        <div class="hcard-suit">♥</div>
-        <div class="hcard-lbl">I know</div>
-        <div class="hcard-skill">Cooking</div>
-        <div class="hcard-want"><div class="hcard-lbl">Teach me</div><div class="hcard-skill" style="font-size:1.2rem">Guitar</div></div>
-      </div>
-    </div>
-    <button class="hero-arr">↗</button>
-  </div>
-</section>
-
-<!-- TAGLINE BAR -->
-<div class="tagline-bar">
-  <p>A visual story of connecting people through skills</p>
-  <hr>
-</div>
-
-<!-- THE THOUGHT -->
-<section class="thought-section">
-  <div class="thought-card">
-    <div>
-      <h2 class="thought-heading">The <span>Thought</span></h2>
-      <p class="thought-body">To bridge the gap between people who have skills and those who want to learn, by creating a platform that combines transparency, accessibility, and community engagement.</p>
-    </div>
-    <div class="thought-graphic">
-      <div class="tg-icon">🎯</div>
-      <div class="tg-title">Bridge the gap.<br>Build the future.</div>
-      <div class="tg-sub">Skills flow freely when<br>barriers are removed.</div>
-    </div>
-  </div>
-</section>
-
-<!-- WHY SKILLSWAP -->
-<section class="why-section">
-  <h2 class="why-heading">Why SkillSwap?</h2>
-  <p class="why-sub">"I can code. You can paint. We both want to learn."<br>Let's stop scrolling and start swapping a skill.</p>
-  <div class="why-cards">
-    <div class="wcard">
-      <div class="wcard-num">01</div>
-      <div class="wcard-emoji">🌐</div>
-      <div class="wcard-title">No Money, No Barrier</div>
-      <p class="wcard-body">Exchange what you know for what you want to learn. Pure value, zero cost. Skills are the new currency.</p>
-      <span class="wcard-tag">Free Forever</span>
-    </div>
-    <div class="wcard">
-      <div class="wcard-num">02</div>
-      <div class="wcard-emoji">🤝</div>
-      <div class="wcard-title">Smart Matching</div>
-      <p class="wcard-body">Our algorithm connects you with the perfect swap partner — someone who needs exactly what you offer.</p>
-      <span class="wcard-tag">AI Powered</span>
-    </div>
-    <div class="wcard">
-      <div class="wcard-num">03</div>
-      <div class="wcard-emoji">🔁</div>
-      <div class="wcard-title">Community Loop</div>
-      <p class="wcard-body">A helps B, B helps C, C helps A. A circular ecosystem where everyone grows together.</p>
-      <span class="wcard-tag">Skill Loop</span>
-    </div>
-  </div>
-</section>
-
-<!-- THE INTERFACE -->
-<div class="iface-wrap">
-  <div class="iface-section">
-    <div>
-      <h2 class="iface-heading">The Interface</h2>
-      <div class="ilines">
-        <p class="iline">Simple Blocks.</p>
-        <p class="iline hi">Each Skill Is A Tile.</p>
-        <p class="iline">Each Swap Is A Story.</p>
-      </div>
-      <p class="ikeywords">"Offer." &nbsp;"Search." &nbsp;"Swap."</p>
-    </div>
-    <div class="mockup">
-      <div class="mockup-bar">
-        <div class="mdot" style="background:#ff6058"></div>
-        <div class="mdot" style="background:#ffbf2f"></div>
-        <div class="mdot" style="background:#28ca41"></div>
-      </div>
-      <div class="mgrid">
-        <div class="mtile active"><div class="mtile-icon">🎨</div><div class="mtile-name">Design</div><div class="mtile-sub">12 offers</div></div>
-        <div class="mtile"><div class="mtile-icon">💻</div><div class="mtile-name">Coding</div><div class="mtile-sub">34 offers</div></div>
-        <div class="mtile"><div class="mtile-icon">🎸</div><div class="mtile-name">Guitar</div><div class="mtile-sub">8 offers</div></div>
-        <div class="mtile"><div class="mtile-icon">📸</div><div class="mtile-name">Photography</div><div class="mtile-sub">19 offers</div></div>
-        <div class="mtile"><div class="mtile-icon">🍳</div><div class="mtile-name">Cooking</div><div class="mtile-sub">21 offers</div></div>
-        <div class="mtile"><div class="mtile-icon">🗣️</div><div class="mtile-name">Language</div><div class="mtile-sub">16 offers</div></div>
-      </div>
-      <div class="mockup-foot">
-        <span class="mockup-foot-txt">340+ skills available</span>
-        <button class="mswap-btn">Swap Now →</button>
-      </div>
-    </div>
-  </div>
-</div>
-
-<!-- MATCH MOMENT -->
-<section style="background:var(--bg)">
-  <div class="match-intro">
-    <h2 class="match-h">The Match Moment</h2>
-    <div class="match-badge"><span>"It's A Match!"</span></div>
-    <p class="match-sub">Discover a world of opportunities with our unique skill swap platform.<br>Tailor your learning journey and connect with others to exchange valuable skills.</p>
-  </div>
-</section>
-
-<!-- CAROUSEL -->
-<section class="carousel-section">
-  <div class="c-wrap">
-    <button class="c-btn" id="prevBtn">&#8592;</button>
-    <div class="c-cards" id="carouselCards">
-      <div class="sc-wrap side-far">
-        <div class="sc">
-          <div class="sc-graphic">
-            <div class="sc-glow" style="background:radial-gradient(circle,#8b5cf6,transparent)"></div>
-            <div class="sc-emoji">💃</div><div class="sc-title">Dancer</div><div class="sc-pill">Wants to learn skating</div>
-          </div>
-          <div class="sc-overlay"><p class="sc-otitle">Dancer</p><span class="sc-opill">Learn skating</span></div>
+    <!-- ════════════════════════════════
+     NAVBAR
+     ════════════════════════════════ -->
+    <nav class="navbar">
+        <div class="logo-wrap">
+            <div class="logo-icon">
+                <svg viewBox="0 0 24 24" fill="none">
+                    <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+                        stroke="#1a0a00" stroke-width="2" stroke-linecap="round" />
+                    <path
+                        d="M5 12c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3zm14 0c-1.7 0-3 1.3-3 3s1.3 3 3 3 3-1.3 3-3-1.3-3-3-3z"
+                        fill="#1a0a00" />
+                </svg>
+            </div>
+            <span class="logo-name">SkillSwap</span>
         </div>
-      </div>
-      <div class="sc-wrap side">
-        <div class="sc">
-          <div class="sc-graphic">
-            <div class="sc-glow" style="background:radial-gradient(circle,#06b6d4,transparent)"></div>
-            <div class="sc-emoji">⛸️</div><div class="sc-title">Skater</div><div class="sc-pill">Wants to learn dance</div>
-          </div>
-          <div class="sc-overlay"><p class="sc-otitle">Skater</p><span class="sc-opill">Learn dance</span></div>
+
+        <ul class="nav-links" id="navLinks">
+            <li><a href="#">Home</a></li>
+            <li><a href="#">About</a></li>
+            <li><a href="#">Explore</a></li>
+            <li><a href="#">How it Works</a></li>
+            <li><a href="#">Contact</a></li>
+        </ul>
+
+        <div class="nav-actions">
+            <a href="login.html" class="btn btn-ghost">Log In</a>
+            <a href="signup.html" class="btn btn-flame">Sign Up</a>
         </div>
-      </div>
-      <div class="sc-wrap center">
-        <div class="sc">
-          <div class="sc-graphic">
-            <div class="sc-glow" style="background:radial-gradient(circle,#F97316,transparent)"></div>
-            <div class="sc-emoji">🎨</div><div class="sc-title">UI/UX Designer</div><div class="sc-pill">Wants to learn Guitar</div>
-          </div>
-          <div class="sc-overlay"><p class="sc-otitle">UIUX Designer</p><span class="sc-opill">Learn Guitar</span></div>
+
+        <button class="nav-toggle" id="navToggle">
+            <span></span><span></span><span></span>
+        </button>
+    </nav>
+
+
+    <!-- ════════════════════════════════
+     HERO
+     ════════════════════════════════ -->
+    <section class="hero">
+        <!-- Left -->
+        <div class="hero-left">
+            <div class="eyebrow-pill fade-up">
+                <span class="eyebrow-dot"></span>No money. No barrier. Just skills.
+            </div>
+            <h1 class="hero-heading fade-up">
+                Exchange<br><span class="acc">Skills,</span><br>Not Money
+            </h1>
+            <p class="hero-sub fade-up">
+                Teach what you know. Learn what you love. Connect with people who have exactly what you need.
+            </p>
+            <div class="hero-btns fade-up">
+                <a href="pages/home.html" class="btn btn-flame">Swap a Skill →</a>
+                <a href="pages/explore.html" class="btn btn-ghost">Browse Talents</a>
+            </div>
+            <div class="hero-stats fade-up">
+                <div>
+                    <div class="stat-val">12k+</div>
+                    <div class="stat-lbl">Swappers</div>
+                </div>
+                <div>
+                    <div class="stat-val">340+</div>
+                    <div class="stat-lbl">Categories</div>
+                </div>
+                <div>
+                    <div class="stat-val">98%</div>
+                    <div class="stat-lbl">Match rate</div>
+                </div>
+            </div>
         </div>
-        <div class="req-tag"><a href="pages/swap-request.html">Request Swap ✦</a></div>
-      </div>
-      <div class="sc-wrap side">
-        <div class="sc">
-          <div class="sc-graphic">
-            <div class="sc-glow" style="background:radial-gradient(circle,#10b981,transparent)"></div>
-            <div class="sc-emoji">🎸</div><div class="sc-title">Guitarist</div><div class="sc-pill">Wants to learn language</div>
-          </div>
-          <div class="sc-overlay"><p class="sc-otitle">Guitarist</p><span class="sc-opill">Learn language</span></div>
+
+        <!-- Right -->
+        <div class="hero-right">
+            <div class="bg-words">
+                <span class="bg-word">LEARN</span>
+                <span class="bg-word hi">SHARE</span>
+                <span class="bg-word">EVOLVE</span>
+            </div>
+            <div class="float-pills">
+                <div class="fpill">🎸 Guitar</div>
+                <div class="fpill">💻 Coding</div>
+                <div class="fpill">🍳 Cooking</div>
+            </div>
+            <div class="card-stack">
+                <div class="hcard">
+                    <div class="hcard-suit">♠</div>
+                    <div class="hcard-lbl">I know</div>
+                    <div class="hcard-skill">Guitar</div>
+                    <div class="hcard-want">
+                        <div class="hcard-lbl">Teach me</div>
+                        <div class="hcard-skill" style="font-size:1.2rem">Design</div>
+                    </div>
+                </div>
+                <div class="hcard">
+                    <div class="hcard-suit">♣</div>
+                    <div class="hcard-lbl">I know</div>
+                    <div class="hcard-skill">Coding</div>
+                    <div class="hcard-want">
+                        <div class="hcard-lbl">Teach me</div>
+                        <div class="hcard-skill" style="font-size:1.2rem">Cooking</div>
+                    </div>
+                </div>
+                <div class="hcard">
+                    <div class="hcard-suit">♥</div>
+                    <div class="hcard-lbl">I know</div>
+                    <div class="hcard-skill">Cooking</div>
+                    <div class="hcard-want">
+                        <div class="hcard-lbl">Teach me</div>
+                        <div class="hcard-skill" style="font-size:1.2rem">Guitar</div>
+                    </div>
+                </div>
+            </div>
+            <button class="hero-arr">↗</button>
         </div>
-      </div>
-      <div class="sc-wrap side-far">
-        <div class="sc">
-          <div class="sc-graphic">
-            <div class="sc-glow" style="background:radial-gradient(circle,#ef4444,transparent)"></div>
-            <div class="sc-emoji">🎹</div><div class="sc-title">Pianist</div><div class="sc-pill">Wants to learn designing</div>
-          </div>
-          <div class="sc-overlay"><p class="sc-otitle">Pianist</p><span class="sc-opill">Learn designing</span></div>
+    </section>
+
+
+    <!-- ════════════════════════════════
+     TAGLINE BAR
+     ════════════════════════════════ -->
+    <div class="tagline-bar">
+        <p>A visual story of connecting people through skills</p>
+        <hr>
+    </div>
+
+
+    <!-- ════════════════════════════════
+     THE THOUGHT
+     ════════════════════════════════ -->
+    <section class="thought-section">
+        <div class="thought-card">
+            <div>
+                <h2 class="thought-heading">The <span>Thought</span></h2>
+                <p class="thought-body">
+                    To bridge the gap between people who have skills and those who want to learn, by creating
+                    a platform that combines transparency, accessibility, and community engagement.
+                </p>
+            </div>
+            <div class="thought-graphic">
+                <div class="tg-icon">🎯</div>
+                <div class="tg-title">Bridge the gap.<br>Build the future.</div>
+                <div class="tg-sub">Skills flow freely when<br>barriers are removed.</div>
+            </div>
         </div>
-      </div>
-    </div>
-    <button class="c-btn" id="nextBtn">&#8594;</button>
-  </div>
-</section>
+    </section>
 
-<!-- SKILL LOOP -->
-<section class="loop-section">
-  <div class="loop-inner">
-    <div class="loop-badge">
-      <div class="lb-dark">Skill</div><span class="lb-txt">Loop</span>
-    </div>
-    <p class="loop-sub">A Circular Swap — Person A Helps B, B Helps C, C Helps A.</p>
-    <div class="loop-graphic">
-      <div class="loop-node">
-        <div class="loop-av flame">👩‍💻</div>
-        <div class="loop-name">Priya</div>
-        <div class="loop-skill-lbl">Teaches: Coding</div>
-      </div>
-      <div class="loop-arr"><div class="arr-line"></div><div class="arr-lbl">Teaches Guitar</div></div>
-      <div class="loop-node">
-        <div class="loop-av dark-av">🎸</div>
-        <div class="loop-name">Marcus</div>
-        <div class="loop-skill-lbl">Teaches: Guitar</div>
-      </div>
-      <div class="loop-arr"><div class="arr-line"></div><div class="arr-lbl">Teaches Cooking</div></div>
-      <div class="loop-node">
-        <div class="loop-av">👨‍🍳</div>
-        <div class="loop-name">Aiko</div>
-        <div class="loop-skill-lbl">Teaches: Cooking</div>
-      </div>
-      <div class="loop-arr"><div class="arr-line"></div><div class="arr-lbl">Teaches Coding</div></div>
-      <div class="loop-node">
-        <div class="loop-av" style="border-color:rgba(249,115,22,0.3)">🔁</div>
-        <div class="loop-name">Back to Priya</div>
-        <div class="loop-skill-lbl">Loop continues</div>
-      </div>
-    </div>
-  </div>
-</section>
 
-<!-- MATCH PROFILES -->
-<section class="profiles-section">
-  <div class="profiles-inner">
-    <div class="profiles-content">
-      <h2 class="profiles-title">Match Profiles</h2>
-      <p class="profiles-quote">"Get Matched With People Who Have The Skills You Need —<br>And Need The Skills You Have."</p>
-      <div class="profiles-see"><a href="pages/explore.html">See All <span>→</span></a></div>
-    </div>
-    <div class="pcard-row">
-      <div class="pcard"><div class="pcard-av">🎨</div><div class="pcard-name">Sara K.</div><div class="pcard-skill">UI/UX Designer</div><span class="pcard-tag">Wants: Guitar</span></div>
-      <div class="pcard"><div class="pcard-av">💻</div><div class="pcard-name">Arjun M.</div><div class="pcard-skill">Full Stack Dev</div><span class="pcard-tag">Wants: Cooking</span></div>
-      <div class="pcard"><div class="pcard-av">🎸</div><div class="pcard-name">Leo T.</div><div class="pcard-skill">Guitarist</div><span class="pcard-tag">Wants: Language</span></div>
-      <div class="pcard"><div class="pcard-av">🍳</div><div class="pcard-name">Mei L.</div><div class="pcard-skill">Chef &amp; Baker</div><span class="pcard-tag">Wants: Design</span></div>
-    </div>
-  </div>
-</section>
+    <!-- ════════════════════════════════
+     WHY SKILLSWAP
+     ════════════════════════════════ -->
+    <section class="why-section">
+        <h2 class="why-heading">Why SkillSwap?</h2>
+        <p class="why-sub">
+            "I can code. You can paint. We both want to learn."<br>
+            Let's stop scrolling and start swapping a skill.
+        </p>
+        <div class="why-cards">
+            <div class="wcard">
+                <div class="wcard-num">01</div>
+                <div class="wcard-emoji">🌐</div>
+                <div class="wcard-title">No Money, No Barrier</div>
+                <p class="wcard-body">Exchange what you know for what you want to learn. Pure value, zero cost. Skills
+                    are the new currency.</p>
+                <span class="wcard-tag">Free Forever</span>
+            </div>
+            <div class="wcard">
+                <div class="wcard-num">02</div>
+                <div class="wcard-emoji">🤝</div>
+                <div class="wcard-title">Smart Matching</div>
+                <p class="wcard-body">Our algorithm connects you with the perfect swap partner — someone who needs
+                    exactly what you offer.</p>
+                <span class="wcard-tag">AI Powered</span>
+            </div>
+            <div class="wcard">
+                <div class="wcard-num">03</div>
+                <div class="wcard-emoji">🔁</div>
+                <div class="wcard-title">Community Loop</div>
+                <p class="wcard-body">A helps B, B helps C, C helps A. A circular ecosystem where everyone grows
+                    together.</p>
+                <span class="wcard-tag">Skill Loop</span>
+            </div>
+        </div>
+    </section>
 
-<!-- FOOTER -->
-<footer class="footer-section">
-  <div class="footer-card">
-    <div>
-      <div class="f-logo-row">
-        <svg class="f-logo-icon" viewBox="0 0 24 24" fill="none">
-          <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6" stroke="#F97316" stroke-width="2.5" stroke-linecap="round"/>
-        </svg>
-        <span class="f-logo-name">skilldex</span>
-      </div>
-      <p class="f-sub">Subscribe to our newsletter for the latest updates on features and new releases.</p>
-      <div class="f-email-row">
-        <input type="email" class="f-email" placeholder="Your email here">
-        <button class="f-join">Join</button>
-      </div>
-      <p class="f-privacy">By subscribing, you consent to our Privacy Policy and agree to receive updates.</p>
-    </div>
-    <div>
-      <p class="f-col-title">Quick Links</p>
-      <div class="f-links">
-        <a href="#">About Us</a><a href="#">Contact Us</a><a href="#">Blog Posts</a>
-        <a href="#">Help Center</a><a href="#">Community Forum</a>
-      </div>
-    </div>
-    <div>
-      <p class="f-col-title">Resources</p>
-      <div class="f-links">
-        <a href="#">Webinars</a><a href="#">Case Studies</a><a href="#">E-books</a>
-        <a href="#">FAQs</a><a href="#">Feedback</a>
-      </div>
-    </div>
-    <div>
-      <p class="f-col-title">Connect With Us</p>
-      <div class="f-links">
-        <a href="#" class="soc-link"><svg viewBox="0 0 24 24"><path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z"/></svg>Facebook</a>
-        <a href="#" class="soc-link"><svg viewBox="0 0 24 24"><rect x="2" y="2" width="20" height="20" rx="5"/><circle cx="12" cy="12" r="4" fill="#0E0E0E"/><circle cx="17.5" cy="6.5" r="1.2" fill="#0E0E0E"/></svg>Instagram</a>
-        <a href="#" class="soc-link"><svg viewBox="0 0 24 24"><path d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z"/></svg>X</a>
-        <a href="#" class="soc-link"><svg viewBox="0 0 24 24"><path d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z"/><circle cx="4" cy="4" r="2"/></svg>LinkedIn</a>
-        <a href="#" class="soc-link"><svg viewBox="0 0 24 24"><path d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z"/><polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0E0E0E"/></svg>YouTube</a>
-      </div>
-    </div>
-  </div>
-  <div class="footer-bot">
-    <p class="footer-copy">© 2025 SkillSwap. All rights reserved.</p>
-    <div class="footer-bot-links">
-      <a href="#">Privacy Policy</a><a href="#">Terms of Service</a><a href="#">Cookies Settings</a>
-    </div>
-  </div>
-</footer>
 
-<script>
-// Mobile nav
-const navToggle = document.getElementById('navToggle');
-const navLinks  = document.getElementById('navLinks');
-navToggle.addEventListener('click', () => navLinks.classList.toggle('mob-open'));
-document.addEventListener('click', e => {
-  if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) navLinks.classList.remove('mob-open');
-});
-const s = document.createElement('style');
-s.textContent = `@media(max-width:900px){.nav-links.mob-open{display:flex;flex-direction:column;position:absolute;top:66px;left:0;right:0;background:rgba(14,14,14,0.97);backdrop-filter:blur(18px);padding:1.5rem;border-bottom:1px solid rgba(255,255,255,0.08);gap:1rem;z-index:998;}}`;
-document.head.appendChild(s);
+    <!-- ════════════════════════════════
+     THE INTERFACE
+     ════════════════════════════════ -->
+    <div class="iface-wrap">
+        <div class="iface-section">
+            <div>
+                <h2 class="iface-heading">The Interface</h2>
+                <div class="ilines">
+                    <p class="iline">Simple Blocks.</p>
+                    <p class="iline hi">Each Skill Is A Tile.</p>
+                    <p class="iline">Each Swap Is A Story.</p>
+                </div>
+                <p class="ikeywords">"Offer." &nbsp;"Search." &nbsp;"Swap."</p>
+            </div>
+            <div class="mockup">
+                <div class="mockup-bar">
+                    <div class="mdot" style="background:#ff6058"></div>
+                    <div class="mdot" style="background:#ffbf2f"></div>
+                    <div class="mdot" style="background:#28ca41"></div>
+                </div>
+                <div class="mgrid">
+                    <div class="mtile">
+                        <div class="mtile-icon">🎨</div>
+                        <div class="mtile-name">Design</div>
+                        <div class="mtile-sub">12 offers</div>
+                    </div>
+                    <div class="mtile">
+                        <div class="mtile-icon">💻</div>
+                        <div class="mtile-name">Coding</div>
+                        <div class="mtile-sub">34 offers</div>
+                    </div>
+                    <div class="mtile">
+                        <div class="mtile-icon">🎸</div>
+                        <div class="mtile-name">Guitar</div>
+                        <div class="mtile-sub">8 offers</div>
+                    </div>
+                    <div class="mtile">
+                        <div class="mtile-icon">📸</div>
+                        <div class="mtile-name">Photography</div>
+                        <div class="mtile-sub">19 offers</div>
+                    </div>
+                    <div class="mtile">
+                        <div class="mtile-icon">🍳</div>
+                        <div class="mtile-name">Cooking</div>
+                        <div class="mtile-sub">21 offers</div>
+                    </div>
+                    <div class="mtile">
+                        <div class="mtile-icon">🗣️</div>
+                        <div class="mtile-name">Language</div>
+                        <div class="mtile-sub">16 offers</div>
+                    </div>
+                </div>
+                <div class="mockup-foot">
+                    <span class="mockup-foot-txt">340+ skills available</span>
+                    <button class="mswap-btn">Swap Now →</button>
+                </div>
+            </div>
+        </div>
+    </div>
 
-// Carousel
-const cards = [
-  { emoji:'⛸️', title:'Skater',        bg:'#06b6d4', pill:'Like to learn Dance' },
-  { emoji:'🎨', title:'UI/UX Designer', bg:'#F97316', pill:'Like to learn Guitar' },
-  { emoji:'🎸', title:'Guitarist',      bg:'#10b981', pill:'Like to learn Language' },
-  { emoji:'🎹', title:'Pianist',        bg:'#ef4444', pill:'Like to learn Designing' },
-  { emoji:'💃', title:'Dancer',         bg:'#8b5cf6', pill:'Like to learn Skating' },
-];
-let current = 1;
-const positions = ['side-far','side','center','side','side-far'];
 
-function updateCarousel() {
-  document.querySelectorAll('.sc-wrap').forEach((wrap, i) => {
-    const idx = (current + i - 2 + cards.length) % cards.length;
-    const c = cards[idx];
-    wrap.className = 'sc-wrap ' + positions[i];
-    wrap.querySelector('.sc-emoji').textContent = c.emoji;
-    wrap.querySelector('.sc-title').textContent  = c.title;
-    wrap.querySelector('.sc-pill').textContent   = c.pill;
-    wrap.querySelector('.sc-glow').style.background = `radial-gradient(circle, ${c.bg}, transparent)`;
-    wrap.querySelector('.sc-otitle').textContent = c.title;
-    wrap.querySelector('.sc-opill').textContent  = c.pill;
-  });
-}
-document.getElementById('prevBtn').addEventListener('click', () => { current = (current - 1 + cards.length) % cards.length; updateCarousel(); });
-document.getElementById('nextBtn').addEventListener('click', () => { current = (current + 1) % cards.length; updateCarousel(); });
-updateCarousel();
+    <!-- ════════════════════════════════
+     MATCH MOMENT
+     ════════════════════════════════ -->
+    <section style="background:var(--bg)">
+        <div class="match-intro">
+            <h2 class="match-h">The Match Moment</h2>
+            <div class="match-badge"><span>"It's A Match!"</span></div>
+            <p class="match-sub">
+                Discover a world of opportunities with our unique skill swap platform.<br>
+                Tailor your learning journey and connect with others to exchange valuable skills.
+            </p>
+        </div>
+    </section>
 
-// Mockup tile click
-document.querySelectorAll('.mtile').forEach(t => {
-  t.addEventListener('click', () => {
-    document.querySelectorAll('.mtile').forEach(x => x.classList.remove('active'));
-    t.classList.add('active');
-  });
-});
-</script>
+
+    <!-- ════════════════════════════════
+     CAROUSEL
+     ════════════════════════════════ -->
+    <section class="carousel-section">
+        <div class="c-wrap">
+            <button class="c-btn" id="prevBtn">&#8592;</button>
+            <div class="c-cards" id="carouselCards">
+
+                <div class="sc-wrap side-far">
+                    <div class="sc">
+                        <div class="sc-graphic">
+                            <div class="sc-glow" style="background:radial-gradient(circle,#8b5cf6,transparent)"></div>
+                            <div class="sc-emoji">💃</div>
+                            <div class="sc-title">Dancer</div>
+                            <div class="sc-pill">Wants to learn skating</div>
+                        </div>
+                        <div class="sc-overlay">
+                            <p class="sc-otitle">Dancer</p>
+                            <span class="sc-opill">Learn skating</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-wrap side">
+                    <div class="sc">
+                        <div class="sc-graphic">
+                            <div class="sc-glow" style="background:radial-gradient(circle,#06b6d4,transparent)"></div>
+                            <div class="sc-emoji">⛸️</div>
+                            <div class="sc-title">Skater</div>
+                            <div class="sc-pill">Wants to learn dance</div>
+                        </div>
+                        <div class="sc-overlay">
+                            <p class="sc-otitle">Skater</p>
+                            <span class="sc-opill">Learn dance</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-wrap center">
+                    <div class="sc">
+                        <div class="sc-graphic">
+                            <div class="sc-glow" style="background:radial-gradient(circle,#F97316,transparent)"></div>
+                            <div class="sc-emoji">🎨</div>
+                            <div class="sc-title">UI/UX Designer</div>
+                            <div class="sc-pill">Wants to learn Guitar</div>
+                        </div>
+                        <div class="sc-overlay">
+                            <p class="sc-otitle">UIUX Designer</p>
+                            <span class="sc-opill">Learn Guitar</span>
+                        </div>
+                    </div>
+                    <div class="req-tag">
+                        <a href="pages/swap-request.html">Request Swap ✦</a>
+                    </div>
+                </div>
+
+                <div class="sc-wrap side">
+                    <div class="sc">
+                        <div class="sc-graphic">
+                            <div class="sc-glow" style="background:radial-gradient(circle,#10b981,transparent)"></div>
+                            <div class="sc-emoji">🎸</div>
+                            <div class="sc-title">Guitarist</div>
+                            <div class="sc-pill">Wants to learn language</div>
+                        </div>
+                        <div class="sc-overlay">
+                            <p class="sc-otitle">Guitarist</p>
+                            <span class="sc-opill">Learn language</span>
+                        </div>
+                    </div>
+                </div>
+
+                <div class="sc-wrap side-far">
+                    <div class="sc">
+                        <div class="sc-graphic">
+                            <div class="sc-glow" style="background:radial-gradient(circle,#ef4444,transparent)"></div>
+                            <div class="sc-emoji">🎹</div>
+                            <div class="sc-title">Pianist</div>
+                            <div class="sc-pill">Wants to learn designing</div>
+                        </div>
+                        <div class="sc-overlay">
+                            <p class="sc-otitle">Pianist</p>
+                            <span class="sc-opill">Learn designing</span>
+                        </div>
+                    </div>
+                </div>
+
+            </div>
+            <button class="c-btn" id="nextBtn">&#8594;</button>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════
+     SKILL LOOP
+     ════════════════════════════════ -->
+    <section class="loop-section">
+        <div class="loop-inner">
+            <div class="loop-badge">
+                <div class="lb-dark">Skill</div><span class="lb-txt">Loop</span>
+            </div>
+            <p class="loop-sub">A Circular Swap — Person A Helps B, B Helps C, C Helps A.</p>
+            <div class="loop-graphic">
+                <div class="loop-node">
+                    <div class="loop-av flame">👩‍💻</div>
+                    <div class="loop-name">Priya</div>
+                    <div class="loop-skill-lbl">Teaches: Coding</div>
+                </div>
+                <div class="loop-arr">
+                    <div class="arr-line"></div>
+                    <div class="arr-lbl">Teaches Guitar</div>
+                </div>
+                <div class="loop-node">
+                    <div class="loop-av dark-av">🎸</div>
+                    <div class="loop-name">Marcus</div>
+                    <div class="loop-skill-lbl">Teaches: Guitar</div>
+                </div>
+                <div class="loop-arr">
+                    <div class="arr-line"></div>
+                    <div class="arr-lbl">Teaches Cooking</div>
+                </div>
+                <div class="loop-node">
+                    <div class="loop-av">👨‍🍳</div>
+                    <div class="loop-name">Aiko</div>
+                    <div class="loop-skill-lbl">Teaches: Cooking</div>
+                </div>
+                <div class="loop-arr">
+                    <div class="arr-line"></div>
+                    <div class="arr-lbl">Teaches Coding</div>
+                </div>
+                <div class="loop-node">
+                    <div class="loop-av" style="border-color:rgba(249,115,22,0.3)">🔁</div>
+                    <div class="loop-name">Back to Priya</div>
+                    <div class="loop-skill-lbl">Loop continues</div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════
+     MATCH PROFILES
+     ════════════════════════════════ -->
+    <section class="profiles-section">
+        <div class="profiles-inner">
+            <div class="profiles-content">
+                <h2 class="profiles-title">Match Profiles</h2>
+                <p class="profiles-quote">
+                    "Get Matched With People Who Have The Skills You Need —<br>
+                    And Need The Skills You Have."
+                </p>
+                <div class="profiles-see">
+                    <a href="pages/explore.html">See All <span>→</span></a>
+                </div>
+            </div>
+            <div class="pcard-row">
+                <div class="pcard">
+                    <div class="pcard-av">🎨</div>
+                    <div class="pcard-name">Sara K.</div>
+                    <div class="pcard-skill">UI/UX Designer</div>
+                    <span class="pcard-tag">Wants: Guitar</span>
+                </div>
+                <div class="pcard">
+                    <div class="pcard-av">💻</div>
+                    <div class="pcard-name">Arjun M.</div>
+                    <div class="pcard-skill">Full Stack Dev</div>
+                    <span class="pcard-tag">Wants: Cooking</span>
+                </div>
+                <div class="pcard">
+                    <div class="pcard-av">🎸</div>
+                    <div class="pcard-name">Leo T.</div>
+                    <div class="pcard-skill">Guitarist</div>
+                    <span class="pcard-tag">Wants: Language</span>
+                </div>
+                <div class="pcard">
+                    <div class="pcard-av">🍳</div>
+                    <div class="pcard-name">Mei L.</div>
+                    <div class="pcard-skill">Chef &amp; Baker</div>
+                    <span class="pcard-tag">Wants: Design</span>
+                </div>
+            </div>
+        </div>
+    </section>
+
+
+    <!-- ════════════════════════════════
+     FOOTER
+     ════════════════════════════════ -->
+    <footer class="footer-section">
+        <div class="footer-card">
+            <!-- Brand + Newsletter -->
+            <div>
+                <div class="f-logo-row">
+                    <svg class="f-logo-icon" viewBox="0 0 24 24" fill="none">
+                        <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+                            stroke="#F97316" stroke-width="2.5" stroke-linecap="round" />
+                    </svg>
+                    <span class="f-logo-name">skilldex</span>
+                </div>
+                <p class="f-sub">Subscribe to our newsletter for the latest updates on features and new releases.</p>
+                <div class="f-email-row">
+                    <input type="email" class="f-email" placeholder="Your email here">
+                    <button class="f-join">Join</button>
+                </div>
+                <p class="f-privacy">By subscribing, you consent to our Privacy Policy and agree to receive updates.</p>
+            </div>
+
+            <!-- Quick Links -->
+            <div>
+                <p class="f-col-title">Quick Links</p>
+                <div class="f-links">
+                    <a href="#">About Us</a>
+                    <a href="#">Contact Us</a>
+                    <a href="#">Blog Posts</a>
+                    <a href="#">Help Center</a>
+                    <a href="#">Community Forum</a>
+                </div>
+            </div>
+
+            <!-- Resources -->
+            <div>
+                <p class="f-col-title">Resources</p>
+                <div class="f-links">
+                    <a href="#">Webinars</a>
+                    <a href="#">Case Studies</a>
+                    <a href="#">E-books</a>
+                    <a href="#">FAQs</a>
+                    <a href="#">Feedback</a>
+                </div>
+            </div>
+
+            <!-- Social -->
+            <div>
+                <p class="f-col-title">Connect With Us</p>
+                <div class="f-links">
+                    <a href="#" class="soc-link">
+                        <svg viewBox="0 0 24 24">
+                            <path d="M18 2h-3a5 5 0 00-5 5v3H7v4h3v8h4v-8h3l1-4h-4V7a1 1 0 011-1h3z" />
+                        </svg>
+                        Facebook
+                    </a>
+                    <a href="#" class="soc-link">
+                        <svg viewBox="0 0 24 24">
+                            <rect x="2" y="2" width="20" height="20" rx="5" />
+                            <circle cx="12" cy="12" r="4" fill="#0E0E0E" />
+                            <circle cx="17.5" cy="6.5" r="1.2" fill="#0E0E0E" />
+                        </svg>
+                        Instagram
+                    </a>
+                    <a href="#" class="soc-link">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M18.244 2.25h3.308l-7.227 8.26 8.502 11.24H16.17l-5.214-6.817L4.99 21.75H1.68l7.73-8.835L1.254 2.25H8.08l4.713 6.231zm-1.161 17.52h1.833L7.084 4.126H5.117z" />
+                        </svg>
+                        X
+                    </a>
+                    <a href="#" class="soc-link">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M16 8a6 6 0 016 6v7h-4v-7a2 2 0 00-2-2 2 2 0 00-2 2v7h-4v-7a6 6 0 016-6zM2 9h4v12H2z" />
+                            <circle cx="4" cy="4" r="2" />
+                        </svg>
+                        LinkedIn
+                    </a>
+                    <a href="#" class="soc-link">
+                        <svg viewBox="0 0 24 24">
+                            <path
+                                d="M22.54 6.42a2.78 2.78 0 00-1.95-1.96C18.88 4 12 4 12 4s-6.88 0-8.59.46a2.78 2.78 0 00-1.95 1.96A29 29 0 001 12a29 29 0 00.46 5.58A2.78 2.78 0 003.41 19.6C5.12 20 12 20 12 20s6.88 0 8.59-.46a2.78 2.78 0 001.95-1.95A29 29 0 0023 12a29 29 0 00-.46-5.58z" />
+                            <polygon points="9.75 15.02 15.5 12 9.75 8.98 9.75 15.02" fill="#0E0E0E" />
+                        </svg>
+                        YouTube
+                    </a>
+                </div>
+            </div>
+        </div>
+
+        <div class="footer-bot">
+            <p class="footer-copy">© 2025 SkillSwap. All rights reserved.</p>
+            <div class="footer-bot-links">
+                <a href="#">Privacy Policy</a>
+                <a href="#">Terms of Service</a>
+                <a href="#">Cookies Settings</a>
+            </div>
+        </div>
+    </footer>
+
+    <!-- JavaScript -->
+    <script src="js/main.js"></script>
+
 </body>
+
 </html>
