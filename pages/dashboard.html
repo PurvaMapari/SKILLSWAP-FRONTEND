@@ -42,27 +42,57 @@
       --c-reject-br: rgba(248, 113, 113, 0.25);
     }
 
-    .nav-links {
-      list-style: none;
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 2px;
     }
 
-    .nav-links a.active {
+    .nav-center a {
+      font-size: 0.85rem;
+      font-weight: 500;
+      color: var(--ink3);
+      padding: 6px 14px;
+      border-radius: var(--r-btn);
+      transition: all 0.2s;
+      border: 1px solid transparent;
+    }
+
+    .nav-center a:hover {
       color: var(--flame-lt);
+      border: 1px solid var(--flame);
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.25);
+      background: transparent;
+    }
+
+    .nav-center a.active {
+      background: var(--flame);
+      color: #1a0a00;
+      font-weight: 700;
+    }
+
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end;
     }
 
     .btn-nav-logout {
       font-size: 0.875rem;
       font-weight: 500;
       color: var(--ink3);
-      border: 1px solid var(--border2);
+      border: 1px solid transparent;
       border-radius: var(--r-btn);
       padding: 6px 16px;
       transition: all 0.2s;
     }
 
     .btn-nav-logout:hover {
-      color: #f87171;
-      border-color: rgba(248, 113, 113, 0.3);
+      color: var(--flame-lt);
+      border-color: var(--flame);
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.25);
+      background: transparent;
     }
 
     .nav-toggle {
@@ -563,12 +593,12 @@
       background: var(--bg2);
     }
 
-    @media (max-width: 768px) {
+    @media (max-width: 900px) {
       .navbar {
         padding: 0 1.5rem;
       }
 
-      .nav-links {
+      .nav-center {
         display: none;
       }
 
@@ -644,13 +674,18 @@
       </div>
       <span class="logo-name">SkillSwap</span>
     </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="explore.html">Explore</a></li>
-      <li><a href="dashboard.html" class="active">Dashboard</a></li>
-      <li><a href="profile.html">Profile</a></li>
-      <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <nav class="nav-center">
+      <a href="home.html">Home</a>
+      <a href="about.html">About</a>
+      <a href="explore.html">Explore</a>
+      <a href="dashboard.html" class="active">Dashboard</a>
+      <a href="contact.html">Contact Us</a>
+    </nav>
+    <div class="nav-right">
+      <a href="profile.html" class="btn-nav-logout">Profile</a>
+      <a href="../index.html" class="btn-nav-logout">Logout</a>
+      <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    </div>
   </nav>
 
   <div class="page-header">

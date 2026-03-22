@@ -38,7 +38,7 @@
 
         <ul class="nav-links" id="navLinks">
             <li><a href="#">Home</a></li>
-            <li><a href="">About</a></li>
+            <li><a href="#">About</a></li>
             <li><a href="#">Explore</a></li>
             <li><a href="#">How it Works</a></li>
             <li><a href="#">Contact Us</a></li>
@@ -46,7 +46,7 @@
 
         <div class="nav-actions">
             <a href="login.html" class="btn btn-ghost">Log In</a>
-            <a href="signup.html" class="btn btn-flame">Sign Up</a>
+            <a href="signup.html" class="btn btn-ghost">Sign Up</a>
         </div>
 
         <button class="nav-toggle" id="navToggle">
@@ -72,7 +72,7 @@
             </p>
             <div class="hero-btns fade-up">
                 <a href="pages/home.html" class="btn btn-flame">Swap a Skill →</a>
-                <a href="pages/explore.html" class="btn btn-ghost">Browse Talents</a>
+                <a href="pages/explore.html" class="btn btn-flame">Browse Talents</a>
             </div>
             <div class="hero-stats fade-up">
                 <div>
@@ -567,6 +567,32 @@
 
     <!-- JavaScript -->
     <script src="js/main.js"></script>
+
+    <style>
+        /* Nav ghost buttons — orange border glow on hover */
+        .nav-actions .btn-ghost:hover {
+            background: transparent;
+            border-color: var(--flame);
+            color: var(--flame-lt);
+            box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
+        }
+
+        /* Both hero buttons — outline style, fill orange on hover */
+        .hero-btns a {
+            background: transparent !important;
+            color: var(--flame-lt) !important;
+            border: 1px solid var(--flame-lt) !important;
+            box-shadow: none !important;
+        }
+
+        .hero-btns a:hover {
+            background: var(--flame) !important;
+            color: #1a0a00 !important;
+            border-color: var(--flame) !important;
+            box-shadow: 0 0 40px rgba(249, 115, 22, 0.5) !important;
+            transform: translateY(-2px);
+        }
+    </style>
 
 </body>
 
