@@ -434,11 +434,11 @@
       <span class="logo-name">SkillSwap</span>
     </a>
     <nav class="nav-center">
-      <a href="home.html" class="active">Home</a>
-      <a href="#">About</a>
+      <a href="home.html">Home</a>
+      <a href="about.html">About</a>
       <a href="explore.html">Explore</a>
       <a href="dashboard.html">Dashboard</a>
-      <a href="#">Contact</a>
+      <a href="contact.html">Contact Us</a>
     </nav>
     <div class="nav-right">
       <button class="nav-search-btn" aria-label="Search" onclick="document.getElementById('searchInput').focus()">
@@ -539,7 +539,7 @@
           </button>
         </div>
         <div class="card-actions">
-          <a href="learn.html" class="card-action-btn">LEARN</a>
+          <a href="explore.html" class="card-action-btn">LEARN</a>
           <a href="profile.html" class="card-action-btn">TEACH</a>
           <a href="swap-request.html" class="card-action-btn">TRADE</a>
         </div>
@@ -559,7 +559,7 @@
     const searchInput = document.getElementById('searchInput');
     function doSearch() {
       const q = searchInput.value.trim();
-      window.location.href = q ? `learn.html?q=${encodeURIComponent(q)}` : 'learn.html';
+      window.location.href = q ? `explore.html?q=${encodeURIComponent(q)}` : 'explore.html';
     }
     searchBtn.addEventListener('click', doSearch);
     searchInput.addEventListener('keydown', e => { if (e.key === 'Enter') doSearch(); });
