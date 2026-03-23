@@ -4,15 +4,15 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Sarah Johnson — SkillSwap</title>
+  <title>Sign Up — SkillSwap</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link
     href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap"
     rel="stylesheet">
-  <link rel="stylesheet" href="../css/main.css">
-  <link rel="stylesheet" href="../css/components.css">
+  <link rel="stylesheet" href="css/main.css">
+  <link rel="stylesheet" href="css/components.css">
   <style>
-    /* ── PROFILE PAGE SPECIFIC ── */
+    /* ── SIGNUP PAGE SPECIFIC ── */
     body {
       display: flex;
       flex-direction: column;
@@ -24,78 +24,167 @@
       position: fixed;
       inset: 0;
       z-index: 0;
-      background-image: linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px), linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
+      background-image:
+        linear-gradient(rgba(255, 255, 255, 0.015) 1px, transparent 1px),
+        linear-gradient(90deg, rgba(255, 255, 255, 0.015) 1px, transparent 1px);
       background-size: 44px 44px;
       pointer-events: none;
     }
 
-    .nav-links {
-      list-style: none;
+    .nav-center {
+      display: flex;
+      align-items: center;
+      gap: 2px;
     }
 
-    .nav-links a.active {
-      color: var(--flame-lt);
-    }
-
-    .btn-nav-logout {
-      font-size: 0.875rem;
+    .nav-center a {
+      font-size: 0.85rem;
       font-weight: 500;
       color: var(--ink3);
-      border: 1px solid var(--border2);
+      padding: 6px 14px;
       border-radius: var(--r-btn);
-      padding: 6px 16px;
       transition: all 0.2s;
+      border: 1px solid transparent;
     }
 
-    .btn-nav-logout:hover {
-      color: #f87171;
-      border-color: rgba(248, 113, 113, 0.3);
+    .nav-center a:hover {
+      color: var(--flame-lt);
+      border: 1px solid var(--flame);
+      box-shadow: 0 0 10px rgba(249, 115, 22, 0.25);
+      background: transparent;
     }
 
-    .nav-toggle {
-      display: none;
-      flex-direction: column;
-      gap: 5px;
-      background: none;
-      border: none;
-      cursor: pointer;
-      padding: 4px;
+    .nav-center a.active {
+      background: var(--flame);
+      color: #1a0a00;
+      font-weight: 700;
+      border: 1px solid transparent;
     }
 
-    .nav-toggle span {
-      display: block;
-      width: 22px;
-      height: 2px;
-      background: var(--ink);
-      border-radius: 2px;
+    .nav-right {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      justify-content: flex-end;
     }
 
     .main-content {
       flex: 1;
+      display: flex;
+      align-items: center;
+      justify-content: center;
+      padding: 3rem 1.5rem;
       position: relative;
       z-index: 1;
     }
 
-    .page-wrap {
-      max-width: 1100px;
-      margin: 0 auto;
-      padding: 3rem;
-      display: grid;
-      grid-template-columns: 300px 1fr;
-      gap: 2.5rem;
-      align-items: start;
+    .main-content::before {
+      content: '';
+      position: absolute;
+      width: 600px;
+      height: 600px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.08) 0%, transparent 65%);
+      top: 50%;
+      left: 50%;
+      transform: translate(-50%, -50%);
+      pointer-events: none;
+    }
+
+    .auth-card {
+      background: var(--bg2);
+      border: 1px solid var(--border2);
+      border-radius: 22px;
+      padding: 2.8rem 2.5rem;
+      width: 100%;
+      max-width: 460px;
+      box-shadow: 0 24px 80px rgba(0, 0, 0, 0.5), 0 0 0 1px rgba(249, 115, 22, 0.05);
+      position: relative;
+      overflow: hidden;
+      animation: cardIn 0.5s ease forwards;
+    }
+
+    @keyframes cardIn {
+      from {
+        opacity: 0;
+        transform: translateY(20px)
+      }
+
+      to {
+        opacity: 1;
+        transform: translateY(0)
+      }
+    }
+
+    .auth-card::before {
+      content: '';
+      position: absolute;
+      top: -80px;
+      right: -80px;
+      width: 240px;
+      height: 240px;
+      border-radius: 50%;
+      background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
+      pointer-events: none;
+    }
+
+    .auth-top {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 1.8rem;
+    }
+
+    .auth-logo-icon {
+      width: 30px;
+      height: 30px;
+      border-radius: 8px;
+      background: var(--flame);
+      display: flex;
+      align-items: center;
+      justify-content: center;
+    }
+
+    .auth-logo-icon svg {
+      width: 17px;
+      height: 17px;
+    }
+
+    .auth-logo-name {
+      font-family: var(--font-head);
+      font-weight: 800;
+      font-size: 1rem;
+      color: var(--ink);
+    }
+
+    .auth-heading {
+      font-family: var(--font-head);
+      font-size: 2rem;
+      font-weight: 800;
+      letter-spacing: -0.03em;
+      color: var(--ink);
+      margin-bottom: 4px;
+    }
+
+    .auth-heading span {
+      color: var(--flame);
+    }
+
+    .auth-subtitle {
+      font-size: 0.88rem;
+      color: var(--ink3);
+      margin-bottom: 1.8rem;
     }
 
     .alert {
       padding: 0.75rem 1rem;
       border-radius: 10px;
       font-size: 0.85rem;
-      margin-bottom: 1.2rem;
+      margin-bottom: 1rem;
       display: none;
       align-items: center;
       gap: 8px;
       font-weight: 500;
-      grid-column: 1 / -1;
     }
 
     .alert-error {
@@ -110,497 +199,190 @@
       border: 1px solid rgba(74, 222, 128, 0.25);
     }
 
-    /* Sidebar */
-    .sidebar {
-      display: flex;
-      flex-direction: column;
-      gap: 1.5rem;
-    }
-
-    .profile-card {
-      background: var(--bg2);
-      border: 1px solid var(--border2);
-      border-radius: 22px;
-      padding: 2rem;
-      text-align: center;
-      position: relative;
-      overflow: hidden;
-    }
-
-    .profile-card::before {
-      content: '';
-      position: absolute;
-      top: -60px;
-      right: -60px;
-      width: 200px;
-      height: 200px;
-      border-radius: 50%;
-      background: radial-gradient(circle, rgba(249, 115, 22, 0.1) 0%, transparent 70%);
-      pointer-events: none;
-    }
-
-    .avatar {
-      width: 88px;
-      height: 88px;
-      border-radius: 50%;
-      background: var(--flame);
-      color: #1a0a00;
-      font-family: var(--font-head);
-      font-size: 2.2rem;
-      font-weight: 800;
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      margin: 0 auto 1rem;
-      box-shadow: 0 0 32px rgba(249, 115, 22, 0.3);
-      border: 3px solid rgba(249, 115, 22, 0.3);
-    }
-
-    .profile-name {
-      font-family: var(--font-head);
-      font-size: 1.3rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      color: var(--ink);
-      margin-bottom: 4px;
-    }
-
-    .profile-location {
-      font-size: 0.82rem;
-      color: var(--ink3);
-      margin-bottom: 1rem;
-    }
-
-    .profile-rating {
-      display: inline-flex;
-      align-items: center;
-      gap: 5px;
-      background: var(--glow-sm);
-      border: 1px solid rgba(249, 115, 22, 0.2);
-      border-radius: 50px;
-      padding: 5px 14px;
-      margin-bottom: 1.2rem;
-      font-size: 0.8rem;
-      font-weight: 600;
-      color: var(--flame-lt);
-    }
-
-    .profile-stats {
+    .form-row {
       display: grid;
       grid-template-columns: 1fr 1fr;
-      gap: 1px;
-      background: var(--border);
-      border-radius: 12px;
-      overflow: hidden;
-      margin-top: 0.5rem;
-    }
-
-    .pstat {
-      background: var(--bg3);
-      padding: 12px 8px;
-      text-align: center;
-    }
-
-    .pstat-val {
-      font-family: var(--font-head);
-      font-size: 1.3rem;
-      font-weight: 800;
-      color: var(--ink);
-      line-height: 1;
-    }
-
-    .pstat-lbl {
-      font-size: 0.68rem;
-      color: var(--ink3);
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      margin-top: 3px;
-    }
-
-    .edit-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      padding: 1.5rem;
-    }
-
-    .card-title {
-      font-family: var(--font-head);
-      font-size: 0.95rem;
-      font-weight: 800;
-      letter-spacing: -0.01em;
-      margin-bottom: 1rem;
-      color: var(--ink);
+      gap: 12px;
     }
 
     .form-group {
-      margin-bottom: 1rem;
+      margin-bottom: 1.1rem;
     }
 
     .form-group label {
       display: block;
-      font-size: 0.78rem;
+      font-size: 0.8rem;
       font-weight: 600;
       color: var(--ink2);
       margin-bottom: 6px;
       letter-spacing: 0.02em;
     }
 
-    .form-group input,
-    .form-group textarea,
-    .form-group select {
+    .input-wrap {
+      position: relative;
+    }
+
+    .form-group input {
       width: 100%;
+      padding: 0.72rem 1rem;
       border: 1px solid var(--border2);
       border-radius: 10px;
-      font-size: 0.875rem;
+      font-size: 0.88rem;
       font-family: var(--font-body);
       background: var(--bg3);
       color: var(--ink);
       outline: none;
       transition: border-color 0.2s, box-shadow 0.2s;
-      padding: 0.65rem 0.9rem;
     }
 
-    .form-group textarea {
-      resize: vertical;
-      min-height: 90px;
-      line-height: 1.6;
-    }
-
-    .form-group select {
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A857A' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 12px center;
-      padding-right: 34px;
-      cursor: pointer;
-    }
-
-    .form-group select option {
-      background: var(--bg3);
-      color: var(--ink);
-    }
-
-    .form-group input:focus,
-    .form-group textarea:focus,
-    .form-group select:focus {
+    .form-group input:focus {
       border-color: var(--flame);
       box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.12);
     }
 
-    .form-group input::placeholder,
-    .form-group textarea::placeholder {
+    .form-group input::placeholder {
       color: var(--ink4);
     }
 
-    .btn-primary {
+    .pw-toggle {
+      position: absolute;
+      right: 12px;
+      top: 50%;
+      transform: translateY(-50%);
+      background: none;
+      border: none;
+      cursor: pointer;
+      color: var(--ink3);
+      font-size: 1rem;
+      padding: 4px;
+      transition: color 0.2s;
+    }
+
+    .pw-toggle:hover {
+      color: var(--flame-lt);
+    }
+
+    .pw-strength-wrap {
+      margin-top: 6px;
+    }
+
+    .pw-strength-bar {
+      height: 3px;
+      border-radius: 2px;
+      background: var(--bg4);
+      overflow: hidden;
+      margin-bottom: 4px;
+    }
+
+    .pw-strength-fill {
+      height: 100%;
+      border-radius: 2px;
+      width: 0%;
+      transition: width 0.3s, background 0.3s;
+    }
+
+    .pw-strength-label {
+      font-size: 0.72rem;
+      color: var(--ink3);
+    }
+
+    .match-indicator {
+      font-size: 0.72rem;
+      margin-top: 5px;
+    }
+
+    .match-ok {
+      color: #4ade80;
+    }
+
+    .match-fail {
+      color: #f87171;
+    }
+
+    .btn-submit {
       width: 100%;
-      padding: 0.8rem;
+      padding: 0.9rem;
       background: var(--flame);
       color: #1a0a00;
       font-family: var(--font-head);
-      font-size: 0.88rem;
+      font-size: 1rem;
       font-weight: 700;
       border: none;
       border-radius: var(--r-btn);
       cursor: pointer;
       transition: background 0.2s, transform 0.1s, box-shadow 0.2s;
-      box-shadow: 0 0 20px rgba(249, 115, 22, 0.3);
+      box-shadow: 0 0 24px rgba(249, 115, 22, 0.35);
+      letter-spacing: -0.01em;
+      margin-top: 0.4rem;
     }
 
-    .btn-primary:hover {
+    .btn-submit:hover {
       background: var(--flame-lt);
-      box-shadow: 0 0 32px rgba(249, 115, 22, 0.45);
+      box-shadow: 0 0 36px rgba(249, 115, 22, 0.5);
       transform: translateY(-1px);
     }
 
-    /* Content */
-    .content {
-      display: flex;
-      flex-direction: column;
-      gap: 2rem;
+    .btn-submit:active {
+      transform: scale(0.98);
     }
 
-    .section-card {
-      background: var(--bg2);
-      border: 1px solid var(--border);
-      border-radius: 18px;
-      overflow: hidden;
+    .btn-submit:disabled {
+      opacity: 0.5;
+      cursor: not-allowed;
+      transform: none;
     }
 
-    .section-head {
-      display: flex;
-      align-items: center;
-      justify-content: space-between;
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--border);
+    .terms-note {
+      font-size: 0.74rem;
+      color: var(--ink3);
+      text-align: center;
+      margin-top: 1rem;
+      line-height: 1.6;
     }
 
-    .section-head-title {
-      font-family: var(--font-head);
-      font-size: 1rem;
-      font-weight: 800;
-      letter-spacing: -0.02em;
-      display: flex;
-      align-items: center;
-      gap: 8px;
-    }
-
-    .section-count {
-      font-size: 0.72rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.06em;
-      padding: 3px 10px;
-      border-radius: 50px;
-      background: var(--glow-sm);
+    .terms-note a {
       color: var(--flame-lt);
-      border: 1px solid rgba(249, 115, 22, 0.2);
-    }
-
-    .skill-rows {
-      padding: 0.5rem 0;
-    }
-
-    .skill-row {
-      display: flex;
-      align-items: center;
-      gap: 12px;
-      padding: 10px 1.5rem;
-      transition: background 0.15s;
-      border-bottom: 1px solid var(--border);
-    }
-
-    .skill-row:last-child {
-      border-bottom: none;
-    }
-
-    .skill-row:hover {
-      background: rgba(255, 255, 255, 0.02);
-    }
-
-    .skill-row-icon {
-      width: 36px;
-      height: 36px;
-      border-radius: 8px;
-      flex-shrink: 0;
-      background: var(--bg3);
-      border: 1px solid var(--border);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-size: 1rem;
-    }
-
-    .skill-row-info {
-      flex: 1;
-      min-width: 0;
-    }
-
-    .skill-row-name {
-      font-size: 0.88rem;
-      font-weight: 600;
-      color: var(--ink);
       transition: color 0.2s;
-      white-space: nowrap;
-      overflow: hidden;
-      text-overflow: ellipsis;
     }
 
-    .skill-row-name:hover {
-      color: var(--flame-lt);
+    .terms-note a:hover {
+      color: var(--flame);
     }
 
-    .skill-row-cat {
-      display: inline-block;
-      font-size: 0.68rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.05em;
-      padding: 2px 8px;
-      border-radius: 50px;
-      margin-top: 2px;
-      background: var(--bg4);
-      color: var(--ink3);
-      border: 1px solid var(--border);
+    .auth-divider {
+      display: flex;
+      align-items: center;
+      gap: 0.8rem;
+      margin: 1.5rem 0 0;
     }
 
-    .skill-row-remove {
-      background: none;
+    .auth-divider hr {
+      flex: 1;
       border: none;
-      cursor: pointer;
-      font-size: 0.75rem;
-      color: var(--ink4);
-      padding: 5px 10px;
-      border-radius: 6px;
-      transition: all 0.2s;
-      font-family: var(--font-body);
-      font-weight: 500;
-    }
-
-    .skill-row-remove:hover {
-      color: #f87171;
-      background: rgba(248, 113, 113, 0.1);
-    }
-
-    /* Add skill panel */
-    .add-skill-panel {
       border-top: 1px solid var(--border);
-      padding: 1.2rem 1.5rem;
-      background: rgba(255, 255, 255, 0.01);
     }
 
-    .add-skill-panel .panel-label {
-      font-size: 0.75rem;
-      font-weight: 600;
-      text-transform: uppercase;
-      letter-spacing: 0.08em;
+    .auth-divider span {
+      font-size: 0.78rem;
       color: var(--ink3);
-      margin-bottom: 10px;
-    }
-
-    .add-skill-grid {
-      display: grid;
-      grid-template-columns: 1fr 1fr;
-      gap: 8px;
-    }
-
-    .add-skill-grid .span-2 {
-      grid-column: 1 / -1;
-    }
-
-    .add-skill-grid input,
-    .add-skill-grid textarea,
-    .add-skill-grid select {
-      border: 1px solid var(--border2);
-      border-radius: 8px;
-      font-size: 0.82rem;
-      font-family: var(--font-body);
-      background: var(--bg3);
-      color: var(--ink);
-      outline: none;
-      transition: border-color 0.2s, box-shadow 0.2s;
-      padding: 8px 12px;
-      width: 100%;
-    }
-
-    .add-skill-grid textarea {
-      resize: none;
-    }
-
-    .add-skill-grid select {
-      appearance: none;
-      -webkit-appearance: none;
-      background-image: url("data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' width='12' height='8' viewBox='0 0 12 8'%3E%3Cpath d='M1 1l5 5 5-5' stroke='%238A857A' stroke-width='1.5' fill='none' stroke-linecap='round' stroke-linejoin='round'/%3E%3C/svg%3E");
-      background-repeat: no-repeat;
-      background-position: right 10px center;
-      padding-right: 30px;
-      cursor: pointer;
-    }
-
-    .add-skill-grid select option {
-      background: var(--bg3);
-      color: var(--ink);
-    }
-
-    .add-skill-grid input:focus,
-    .add-skill-grid textarea:focus,
-    .add-skill-grid select:focus {
-      border-color: var(--flame);
-      box-shadow: 0 0 0 3px rgba(249, 115, 22, 0.1);
-    }
-
-    .add-skill-grid input::placeholder,
-    .add-skill-grid textarea::placeholder {
-      color: var(--ink4);
-    }
-
-    .btn-add {
-      background: var(--bg3);
-      color: var(--flame-lt);
-      border: 1px solid rgba(249, 115, 22, 0.25);
-      border-radius: 50px;
-      padding: 8px 20px;
-      font-size: 0.8rem;
-      font-weight: 600;
-      cursor: pointer;
-      transition: all 0.2s;
-      font-family: var(--font-head);
       white-space: nowrap;
     }
 
-    .btn-add:hover {
-      background: var(--glow-sm);
-      border-color: rgba(249, 115, 22, 0.4);
-    }
-
-    /* Reviews */
-    .reviews-list {
-      padding: 0.5rem 0;
-    }
-
-    .review-card {
-      padding: 1.2rem 1.5rem;
-      border-bottom: 1px solid var(--border);
-      transition: background 0.15s;
-    }
-
-    .review-card:last-child {
-      border-bottom: none;
-    }
-
-    .review-card:hover {
-      background: rgba(255, 255, 255, 0.015);
-    }
-
-    .review-head {
-      display: flex;
-      align-items: center;
-      gap: 10px;
-      margin-bottom: 8px;
-      flex-wrap: wrap;
-    }
-
-    .review-avatar {
-      width: 30px;
-      height: 30px;
-      border-radius: 50%;
-      background: var(--bg4);
-      border: 1px solid var(--border2);
-      display: flex;
-      align-items: center;
-      justify-content: center;
-      font-family: var(--font-head);
-      font-size: 0.75rem;
-      font-weight: 700;
-      color: var(--ink2);
-      flex-shrink: 0;
-    }
-
-    .review-author {
-      font-family: var(--font-head);
-      font-weight: 700;
-      font-size: 0.88rem;
-      color: var(--ink);
-    }
-
-    .review-date {
-      font-size: 0.75rem;
+    .auth-footer {
+      text-align: center;
+      font-size: 0.875rem;
       color: var(--ink3);
-      margin-left: auto;
+      margin-top: 1rem;
     }
 
-    .review-stars {
-      color: #fbbf24;
-      font-size: 0.85rem;
-      letter-spacing: 1px;
+    .auth-footer a {
+      color: var(--flame-lt);
+      font-weight: 600;
+      transition: color 0.2s;
     }
 
-    .review-text {
-      font-size: 0.85rem;
-      color: var(--ink2);
-      line-height: 1.65;
+    .auth-footer a:hover {
+      color: var(--flame);
     }
 
     .site-footer {
@@ -614,57 +396,21 @@
       background: var(--bg2);
     }
 
-    @media (max-width: 900px) {
-      .page-wrap {
-        grid-template-columns: 1fr;
-        padding: 2rem 1.5rem;
-      }
-    }
-
-    @media (max-width: 640px) {
+    @media (max-width: 600px) {
       .navbar {
         padding: 0 1.5rem;
       }
 
-      .nav-links {
+      .nav-center {
         display: none;
       }
 
-      .nav-toggle {
-        display: flex;
+      .auth-card {
+        padding: 2rem 1.5rem;
       }
 
-      .add-skill-grid {
+      .form-row {
         grid-template-columns: 1fr;
-      }
-
-      .add-skill-grid .span-2 {
-        grid-column: 1;
-      }
-    }
-
-    .fade-up {
-      opacity: 0;
-      transform: translateY(14px);
-      animation: fuAnim 0.5s ease forwards;
-    }
-
-    .fade-up:nth-child(1) {
-      animation-delay: .05s
-    }
-
-    .fade-up:nth-child(2) {
-      animation-delay: .13s
-    }
-
-    .fade-up:nth-child(3) {
-      animation-delay: .21s
-    }
-
-    @keyframes fuAnim {
-      to {
-        opacity: 1;
-        transform: translateY(0);
       }
     }
   </style>
@@ -673,7 +419,7 @@
 <body>
 
   <nav class="navbar">
-    <a href="../index.html" class="logo-wrap">
+    <a href="index.html" class="logo-wrap">
       <div class="logo-icon">
         <svg viewBox="0 0 24 24" fill="none">
           <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
@@ -685,247 +431,142 @@
       </div>
       <span class="logo-name">SkillSwap</span>
     </a>
-    <ul class="nav-links" id="navLinks">
-      <li><a href="explore.html">Explore</a></li>
-      <li><a href="dashboard.html">Dashboard</a></li>
-      <li><a href="profile.html" class="active">Profile</a></li>
-      <li><a href="../index.html" class="btn-nav-logout">Logout</a></li>
-    </ul>
-    <button class="nav-toggle" id="navToggle"><span></span><span></span><span></span></button>
+    <nav class="nav-center">
+      <a href="login.html">Login</a>
+      <a href="signup.html" class="active">Sign Up</a>
+    </nav>
+    <div class="nav-right"></div>
   </nav>
 
   <main class="main-content">
-    <div class="page-wrap">
-      <div class="alert alert-success" id="formSuccess"></div>
-      <div class="alert alert-error" id="formError"></div>
-
-      <aside class="sidebar">
-        <div class="profile-card fade-up">
-          <div class="avatar">S</div>
-          <div class="profile-name">Sarah Johnson</div>
-          <div class="profile-location">📍 Mumbai, India</div>
-          <div class="profile-rating">⭐ 4.9 · 28 reviews</div>
-          <div class="profile-stats">
-            <div class="pstat">
-              <div class="pstat-val">3</div>
-              <div class="pstat-lbl">Offering</div>
-            </div>
-            <div class="pstat">
-              <div class="pstat-val">2</div>
-              <div class="pstat-lbl">Wanting</div>
-            </div>
-            <div class="pstat">
-              <div class="pstat-val">28</div>
-              <div class="pstat-lbl">Swaps</div>
-            </div>
-            <div class="pstat">
-              <div class="pstat-val">5yr</div>
-              <div class="pstat-lbl">Exp.</div>
-            </div>
-          </div>
+    <div class="auth-card">
+      <div class="auth-top">
+        <div class="auth-logo-icon">
+          <svg viewBox="0 0 24 24" fill="none">
+            <path d="M12 4C9.8 4 8 5.8 8 8s1.8 4 4 4 4-1.8 4-4-1.8-4-4-4zm-7 14c0-3.3 3.1-6 7-6s7 2.7 7 6"
+              stroke="#1a0a00" stroke-width="2" stroke-linecap="round" />
+          </svg>
         </div>
-        <div class="edit-card fade-up">
-          <div class="card-title">Edit Profile</div>
-          <form id="bioForm">
-            <div class="form-group">
-              <label for="bio">Bio</label>
-              <textarea id="bio" name="bio" rows="4"
-                placeholder="Tell others about yourself...">Passionate designer with 5 years of experience in Photoshop, Illustrator and Figma. Love teaching beginners and helping them discover their creative side.</textarea>
-            </div>
-            <div class="form-group">
-              <label for="location">Location</label>
-              <input type="text" id="location" name="location" value="Mumbai, India" placeholder="City, Country">
-            </div>
-            <button type="submit" class="btn-primary">Save Profile</button>
-          </form>
-        </div>
-      </aside>
-
-      <div class="content">
-        <!-- Skills Offered -->
-        <div class="section-card fade-up">
-          <div class="section-head">
-            <div class="section-head-title">🎨 Skills Offered</div>
-            <span class="section-count" id="offeredCount">3 skills</span>
-          </div>
-          <div class="skill-rows" id="offeredList">
-            <div class="skill-row">
-              <div class="skill-row-icon">🖼️</div>
-              <div class="skill-row-info"><a href="skill-detail.html" class="skill-row-name">Adobe Photoshop Basics</a>
-                <div class="skill-row-cat">Design</div>
-              </div><button class="skill-row-remove"
-                onclick="removeSkill(this,'offeredList','offeredCount')">Remove</button>
-            </div>
-            <div class="skill-row">
-              <div class="skill-row-icon">✏️</div>
-              <div class="skill-row-info"><a href="skill-detail.html" class="skill-row-name">Figma UI Design</a>
-                <div class="skill-row-cat">Design</div>
-              </div><button class="skill-row-remove"
-                onclick="removeSkill(this,'offeredList','offeredCount')">Remove</button>
-            </div>
-            <div class="skill-row">
-              <div class="skill-row-icon">🎭</div>
-              <div class="skill-row-info"><a href="skill-detail.html" class="skill-row-name">Illustrator for
-                  Beginners</a>
-                <div class="skill-row-cat">Design</div>
-              </div><button class="skill-row-remove"
-                onclick="removeSkill(this,'offeredList','offeredCount')">Remove</button>
-            </div>
-          </div>
-          <div class="add-skill-panel">
-            <div class="panel-label">+ Add a skill you offer</div>
-            <form id="addOfferedForm">
-              <div class="add-skill-grid">
-                <input type="text" name="skill_title" placeholder="Skill title" required class="span-2">
-                <textarea name="skill_description" placeholder="Brief description" rows="2" class="span-2"></textarea>
-                <select name="category_id" required>
-                  <option value="">Category</option>
-                  <option value="1">Design</option>
-                  <option value="2">Music</option>
-                  <option value="3">Languages</option>
-                  <option value="4">Coding</option>
-                  <option value="5">Photography</option>
-                  <option value="6">Writing</option>
-                  <option value="7">Marketing</option>
-                  <option value="8">Other</option>
-                </select>
-                <button type="submit" class="btn-add">Add Skill →</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Skills Wanted -->
-        <div class="section-card fade-up">
-          <div class="section-head">
-            <div class="section-head-title">✨ Skills Wanted</div>
-            <span class="section-count" id="wantedCount">2 skills</span>
-          </div>
-          <div class="skill-rows" id="wantedList">
-            <div class="skill-row">
-              <div class="skill-row-icon">🎸</div>
-              <div class="skill-row-info">
-                <div class="skill-row-name">Guitar for Beginners</div>
-                <div class="skill-row-cat">Music</div>
-              </div><button class="skill-row-remove"
-                onclick="removeSkill(this,'wantedList','wantedCount')">Remove</button>
-            </div>
-            <div class="skill-row">
-              <div class="skill-row-icon">🗣️</div>
-              <div class="skill-row-info">
-                <div class="skill-row-name">Conversational Spanish</div>
-                <div class="skill-row-cat">Languages</div>
-              </div><button class="skill-row-remove"
-                onclick="removeSkill(this,'wantedList','wantedCount')">Remove</button>
-            </div>
-          </div>
-          <div class="add-skill-panel">
-            <div class="panel-label">+ Add a skill you want</div>
-            <form id="addWantedForm">
-              <div class="add-skill-grid">
-                <input type="text" name="skill_title" placeholder="Skill you want to learn" required class="span-2">
-                <textarea name="skill_description" placeholder="Optional notes" rows="2" class="span-2"></textarea>
-                <select name="category_id" required>
-                  <option value="">Category</option>
-                  <option value="1">Design</option>
-                  <option value="2">Music</option>
-                  <option value="3">Languages</option>
-                  <option value="4">Coding</option>
-                  <option value="5">Photography</option>
-                  <option value="6">Writing</option>
-                  <option value="7">Marketing</option>
-                  <option value="8">Other</option>
-                </select>
-                <button type="submit" class="btn-add">Add Skill →</button>
-              </div>
-            </form>
-          </div>
-        </div>
-
-        <!-- Reviews -->
-        <div class="section-card fade-up">
-          <div class="section-head">
-            <div class="section-head-title">⭐ Reviews</div>
-            <span class="section-count">3 reviews · 4.9 avg</span>
-          </div>
-          <div class="reviews-list">
-            <div class="review-card">
-              <div class="review-head">
-                <div class="review-avatar">ML</div>
-                <div class="review-author">Marcus Lee</div>
-                <div class="review-stars">★★★★★</div>
-                <div class="review-date">Jan 5, 2025</div>
-              </div>
-              <div class="review-text">Sarah is an amazing teacher! She explained Photoshop concepts clearly and was
-                very patient with my questions.</div>
-            </div>
-            <div class="review-card">
-              <div class="review-head">
-                <div class="review-avatar">ET</div>
-                <div class="review-author">Elena Torres</div>
-                <div class="review-stars">★★★★<span style="color:var(--ink4)">★</span></div>
-                <div class="review-date">Dec 20, 2024</div>
-              </div>
-              <div class="review-text">Great session on Figma! Sarah shared really useful tips and tricks. Would
-                definitely recommend.</div>
-            </div>
-            <div class="review-card">
-              <div class="review-head">
-                <div class="review-avatar">AM</div>
-                <div class="review-author">Arjun Mehta</div>
-                <div class="review-stars">★★★★★</div>
-                <div class="review-date">Dec 10, 2024</div>
-              </div>
-              <div class="review-text">Learned so much in just one session. Sarah is knowledgeable, friendly and very
-                well prepared.</div>
-            </div>
-          </div>
-        </div>
+        <span class="auth-logo-name">SkillSwap</span>
       </div>
+      <h1 class="auth-heading">Create <span>Account</span></h1>
+      <p class="auth-subtitle">Join SkillSwap and start exchanging skills today</p>
+      <div class="alert alert-error" id="formError"></div>
+      <div class="alert alert-success" id="formSuccess"></div>
+      <form id="signupForm">
+        <div class="form-row">
+          <div class="form-group">
+            <label for="name">Full Name</label>
+            <input type="text" id="name" name="name" required placeholder="Your full name" autocomplete="name">
+          </div>
+          <div class="form-group">
+            <label for="email">Email</label>
+            <input type="email" id="email" name="email" required placeholder="you@example.com" autocomplete="email">
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="password">Password</label>
+          <div class="input-wrap">
+            <input type="password" id="password" name="password" required placeholder="Create a password"
+              autocomplete="new-password">
+            <button type="button" class="pw-toggle" id="pwToggle1">👁</button>
+          </div>
+          <div class="pw-strength-wrap">
+            <div class="pw-strength-bar">
+              <div class="pw-strength-fill" id="strengthFill"></div>
+            </div>
+            <div class="pw-strength-label" id="strengthLabel">Enter a password</div>
+          </div>
+        </div>
+        <div class="form-group">
+          <label for="confirm_password">Confirm Password</label>
+          <div class="input-wrap">
+            <input type="password" id="confirm_password" name="confirm_password" required
+              placeholder="Repeat your password" autocomplete="new-password">
+            <button type="button" class="pw-toggle" id="pwToggle2">👁</button>
+          </div>
+          <div class="match-indicator" id="matchIndicator"></div>
+        </div>
+        <button type="submit" class="btn-submit" id="submitBtn">Create Account →</button>
+      </form>
+      <p class="terms-note">By signing up, you agree to our <a href="#">Terms of Service</a> and <a href="#">Privacy
+          Policy</a></p>
+      <div class="auth-divider">
+        <hr><span>Already have an account?</span>
+        <hr>
+      </div>
+      <p class="auth-footer"><a href="login.html">Log in instead →</a></p>
     </div>
   </main>
 
   <footer class="site-footer">© 2025 SkillSwap. Exchange skills, not money.</footer>
 
-  <script src="../js/main.js"></script>
   <script>
-    const successAlert = document.getElementById('formSuccess');
-    function showSuccess(msg) { successAlert.textContent = msg; successAlert.style.display = 'flex'; setTimeout(() => { successAlert.style.display = 'none'; }, 3000); }
+    const pw1 = document.getElementById('password');
+    const t1 = document.getElementById('pwToggle1');
+    t1.addEventListener('click', () => { const show = pw1.type === 'password'; pw1.type = show ? 'text' : 'password'; t1.textContent = show ? '🙈' : '👁'; });
+    const pw2 = document.getElementById('confirm_password');
+    const t2 = document.getElementById('pwToggle2');
+    t2.addEventListener('click', () => { const show = pw2.type === 'password'; pw2.type = show ? 'text' : 'password'; t2.textContent = show ? '🙈' : '👁'; });
 
-    document.getElementById('bioForm').addEventListener('submit', e => { e.preventDefault(); showSuccess('✅ Profile updated successfully!'); });
+    const strengthFill = document.getElementById('strengthFill');
+    const strengthLabel = document.getElementById('strengthLabel');
+    const levels = [
+      { max: 0, pct: '0%', color: 'transparent', label: 'Enter a password' },
+      { max: 2, pct: '25%', color: '#f87171', label: '⚠ Too weak' },
+      { max: 3, pct: '50%', color: '#fbbf24', label: '~ Fair' },
+      { max: 4, pct: '75%', color: '#fbbf24', label: '↑ Good' },
+      { max: 99, pct: '100%', color: '#4ade80', label: '✓ Strong' },
+    ];
+    pw1.addEventListener('input', () => {
+      const v = pw1.value;
+      let score = 0;
+      if (v.length >= 6) score++;
+      if (v.length >= 10) score++;
+      if (/[A-Z]/.test(v)) score++;
+      if (/[0-9]/.test(v)) score++;
+      if (/[^A-Za-z0-9]/.test(v)) score++;
+      const lvl = levels.find(l => score <= l.max) || levels[levels.length - 1];
+      strengthFill.style.width = v.length ? lvl.pct : '0%';
+      strengthFill.style.background = v.length ? lvl.color : 'transparent';
+      strengthLabel.textContent = v.length ? lvl.label : 'Enter a password';
+      strengthLabel.style.color = v.length ? lvl.color : 'var(--ink3)';
+      checkMatch();
+    });
 
-    const catEmoji = { Design: '🎨', Music: '🎵', Languages: '🗣️', Coding: '💻', Photography: '📸', Writing: '✏️', Marketing: '📣', Other: '💡' };
-
-    function removeSkill(btn, listId, countId) {
-      const row = btn.closest('.skill-row');
-      row.style.transition = 'all 0.3s'; row.style.opacity = '0'; row.style.height = row.offsetHeight + 'px';
-      setTimeout(() => { row.style.height = '0'; row.style.padding = '0'; }, 50);
-      setTimeout(() => { row.remove(); updateCount(listId, countId); }, 330);
+    const matchInd = document.getElementById('matchIndicator');
+    function checkMatch() {
+      const p1 = pw1.value, p2 = pw2.value;
+      if (!p2) { matchInd.textContent = ''; return; }
+      if (p1 === p2) { matchInd.textContent = '✓ Passwords match'; matchInd.className = 'match-indicator match-ok'; }
+      else { matchInd.textContent = '✕ Passwords do not match'; matchInd.className = 'match-indicator match-fail'; }
     }
+    pw2.addEventListener('input', checkMatch);
 
-    function updateCount(listId, countId) {
-      const count = document.getElementById(listId).querySelectorAll('.skill-row').length;
-      const el = document.getElementById(countId);
-      if (el) el.textContent = count + ' skill' + (count !== 1 ? 's' : '');
-    }
+    document.querySelectorAll('input').forEach(inp => { inp.addEventListener('input', () => { document.getElementById('formError').style.display = 'none'; }); });
 
-    function addSkillRow(form, listId, countId) {
-      const title = form.skill_title.value.trim();
-      const cat = form.category_id.options[form.category_id.selectedIndex].text;
-      if (!title || !form.category_id.value) return;
-      const icon = catEmoji[cat] || '💡';
-      const list = document.getElementById(listId);
-      const row = document.createElement('div');
-      row.className = 'skill-row'; row.style.opacity = '0';
-      row.innerHTML = `<div class="skill-row-icon">${icon}</div><div class="skill-row-info"><div class="skill-row-name">${title}</div><div class="skill-row-cat">${cat}</div></div><button class="skill-row-remove" onclick="removeSkill(this,'${listId}','${countId}')">Remove</button>`;
-      list.appendChild(row);
-      requestAnimationFrame(() => { row.style.transition = 'opacity 0.3s'; row.style.opacity = '1'; });
-      form.reset(); updateCount(listId, countId);
-      showSuccess(`✅ "${title}" added!`);
-    }
-
-    document.getElementById('addOfferedForm').addEventListener('submit', function (e) { e.preventDefault(); addSkillRow(this, 'offeredList', 'offeredCount'); });
-    document.getElementById('addWantedForm').addEventListener('submit', function (e) { e.preventDefault(); addSkillRow(this, 'wantedList', 'wantedCount'); });
+    const formError = document.getElementById('formError');
+    const formSuccess = document.getElementById('formSuccess');
+    document.getElementById('signupForm').addEventListener('submit', function (e) {
+      e.preventDefault();
+      formError.style.display = 'none';
+      formSuccess.style.display = 'none';
+      const name = document.getElementById('name').value.trim();
+      const email = document.getElementById('email').value.trim();
+      const pass = pw1.value;
+      const confirm = pw2.value;
+      const show = (msg) => { formError.textContent = msg; formError.style.display = 'flex'; };
+      if (!name || !email || !pass || !confirm) return show('Please fill in all fields.');
+      if (name.length < 2) return show('Please enter your full name.');
+      if (!/^[^\s@]+@[^\s@]+\.[^\s@]+$/.test(email)) return show('Please enter a valid email address.');
+      if (pass.length < 6) return show('Password must be at least 6 characters.');
+      if (pass !== confirm) return show('Passwords do not match.');
+      const btn = document.getElementById('submitBtn');
+      btn.disabled = true; btn.textContent = 'Creating account...';
+      formSuccess.textContent = '🔥 Account created! Taking you to SkillSwap...';
+      formSuccess.style.display = 'flex';
+      setTimeout(() => { window.location.href = 'pages/home.html'; }, 1000);
+    });
   </script>
 </body>
 
