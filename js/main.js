@@ -20,16 +20,33 @@
       }
     }
   `;
-    document.head.appendChild(s);
+    // document.head.appendChild(s);
 
-    navToggle.addEventListener('click', () => {
-        navLinks.classList.toggle('mob-open');
-    });
+    // navToggle.addEventListener('click', () => {
+    //     navLinks.classList.toggle('mob-open');
+    // });
 
-    document.addEventListener('click', e => {
-        if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
-            navLinks.classList.remove('mob-open');
-        }
+    // document.addEventListener('click', e => {
+    //     if (!navToggle.contains(e.target) && !navLinks.contains(e.target)) {
+    //         navLinks.classList.remove('mob-open');
+    //     }
+    // });
+
+    // jquery added
+    $(document).ready(function () {
+
+        // NAVBAR TOGGLE (Mobile)
+        $('.nav-toggle').click(function () {
+            $('#navLinks').toggleClass('mob-open');
+        });
+
+        // CLOSE NAVBAR when clicking outside
+        $(document).click(function (e) {
+            if (!$(e.target).closest('.nav-toggle, #navLinks').length) {
+                $('#navLinks').removeClass('mob-open');
+            }
+        });
+
     });
 })();
 
@@ -79,11 +96,65 @@
     }
 })();
 
-(function () {
-    document.querySelectorAll('.mtile').forEach(tile => {
-        tile.addEventListener('click', () => {
-            document.querySelectorAll('.mtile').forEach(x => x.classList.remove('active'));
-            tile.classList.add('active');
-        });
+// (function () {
+//     document.querySelectorAll('.mtile').forEach(tile => {
+//         tile.addEventListener('click', () => {
+//             document.querySelectorAll('.mtile').forEach(x => x.classList.remove('active'));
+//             tile.classList.add('active');
+//         });
+//     });
+// })();
+
+// jquery added 
+$(document).ready(function () {
+
+    $('.mtile').click(function () {
+        $('.mtile').removeClass('active');
+        $(this).addClass('active');
     });
-})();
+
+});
+
+// jquery added
+$(document).ready(function () {
+
+    $('#loginForm, #signupForm, #contactForm').submit(function (e) {
+        e.preventDefault();
+        let isValid = true;
+
+        $(this).find('input[required], textarea[required]').each(function () {
+            if ($(this).val().trim() === '') {
+                isValid = false;
+            }
+        });
+
+        if (!isValid) {
+            alert("Please fill all required fields!");
+        } else {
+            alert("Form submitted successfully!");
+        }
+    });
+
+    // jquery added for category pills in explore page
+    $('.cat-pill').click(function () {
+
+        $('.cat-pill').removeClass('active');
+        $(this).addClass('active');
+
+        activeCat = $(this).data('cat');
+        applyFilters();
+
+    });
+
+    // jquery added for dropdown menu in navbar
+    $('.nav-menu-btn').click(function () {
+        $('.dropdown-menu').toggleClass('open');
+    });
+
+    $(document).click(function (e) {
+        if (!$(e.target).closest('.nav-dropdown').length) {
+            $('.dropdown-menu').removeClass('open');
+        }
+    });
+
+});
