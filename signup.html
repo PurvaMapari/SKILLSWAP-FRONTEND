@@ -567,7 +567,21 @@
       formSuccess.style.display = 'flex';
       setTimeout(() => { window.location.href = 'pages/home.html'; }, 1000);
     });
+    // jquery added
+    $(document).ready(function () {
+
+      function showSuccess(msg) {
+        $('.alert-success').text(msg).fadeIn(400).delay(2000).fadeOut(400);
+      }
+
+      function showError(msg) {
+        $('.alert-error').text(msg).fadeIn(400).delay(2000).fadeOut(400);
+      }
+
+    });
   </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <script src="../js/main.js"></script>
 </body>
 
 </html>

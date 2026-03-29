@@ -712,7 +712,8 @@
             <div class="req-avatar" style="color:var(--flame-lt)">ML</div>
             <div class="req-body">
               <div class="req-names"><strong>Marcus Lee</strong> wants to swap <em>Guitar for Beginners</em> for your
-                <em>Adobe Photoshop Basics</em></div>
+                <em>Adobe Photoshop Basics</em>
+              </div>
               <div class="req-message">"Hi Sarah! I've been wanting to learn Photoshop for a while. I can teach you
                 guitar in exchange!"</div>
               <div class="req-date">Jan 10, 2025</div>
@@ -740,7 +741,8 @@
             <div class="req-avatar" style="color:var(--ink3)">AM</div>
             <div class="req-body">
               <div class="req-names"><strong>Arjun Mehta</strong> wants to swap <em>Python for Beginners</em> for your
-                <em>Adobe Photoshop Basics</em></div>
+                <em>Adobe Photoshop Basics</em>
+              </div>
               <div class="req-message">"I can teach Python if you can help me with Photoshop basics."</div>
               <div class="req-date">Dec 28, 2024</div>
             </div>
@@ -873,7 +875,22 @@
       const badge = document.getElementById('incomingBadge');
       if (badge) badge.textContent = pending > 0 ? pending : '0';
     }
+
+    // jquery added
+    $(document).ready(function () {
+
+      function showSuccess(msg) {
+        $('.alert-success').text(msg).fadeIn(400).delay(2000).fadeOut(400);
+      }
+
+      function showError(msg) {
+        $('.alert-error').text(msg).fadeIn(400).delay(2000).fadeOut(400);
+      }
+
+    });
   </script>
+  <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+  <!-- <script src="../js/main.js"></script> -->
 </body>
 
 </html>

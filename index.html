@@ -6,22 +6,17 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
     <title>SkillSwap — Exchange Skills, Not Money</title>
 
-    <!-- Google Fonts -->
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link
         href="https://fonts.googleapis.com/css2?family=Syne:wght@400;600;700;800&family=Instrument+Sans:ital,wght@0,400;0,500;0,600;1,400&family=Caveat:wght@500;600&display=swap"
         rel="stylesheet">
 
-    <!-- Stylesheets -->
     <link rel="stylesheet" href="css/main.css">
     <link rel="stylesheet" href="css/components.css">
 </head>
 
 <body>
 
-    <!-- ════════════════════════════════
-     NAVBAR
-     ════════════════════════════════ -->
     <nav class="navbar">
         <div class="logo-wrap">
             <div class="logo-icon">
@@ -35,14 +30,6 @@
             </div>
             <span class="logo-name">SkillSwap</span>
         </div>
-        <!-- 
-        <ul class="nav-links" id="navLinks">
-            <li><a href="#">Home</a></li>
-            <li><a href="#">About</a></li>
-            <li><a href="#">Explore</a></li>
-            <li><a href="#">How it Works</a></li>
-            <li><a href="#">Contact</a></li>
-        </ul> -->
 
         <div class="nav-actions">
             <a href="login.html" class="btn btn-ghost">Log In</a>
@@ -54,12 +41,7 @@
         </button>
     </nav>
 
-
-    <!-- ════════════════════════════════
-     HERO
-     ════════════════════════════════ -->
     <section class="hero">
-        <!-- Left -->
         <div class="hero-left">
             <div class="eyebrow-pill fade-up">
                 <span class="eyebrow-dot"></span>No money. No barrier. Just skills.
@@ -90,7 +72,6 @@
             </div>
         </div>
 
-        <!-- Right -->
         <div class="hero-right">
             <div class="bg-words">
                 <span class="bg-word">LEARN</span>
@@ -136,18 +117,12 @@
     </section>
 
 
-    <!-- ════════════════════════════════
-     TAGLINE BAR
-     ════════════════════════════════ -->
     <div class="tagline-bar">
         <p>A visual story of connecting people through skills</p>
         <hr>
     </div>
 
 
-    <!-- ════════════════════════════════
-     THE THOUGHT
-     ════════════════════════════════ -->
     <section class="thought-section">
         <div class="thought-card">
             <div>
@@ -166,9 +141,6 @@
     </section>
 
 
-    <!-- ════════════════════════════════
-     WHY SKILLSWAP
-     ════════════════════════════════ -->
     <section class="why-section">
         <h2 class="why-heading">Why SkillSwap?</h2>
         <p class="why-sub">
@@ -204,9 +176,6 @@
     </section>
 
 
-    <!-- ════════════════════════════════
-     THE INTERFACE
-     ════════════════════════════════ -->
     <div class="iface-wrap">
         <div class="iface-section">
             <div>
@@ -265,9 +234,6 @@
     </div>
 
 
-    <!-- ════════════════════════════════
-     MATCH MOMENT
-     ════════════════════════════════ -->
     <section style="background:var(--bg)">
         <div class="match-intro">
             <h2 class="match-h">The Match Moment</h2>
@@ -280,9 +246,6 @@
     </section>
 
 
-    <!-- ════════════════════════════════
-     CAROUSEL
-     ════════════════════════════════ -->
     <section class="carousel-section">
         <div class="c-wrap">
             <button class="c-btn" id="prevBtn">&#8592;</button>
@@ -371,10 +334,6 @@
         </div>
     </section>
 
-
-    <!-- ════════════════════════════════
-     SKILL LOOP
-     ════════════════════════════════ -->
     <section class="loop-section">
         <div class="loop-inner">
             <div class="loop-badge">
@@ -418,10 +377,6 @@
         </div>
     </section>
 
-
-    <!-- ════════════════════════════════
-     MATCH PROFILES
-     ════════════════════════════════ -->
     <section class="profiles-section">
         <div class="profiles-inner">
             <div class="profiles-content">
@@ -463,13 +418,8 @@
         </div>
     </section>
 
-
-    <!-- ════════════════════════════════
-     FOOTER
-     ════════════════════════════════ -->
     <footer class="footer-section">
         <div class="footer-card">
-            <!-- Brand + Newsletter -->
             <div>
                 <div class="f-logo-row">
                     <svg class="f-logo-icon" viewBox="0 0 24 24" fill="none">
@@ -486,7 +436,6 @@
                 <p class="f-privacy">By subscribing, you consent to our Privacy Policy and agree to receive updates.</p>
             </div>
 
-            <!-- Quick Links -->
             <div>
                 <p class="f-col-title">Quick Links</p>
                 <div class="f-links">
@@ -498,7 +447,6 @@
                 </div>
             </div>
 
-            <!-- Resources -->
             <div>
                 <p class="f-col-title">Resources</p>
                 <div class="f-links">
@@ -510,7 +458,6 @@
                 </div>
             </div>
 
-            <!-- Social -->
             <div>
                 <p class="f-col-title">Connect With Us</p>
                 <div class="f-links">
@@ -565,11 +512,9 @@
         </div>
     </footer>
 
-    <!-- JavaScript -->
     <script src="js/main.js"></script>
 
     <style>
-        /* Nav ghost buttons — orange border glow on hover */
         .nav-actions .btn-ghost:hover {
             background: transparent;
             border-color: var(--flame);
@@ -577,7 +522,6 @@
             box-shadow: 0 0 16px rgba(249, 115, 22, 0.35);
         }
 
-        /* Both hero buttons — ghost style, orange border glow on hover */
         .hero-btns a {
             background: transparent !important;
             color: var(--ink) !important;
@@ -593,7 +537,8 @@
             transform: translateY(-2px);
         }
     </style>
-
+    <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>
+    <script src="../js/main.js"></script>
 </body>
 
 </html>
