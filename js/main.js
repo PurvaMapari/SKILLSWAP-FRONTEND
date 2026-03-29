@@ -130,8 +130,6 @@ $(document).ready(function () {
 
         if (!isValid) {
             alert("Please fill all required fields!");
-        } else {
-            alert("Form submitted successfully!");
         }
     });
 
