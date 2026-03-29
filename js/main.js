@@ -1,15 +1,8 @@
-/* ════════════════════════════════════════
-   MAIN.JS — SkillSwap
-   Mobile nav · Carousel · Mockup tiles
-   ════════════════════════════════════════ */
-
-/* ── MOBILE NAV ── */
 (function () {
     const navToggle = document.getElementById('navToggle');
     const navLinks = document.getElementById('navLinks');
     if (!navToggle || !navLinks) return;
 
-    // Inject mobile-open styles once
     const s = document.createElement('style');
     s.textContent = `
     @media (max-width: 900px) {
@@ -40,8 +33,6 @@
     });
 })();
 
-
-/* ── CAROUSEL ── */
 (function () {
     const cards = [
         { emoji: '⛸️', title: 'Skater', bg: '#06b6d4', pill: 'Like to learn Dance' },
@@ -88,8 +79,6 @@
     }
 })();
 
-
-/* ── MOCKUP TILE CLICK ── */
 (function () {
     document.querySelectorAll('.mtile').forEach(tile => {
         tile.addEventListener('click', () => {
