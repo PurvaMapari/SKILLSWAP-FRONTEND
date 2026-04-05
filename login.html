@@ -437,37 +437,6 @@
       pwInput.type = show ? 'text' : 'password';
       pwToggle.textContent = show ? '🙈' : '👁';
     });
-    const loginForm = document.getElementById('loginForm');
-    const formError = document.getElementById('formError');
-    const formSuccess = document.getElementById('formSuccess');
-    loginForm.addEventListener('submit', function (e) {
-      e.preventDefault();
-      const email = document.getElementById('email').value.trim();
-      const password = pwInput.value;
-      formError.style.display = 'none';
-      formSuccess.style.display = 'none';
-      if (!email || !password) { formError.textContent = 'Please fill in all fields.'; formError.style.display = 'flex'; return; }
-      if (password.length < 6) { formError.textContent = 'Password must be at least 6 characters.'; formError.style.display = 'flex'; return; }
-      formSuccess.textContent = '🔥 Logging you in...';
-      formSuccess.style.display = 'flex';
-      setTimeout(() => { window.location.href = 'pages/home.html'; }, 900);
-    });
-    document.querySelectorAll('input').forEach(input => {
-      input.addEventListener('input', () => { formError.style.display = 'none'; });
-    });
-    
-// jquery added
-    $(document).ready(function () {
-
-      function showSuccess(msg) {
-        $('.alert-success').text(msg).fadeIn(400).delay(2000).fadeOut(400);
-      }
-
-      function showError(msg) {
-        $('.alert-error').text(msg).fadeIn(400).delay(2000).fadeOut(400);
-      }
-
-    });
   </script>
 
   <script src="https://code.jquery.com/jquery-3.7.1.min.js"></script>

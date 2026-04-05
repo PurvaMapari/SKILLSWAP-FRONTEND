@@ -231,3 +231,11 @@ ul {
         transform: translateY(-8px);
     }
 }
+
+.field-error {
+    border-color: rgb(245, 20, 20) !important;
+}
+
+.field-ok {
+    border-color: rgb(23, 188, 23) !important;
+}
