@@ -105,7 +105,7 @@
 //     });
 // })();
 
-// jquery added 
+// jquery added for active state in explore page
 $(document).ready(function () {
 
     $('.mtile').click(function () {
@@ -115,7 +115,7 @@ $(document).ready(function () {
 
 });
 
-// jquery added
+// jquery added for form validation in login, signup and contact us page
 $(document).ready(function () {
 
     $('#loginForm, #signupForm, #contactForm').submit(function (e) {
@@ -130,6 +130,10 @@ $(document).ready(function () {
 
         if (!isValid) {
             alert("Please fill all required fields!");
+        }
+        else {
+            alert("Form submitted successfully!");
+            $(this)[0].reset();
         }
     });
 
